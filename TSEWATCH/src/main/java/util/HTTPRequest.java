@@ -40,7 +40,7 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.*;
-import org.apache.http.client.params.AllClientPNames;
+import org.apache.http.client.params.*;
 import org.apache.http.conn.ssl.NoopHostnameVerifier;
 import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
 import org.apache.http.impl.client.CloseableHttpClient;
@@ -52,6 +52,8 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+
+import Model.Client;
 
 public class HTTPRequest {
 
@@ -88,7 +90,7 @@ public class HTTPRequest {
 		}
 	}
 
-	public static String[] sendPost(String url, Map<String, String> params) throws Exception {
+	public static String sendPost(String url, Map<String, String> params ) throws Exception {
 
 		disableCertificateValidation();
 		// Get a httpClient object
@@ -127,6 +129,71 @@ public class HTTPRequest {
 			e.printStackTrace();
 		}
 
+//		// get the location from the 302
+//		Header locationHeader = response.getFirstHeader("Location");
+//		String location = locationHeader.getValue();
+		// System.out.println(location);
+
+		HttpEntity entity1 = response.getEntity();
+		String result = "";
+		try {
+			result = EntityUtils.toString(entity1);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+//		String[] result302 = new String[2];
+//		result302[0] = result;
+//		//result302[1] = location;
+		return result;
+	}
+
+	public static String[] sendPostEMarche(String url, Map<String, String> params ) throws Exception {
+
+		disableCertificateValidation();
+		// Get a httpClient object
+		CloseableHttpClient httpclient = HttpClients.createDefault();
+		httpclient = (CloseableHttpClient) wrapClient(httpclient);
+		// Creat a list to store params
+		List<NameValuePair> formparams = new ArrayList<NameValuePair>();
+		for (Map.Entry<String, String> entry : params.entrySet()) {
+			formparams.add(new BasicNameValuePair(entry.getKey(), entry.getValue()));
+		}
+		UrlEncodedFormEntity entity = new UrlEncodedFormEntity(formparams, Consts.UTF_8);
+
+		// Generate a post request
+		HttpPost httpPost = new HttpPost(url);
+		if (url == Const.BOAMP) {
+			httpPost.setHeader("Accept",
+					"text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,/;q=0.8,application/signed-exchange;v=b3");
+			httpPost.setHeader("Accept-Encoding", "gzip, deflate, br");
+			httpPost.setHeader("Accept-Language", "zh-CN,zh;q=0.9,zh-TW;q=0.8");
+			httpPost.setHeader("Cache-Control", "max-age=0");
+			httpPost.setHeader("Connection", "keep-alive");
+			httpPost.setHeader("Content-Length", "106");
+			httpPost.setHeader("Content-type", "application/x-www-form-urlencoded");
+			httpPost.setHeader("Host", "www.e-marchespublics.com");
+			httpPost.setHeader("Referer", "https://www.e-marchespublics.com");
+			httpPost.setHeader("Origin", "https://www.e-marchespublics.com/");
+			httpPost.setHeader("Upgrade-Insecure-Requests", "1");
+			httpPost.setHeader("Cookie", "__utma=221947975.483012384.1559915323.1559915323.1559915323.1; __utmc=221947975; __utmz=221947975.1559915323.1.1.utmcsr=(direct)|utmccn=(direct)|utmcmd=(none); __tawkuuid=e::e-marchespublics.com::gznHPhb9/fQSvIFEWRjnhiN7U7tXlLqAlyu7Wo5QHIi4JawF3RfZDy9vuStSVsBT::2; __utmt=1; __utmb=221947975.29.10.1559915323; XSRF-TOKEN=eyJpdiI6IisyWW1mR1ZmbEg5UFhtdXlMdjF1bUE9PSIsInZhbHVlIjoiVDNxMWowZ0ZoNFYwVjA3d0NSMlVHeCtXWGtSaVlIN3VjUXVIMUkyU1MySVJCQnJxXC9rd1N3YXB3KzVaa1AzN1kiLCJtYWMiOiIyZDVlMmQzODE3ZDMwZTM5M2M2NmY5MzRlYjFmZmQ4YWU1MDgwZDI5NzYyMDgyNDhjZGE2ZWM2ZWNhMTQ2MjllIn0%3D; laravel_session=eyJpdiI6Ikw4VGhxTGpxMFJ5bU9Bd2JoZGNMVnc9PSIsInZhbHVlIjoiWDVmaEVOSnhOOVFwTFhzbEhIZ2RxVmd3TXllMHYxWHl0bzVTRlVWXC9jK05tZEFzdTBpbTJVUnRGU2dJeTlSaGsiLCJtYWMiOiIwNGUyYzQ0NGIyOWMxMWQ5OWIzYjNlMjdiOWIxOTZmMDJjOTQ5MzBjOGQ5ZWEzOWQzMjIzZjY4ZWUxMTNlMWIxIn0%3D; TawkConnectionTime=0");
+			httpPost.setHeader("User-Agent",
+					"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36");
+
+		}
+		httpPost.setEntity(entity);
+		CloseableHttpResponse response = null;
+
+		try {
+			response = httpclient.execute(httpPost);
+		} catch (ClientProtocolException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
 		// get the location from the 302
 		Header locationHeader = response.getFirstHeader("Location");
 		String location = locationHeader.getValue();
@@ -147,7 +214,11 @@ public class HTTPRequest {
 		result302[1] = location;
 		return result302;
 	}
-
+	
+	
+	
+	
+	
 	public static HttpClient wrapClient(HttpClient base) {
 		try {
 			SSLContext ctx = SSLContext.getInstance("TLS");
@@ -195,45 +266,44 @@ public class HTTPRequest {
 	 *                   anti-crawler program
 	 */
 	public final static String sendGET(String url) throws Exception {
-		CloseableHttpClient httpclient = HttpClients.createDefault();
-
-		try {
-
-			
-
-			HttpGet httpget = new HttpGet(url);
-			httpget.addHeader("Accept", "text/html");
-			httpget.addHeader("Accept-Charset", "utf-8");
-			httpget.addHeader("Accept-Encoding", "gzip");
-			httpget.addHeader("Accept-Language", "en-US,en");
-			httpget.addHeader("User-Agent",
-					"Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.22 (KHTML, like Gecko) Chrome/25.0.1364.160 Safari/537.22");
-			ResponseHandler<String> responseHandler = new ResponseHandler<String>() {
-
-				public String handleResponse(final HttpResponse response) throws ClientProtocolException, IOException {
-					String location = null;
-					int status = response.getStatusLine().getStatusCode();
-					if (status >= 200 && status < 300) {
-						HttpEntity entity = response.getEntity();
-						return entity != null ? EntityUtils.toString(entity) : null;
-					} else {
-						System.out.println(status);
-						Date date = new Date();
-						System.out.println(date);
-						System.exit(0);
-						throw new ClientProtocolException("Unexpected response status: " + status);
-					}
-
-				}
-			};
-			String responseBody = httpclient.execute(httpget, responseHandler);
-			Thread.currentThread();
+        CloseableHttpClient httpclient = HttpClients.createDefault();
+        //httpclient.getParams().setParameter(ClientPNames.ALLOW_CIRCULAR_REDIRECTS, false);
+        httpclient.getParams().setParameter(ClientPNames.ALLOW_CIRCULAR_REDIRECTS, false);
+        //org.apache.http.client.Params.
+        //org.apache.http.client.
+        try {
+            HttpGet httpget = new HttpGet(url);
+            httpget.addHeader("Accept", "text/html");
+	    httpget.addHeader("Accept-Charset", "utf-8");
+            httpget.addHeader("Accept-Encoding", "gzip");
+	    httpget.addHeader("Accept-Language", "en-US,en");
+	    httpget.addHeader("User-Agent",
+			"Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.22 (KHTML, like Gecko) Chrome/25.0.1364.160 Safari/537.22");
+            ResponseHandler<String> responseHandler = new ResponseHandler<String>() {
+ 
+                public String handleResponse(
+                        final HttpResponse response) throws ClientProtocolException, IOException {
+                    int status = response.getStatusLine().getStatusCode();
+                    if (status >= 200 && status < 300) {
+                        HttpEntity entity = response.getEntity();
+                        System.out.println(status);
+                        return entity != null ? EntityUtils.toString(entity) : null;
+                    } else {
+                    	System.out.println(status);
+                    	Date date=new Date();
+                    	System.out.println(date);
+                    	System.exit(0);
+                        throw new ClientProtocolException("Unexpected response status: " + status);
+                    }
+                }
+            };
+            String responseBody = httpclient.execute(httpget, responseHandler);
+            Thread.currentThread();
 			Thread.sleep(200);
-			return responseBody;
-
-		} finally {
-			httpclient.close();
-		}
+            return responseBody;
+        } finally {
+            httpclient.close();
+        }
 	}
 
 	// GET request to get the location from the 302

@@ -45,7 +45,7 @@ public class Crawlers {
 		// Get result
 		String result;
 		try {
-			result = HTTPRequest.sendPost(Const.BOAMP, params)[0];
+			result = HTTPRequest.sendPost(Const.BOAMP, params);
 			Document doc = Jsoup.parse(result);
 			/**
 			 * To verify if the results exist in more than one page
@@ -95,11 +95,18 @@ public class Crawlers {
 		/** for test **/
 //		ArrayList<Avis> avisList = crawler.franceMarcheCrawler("auvergne-rhone-alpes","2019-05-01","2019-06-01",2);
 //		ArrayList<Avis> avisList = crawler.proxiLegalesCrawler("orange", 2);
+		
+		
+		
 //		ArrayList<Avis> avisList = crawler.marchepublicsInfoCrawler("1,3,7,15,26,38,42,43,63,69,73,74","= 0");
+		
+		
+		
 //		ArrayList<Avis> avisList = crawler.marchepublicGouvCrawler("01/06/2019","06/06/2019");
 //		ArrayList<Avis> avisList = crawler.auvergnerCrawler("","",2);
 		
-		crawler.tedEuropaCrawler();
+		//crawler.tedEuropaCrawler();
+		crawler.EmarchesCrawler();
 //		for(Avis avis:avisList) {
 //			avis.print();
 //		}
@@ -151,7 +158,7 @@ public class Crawlers {
 			String result = null;
 			// send POST request to the site to get the HTML data
 			try {
-				result = HTTPRequest.sendPost(urlProxi, params)[0];
+				result = HTTPRequest.sendPost(urlProxi, params);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -338,7 +345,7 @@ public class Crawlers {
 		String result = null;
 		// send POST request to the site to get the HTML data
 		try {
-			result = HTTPRequest.sendPost(urlMPI, params)[0];
+			result = HTTPRequest.sendPost(urlMPI, params);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -735,7 +742,7 @@ public class Crawlers {
 		String result = null;
 		// send POST request to the site to get the HTML data
 		try {
-			result = HTTPRequest.sendPost(urlMPI, params)[0];
+			result = HTTPRequest.sendPost(urlMPI, params);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -855,7 +862,7 @@ public class Crawlers {
 			String result = null;
 			// send POST request to the site to get the HTML data
 			try {
-				result = HTTPRequest.sendPost(urlAuvergner, params)[0];
+				result = HTTPRequest.sendPost(urlAuvergner, params);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -1279,7 +1286,45 @@ public class Crawlers {
 	/**
 	 * Crawler for E-marchespublics
 	 */
+	public void EmarchesCrawler() {
+		// define the url of the site
+		String urlEMarche = "https://www.e-marchespublics.com/appel-offre";
+		
+		ArrayList<String> listLinks = new ArrayList<String>();
+		ArrayList<String> listTitre = new ArrayList<String>();
+		ArrayList<String> listDate = new ArrayList<String>();
+		
+		// define the map of the settings
+		Map<String, String> params = new HashMap<String, String>();
 
+		/*
+		 * 
+		 * 
+		 * _token: VKKppFE0OlaWmqT7Igmfu3BhpwNdw6dH66HOo1r3
+			category: Service
+			what: informatique
+			where: all
+			notice_type: AAPC
+		 */
+		params.put("_token", "VKKppFE0OlaWmqT7Igmfu3BhpwNdw6dH66HOo1r3");
+		params.put("category", "Tous");
+		params.put("what", "informatique");
+		params.put("where", "all");
+		params.put("notice_type", "AAPC");
+		
+		String result = null;
+		// send POST request to the site to get the HTML data
+		try {
+			result = HTTPRequest.sendPostEMarche(urlEMarche, params)[0];
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		System.out.println(result);
+		
+		
+
+	}
 	/*****************************************************/
 
 	/**
