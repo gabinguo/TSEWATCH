@@ -215,8 +215,6 @@ public class HTTPRequest {
 					int status = response.getStatusLine().getStatusCode();
 					if (status >= 200 && status < 300) {
 						HttpEntity entity = response.getEntity();
-						//System.out.println(status);
-
 						return entity != null ? EntityUtils.toString(entity) : null;
 					} else {
 						System.out.println(status);

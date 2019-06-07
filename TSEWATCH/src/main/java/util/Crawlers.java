@@ -933,12 +933,13 @@ public class Crawlers {
 	/*****************************************************/
 
 	/**
-	 * Crawler for Ted.europa
+	 * Crawler for Ted.europa!! Attention : we can't solve the problem because of the pid and 302
 	 * @throws Exception 
 	 */
 	public void tedEuropaCrawler()   {
 		// define the url of the site
-		String urlAuvergner = "https://ted.europa.eu/TED/search/search.do?";
+		String urlAuvergner = "https://ted.europa.eu/TED/search/expertSearch.do";
+		//String urlAuvergnerExpert = "https://ted.europa.eu/TED/search/expertSearch.do";
 		
 		ArrayList<String> listLinks = new ArrayList<String>();
 		ArrayList<String> listTitre = new ArrayList<String>();
@@ -1015,19 +1016,38 @@ public class Crawlers {
 	_expertSearchCriteria.statisticsMode: on
 	Rs.gp.6531439.pid: secured
 	Rs.gp.6531440.pid: secured	
-		
-		
-
-*/		String result = null;
-		// send POST request to the site to get location
+*/		
+		String HTML = null;
+		//send the GET request to the site to get HTML data
 		try {
-			result = HTTPRequest.sendPost(urlAuvergner, params)[0];
+			HTML = HTTPRequest.sendGET(urlAuvergner);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
-	
-		System.out.println(result);
+		}		
+		System.out.println(HTML);
+		
+		
+		
+		params.put("action", "search");
+		params.put("expertSearchCriteria.searchScope", "CURRENTLY_ACTIVE");
+		params.put("expertSearchCriteria.query", "CY=[FR] AND TD=[I or M or O or A] AND PD=[20190501 <> 20190601]");
+		
+		
+		
+		
+		
+		
+//		String result = null;
+//		// send POST request to the site to get location
+//		try {
+//			result = HTTPRequest.sendPost(urlAuvergner, params)[0];
+//		} catch (Exception e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//	
+//		System.out.println(result);
 		
 		
 		
