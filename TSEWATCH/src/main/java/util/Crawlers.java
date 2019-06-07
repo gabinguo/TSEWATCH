@@ -934,10 +934,11 @@ public class Crawlers {
 
 	/**
 	 * Crawler for Ted.europa
+	 * @throws Exception 
 	 */
-	public void tedEuropaCrawler() {
+	public void tedEuropaCrawler()   {
 		// define the url of the site
-		String urlAuvergner = "https://ted.europa.eu/TED/search/searchResult.do?action=initPage&pid=searchResult";
+		String urlAuvergner = "https://ted.europa.eu/TED/search/search.do?";
 		
 		ArrayList<String> listLinks = new ArrayList<String>();
 		ArrayList<String> listTitre = new ArrayList<String>();
@@ -990,9 +991,9 @@ public class Crawlers {
 			Rs.gp.6158052.pid: secured
 			Rs.gp.6158053.pid: secured
 		*/
-		params.put("searchCriteria.countryList", "FR");
-		params.put("searchCriteria.fromPublicationDate", "01/05/2019");
-		params.put("searchCriteria.toPublicationDate", "01/06/2019");
+//		params.put("searchCriteria.countryList", "FR");
+//		params.put("searchCriteria.fromPublicationDate", "01/05/2019");
+//		params.put("searchCriteria.toPublicationDate", "01/06/2019");
 //		params.put("chk", "'Call for expressions of interest'");
 //		params.put("chk", "'Periodic indicative notice with call for competition'");
 //		params.put("chk", "'Qualification system with call for competition'");
@@ -1005,27 +1006,27 @@ public class Crawlers {
 //		params.put("searchCriteria.publicationDateChoice", "RANGE_PUBLICATION_DATE");
 //		params.put("lgId", "en");
 		
+		/*
+	action: search
+	lgId: en
+	quickSearchCriteria: 
+	expertSearchCriteria.searchScope: CURRENTLY_ACTIVE
+	expertSearchCriteria.query: CY=[FR] AND TD=[I or M or O or A] AND PD=[20190501 <> 20190601]
+	_expertSearchCriteria.statisticsMode: on
+	Rs.gp.6531439.pid: secured
+	Rs.gp.6531440.pid: secured	
 		
 		
-		
-		String location = null;
+
+*/		String result = null;
 		// send POST request to the site to get location
 		try {
-			location = HTTPRequest.sendPost(urlAuvergner, params)[1];
+			result = HTTPRequest.sendPost(urlAuvergner, params)[0];
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		System.out.println(location);
-		//send GET request by location to get the HTML data
-		String result = null;
-		try {
-			result = HTTPRequest.sendGET(location);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
+	
 		System.out.println(result);
 		
 		
