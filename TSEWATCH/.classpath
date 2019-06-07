@@ -28,16 +28,5 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/Users/15325/git/TSEWATCH/TSEWATCH/lib/commons-codec-1.11.jar"/>
-	<classpathentry kind="lib" path="C:/Users/15325/git/TSEWATCH/TSEWATCH/lib/commons-logging-1.2.jar"/>
-	<classpathentry kind="lib" path="C:/Users/15325/git/TSEWATCH/TSEWATCH/lib/fluent-hc-4.5.8.jar"/>
-	<classpathentry kind="lib" path="C:/Users/15325/git/TSEWATCH/TSEWATCH/lib/httpclient-4.5.8.jar"/>
-	<classpathentry kind="lib" path="C:/Users/15325/git/TSEWATCH/TSEWATCH/lib/httpclient-cache-4.5.8.jar"/>
-	<classpathentry kind="lib" path="C:/Users/15325/git/TSEWATCH/TSEWATCH/lib/httpclient-osgi-4.5.8.jar"/>
-	<classpathentry kind="lib" path="C:/Users/15325/git/TSEWATCH/TSEWATCH/lib/httpclient-win-4.5.8.jar"/>
-	<classpathentry kind="lib" path="C:/Users/15325/git/TSEWATCH/TSEWATCH/lib/httpcore-4.4.11.jar"/>
-	<classpathentry kind="lib" path="C:/Users/15325/git/TSEWATCH/TSEWATCH/lib/httpmime-4.5.8.jar"/>
-	<classpathentry kind="lib" path="C:/Users/15325/git/TSEWATCH/TSEWATCH/lib/jna-4.5.2.jar"/>
-	<classpathentry kind="lib" path="C:/Users/15325/git/TSEWATCH/TSEWATCH/lib/jna-platform-4.5.2.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
