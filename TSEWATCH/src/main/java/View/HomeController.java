@@ -33,6 +33,7 @@ import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Label;
+import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
@@ -82,7 +83,7 @@ public class HomeController {
     private TextField keywordsTextField;
     
     @FXML
-    private TableView veilleTableView;
+    private TableView veilleTableView,resultTableView;
     
     
     @FXML
@@ -112,6 +113,7 @@ public class HomeController {
     	
     	colVeille.setCellValueFactory(new PropertyValueFactory<>("name"));
     	veilleTableView.setItems(displayCtrl.getAxes());
+    	
     	
     	
     	

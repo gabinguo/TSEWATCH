@@ -351,7 +351,7 @@
                   <JFXComboBox fx:id="page_report_veilleList" prefHeight="20.0" prefWidth="136.0" />
                </children>
             </HBox>
-            <TableView layoutX="141.0" layoutY="137.0" prefHeight="304.0" prefWidth="537.0">
+            <TableView fx:id="resultTableView" layoutX="141.0" layoutY="137.0" prefHeight="304.0" prefWidth="537.0">
               <columns>
                 <TableColumn prefWidth="267.0" text="Date">
                      <graphic>
