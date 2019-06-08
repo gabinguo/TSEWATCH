@@ -10,6 +10,8 @@ import Model.AxeDeVeille;
 import Model.ListDiffusion;
 import file.io.FileManager;
 import javafx.application.Application;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
@@ -26,14 +28,31 @@ public class DisplayController extends Application{
 	private static Stage addClientStage;
 	private static Stage addReportStage;
 	
-	private static ArrayList<AxeDeVeille> listVeille;
-	private static ArrayList<ListDiffusion> listDiffusion;
+	private static ArrayList<AxeDeVeille> listVeille = new ArrayList<AxeDeVeille>();
+	private static ArrayList<ListDiffusion> listDiffusion = new ArrayList<ListDiffusion>();
 	private static FileManager fileManager;
 	
 	
 	public static void display(String[] args) {
 		launch(args);
 	}
+	
+	public ObservableList<AxeDeVeille> getAxes(){
+		ObservableList<AxeDeVeille> listAxes = FXCollections.observableArrayList();
+		for(AxeDeVeille axe : listVeille) {
+			listAxes.add(axe);
+		}
+		return listAxes;
+	}
+	
+	public ObservableList<ListDiffusion> getDF(){
+		ObservableList<ListDiffusion> listDf = FXCollections.observableArrayList();
+		for(ListDiffusion df : listDiffusion) {
+			listDf.add(df);
+		}
+		return listDf;
+	}
+	
 	
 	/*
 	 * Show the Mainpage Overview inside the root layout
@@ -138,11 +157,11 @@ public class DisplayController extends Application{
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
+		//System.out.println(allVeille.size());
 		if(allVeille != null )
 		for(String veilleName : allVeille) {
 			try {
-				listVeille.add(fileManager.readAxe(veilleName));
+					listVeille.add(fileManager.readAxe(veilleName));
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -150,7 +169,7 @@ public class DisplayController extends Application{
 		if(allDiffusionList!=null)
 		for(String diffusionName : allDiffusionList) {
 			try {
-				listDiffusion.add(fileManager.readDiffusionList(diffusionName));
+					listDiffusion.add(fileManager.readDiffusionList(diffusionName));
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -194,6 +213,7 @@ public class DisplayController extends Application{
 		
 		loadFiles();
 		
+		//System.out.println(listVeille.size());
 		showMainpageOverview();
 	}
 	

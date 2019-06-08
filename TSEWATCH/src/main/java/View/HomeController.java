@@ -44,12 +44,8 @@ public class HomeController {
 	 *  Variable Home Page
 	 */
 	private static ArrayList<String> sites = new ArrayList<String>();
-	private AxeDeVeille veilleCreating;
-	private AxeDeVeille veilleSelecting;
-	private ArrayList<AxeDeVeille> veilleList = new ArrayList<AxeDeVeille>();
 	private DisplayController displayCtrl;
-	private boolean hideAddModifyFlag = false;
-	private boolean modifyModeFlag = false;
+	
 	
     
     @FXML
@@ -74,42 +70,38 @@ public class HomeController {
     private TextField keywordsTextField;
     
     @FXML
-    private Label label_warning;
-    
-    @FXML
-    //***
     private TableView veilleTableView;
     
-    @FXML
-    private TableColumn colVeille;
-    
-    
-    
     
     @FXML
+    private TableColumn<AxeDeVeille, String> colVeille;
+    
+    
+    
+    
+    @SuppressWarnings("unchecked")
+	@FXML
 	public void initialize() {
+    	/**
+		 *  get DisplayController for displaying or some new Tab
+		 */
+		displayCtrl = DisplayController.getInstance();
+		
+		add_modify_pane.setVisible(false);
     	recherche_pane.toFront();
-    	label_warning.setVisible(false);
-    	add_modify_pane.setVisible(hideAddModifyFlag);
-    	
     	
     	for(String name : Const.namesOfSites) {
 			sites.add(name);
 		}
     	sites.add("All");
     	ObservableList<String> list = FXCollections.observableArrayList(sites);
-		siteList.setItems(list);
-		siteList.setValue(list.get(list.size()-1));
-		
-		
-		
-		colVeille.setCellValueFactory(new PropertyValueFactory<>("name"));
+    	siteList.setItems(list);
     	
     	
-    	/**
-		 *  get DisplayController for displaying or some new Tab
-		 */
-		displayCtrl = DisplayController.getInstance();
+    	colVeille.setCellValueFactory(new PropertyValueFactory<>("name"));
+    	veilleTableView.setItems(displayCtrl.getAxes());
+    	
+    	
 		
 		/**
 		 * check Veille Table clickEvent
@@ -124,8 +116,6 @@ public class HomeController {
 			TableRow row = new TableRow<>();
 			row.setOnMouseClicked(event -> {
 				if(!row.isEmpty() && event.getButton() == MouseButton.PRIMARY && event.getClickCount() == 1) {
-					veilleSelecting = (AxeDeVeille) row.getItem();
-					
 				}
 			});
 			return row;
@@ -181,113 +171,40 @@ public class HomeController {
         }
         
         if(event.getSource() == btn_add_axe) {
-        	label_warning.setText("Existe deja");
-        	label_warning.setText("false");
-        	veilleCreating = new AxeDeVeille();
-        	nameVeilleTextField.setText("");
-        	keywordsTextField.setText("");
-        	if(false == hideAddModifyFlag) {
-        		hideAddModifyFlag = !hideAddModifyFlag;
-        		add_modify_pane.setVisible(hideAddModifyFlag);
-        	}
+        	add_modify_pane.setVisible(true);
         }
         
         if(event.getSource() == btn_modify_axe) {
-        	if(veilleSelecting == null) {
-        		
-        	}else{
-	        	modifyModeFlag = true;
-				hideAddModifyFlag = !hideAddModifyFlag;
-				add_modify_pane.setVisible(hideAddModifyFlag);
-				
-				
-				nameVeilleTextField.setText(veilleSelecting.getName());
-				String allKeywords = "";
-				for(String str : veilleSelecting.getKeywords()) {
-					allKeywords = allKeywords + str + ", ";
-				}
-				allKeywords = allKeywords.substring(0, allKeywords.lastIndexOf(","));
-				keywordsTextField.setText(allKeywords);
         	
-        	
-        	}
         }
         
         if(event.getSource() == btn_annuler_axe) {
+        	add_modify_pane.setVisible(false);
         	nameVeilleTextField.setText("");
         	keywordsTextField.setText("");
-        	
-        	hideAddModifyFlag = !hideAddModifyFlag;
-        	add_modify_pane.setVisible(hideAddModifyFlag);
         }
         
         if(event.getSource() == btn_save_axe) {
-        	String nameOfVeille = nameVeilleTextField.getText().trim();
-        	String[] arrKeywords = keywordsTextField.getText().trim().split(",");
+        	ArrayList<String> keywords = new ArrayList<String>();
+        	String[] allKeywords = keywordsTextField.getText().trim().split(",");
+        	for(int i=0;i<allKeywords.length;i++) {
+        		keywords.add(allKeywords[i].trim());
         	
-        	ArrayList<String> listKeywords = new ArrayList<String>();
-        	for(int i =0 ;i < arrKeywords.length ; i++) {
-        		listKeywords.add(arrKeywords[i].trim());
         	}
-        	
-        	veilleCreating = new AxeDeVeille(nameOfVeille, listKeywords);
-        	updateVeilleList();
-        	if(!label_warning.isVisible()) {
-        		hideAddModifyFlag = !hideAddModifyFlag;
-        		add_modify_pane.setVisible(hideAddModifyFlag);
-        		modifyModeFlag = false;
-        	}
-        	
+         	displayCtrl.getFileManager().saveAxe(
+        			new AxeDeVeille(nameVeilleTextField.getText().trim(), keywords));	
+         	
+         	veilleTableView.getItems().add(new AxeDeVeille(nameVeilleTextField.getText(),null));
+         	
+         	
+         	add_modify_pane.setVisible(false);
+        	nameVeilleTextField.setText("");
+        	keywordsTextField.setText("");
         }
-        
-
- 
     }
-    public boolean addVeille2List() {
-		if(veilleCreating.getName().isEmpty()) 
-		{
-			label_warning.setText("Rien rempli");
-			return false;
-		}
-		if(veilleList.size()==0) return true;
-		for(int i = 0 ; i < veilleList.size();i++)
-		{
-			if(veilleCreating.getName().equals(veilleList.get(i).getName())) 
-			{
-				return false;
-			}
-		}
-		return true;
-	}
     
-    private void updateVeilleList() {
-		if(modifyModeFlag) {
-			
-			String[] arrKeywords = keywordsTextField.getText().trim().split(",");
-			ObservableList<String> list = FXCollections.observableArrayList(sites);
-			
-			ArrayList<String> listKeywords = new ArrayList<String>();
-			for(int i =0;i < arrKeywords.length;i++) {
-				listKeywords.add(arrKeywords[i].trim());
-			}
-			veilleSelecting.setName(nameVeilleTextField.getText());
-			veilleSelecting.setKeywords(listKeywords);
-			
-//			 veilleTableView.getColumns().get(0).setVisible(false);
-//			 veilleTableView.getColumns().get(0).setVisible(true);
-			
-		}else {
-			if(addVeille2List()) {
-				veilleList.add(veilleCreating);
-				veilleTableView.getItems().add(veilleCreating);
-				label_warning.setVisible(false);
-			}
-			else 
-			{
-				label_warning.setVisible(true);
-			}
-		}
-	}
+    
+   
     
     
     @FXML

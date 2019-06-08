@@ -247,11 +247,6 @@
                      </font>
                   </Label>
                   <TextField fx:id="keywordsTextField" layoutX="203.0" layoutY="170.0" prefHeight="105.0" prefWidth="185.0" />
-                  <Label fx:id="label_warning" layoutX="312.0" layoutY="106.0" text="Existe deja" textFill="RED">
-                     <font>
-                        <Font name="System Bold" size="14.0" />
-                     </font>
-                  </Label>
                </children>
             </Pane>
             <Pane layoutX="50.0" layoutY="531.0" prefHeight="12.0" prefWidth="200.0" style="-fx-background-color: #0747A6;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />

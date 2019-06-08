@@ -1,6 +1,7 @@
 package file.io;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.file.Files;
@@ -78,7 +79,7 @@ public class FileManager {
 		// Step 1 
 		// ---> Create a new folder to store all the avis
 		createFolder(axe.getName(), 1);
-		// ---> Create a file to store info
+		// ---> Create a file to store info(keywords)
 		String infoTXT = Const.FOLDER_AXE + axe.getName() + "/" + "config.txt";
 		emptyTXT(infoTXT);
 		// ---> Create a file to store avis
@@ -86,18 +87,19 @@ public class FileManager {
 		emptyTXT(avisTXT);
 		
 		// Step 2
-		// --> Store name and all the keywords
+		// --> Store all the keywords
 		saveLine(axe.getStr2File(), infoTXT);
 		
 		// Step 3
 		// Store all the links info in another txt file
-		for(Avis avis : axe.getListAvis()) {
-			saveLine(avis.getStr2File(),avisTXT);
+		if(axe.getListAvis() != null) {
+			for(Avis avis : axe.getListAvis()) {
+				saveLine(avis.getStr2File(),avisTXT);
+			}
 		}
-		
 		// Step 4
 		// Save axe's name to all_axe_list.txt
-		saveLine(Const.FILE_AXELIST,axe.getName());
+		saveLine(axe.getName(),Const.FILE_AXELIST);
 	}
 	
 	public static void saveAvis(Avis avis, String path) {
@@ -145,13 +147,26 @@ public class FileManager {
 		
 		//1 AxeDeVeille
 		if(option == 1) {
-			File file = new File(System.getProperty("user.home")+"/AppData/Local/TSEWatch/AxeDeVeille/" + name);
-			if (!file.exists()) {
-				try {
-					Files.createDirectories(Paths.get(System.getProperty
-						("user.home")+"/AppData/Local/TSEWatch/AxeDeVeille/" + name));
-				} catch (IOException e1) {
-					e1.printStackTrace();
+			if(name!=null) {
+				File file = new File(System.getProperty("user.home")+"/AppData/Local/TSEWatch/AxeDeVeille/" + name);
+				if (!file.exists()) 
+				{
+					try {
+						Files.createDirectories(Paths.get(System.getProperty
+							("user.home")+"/AppData/Local/TSEWatch/AxeDeVeille/" + name));
+					} catch (IOException e1) {
+						e1.printStackTrace();
+					}
+				}
+			}else {
+				File file2 = new File(System.getProperty("user.home")+"/AppData/Local/TSEWatch/AxeDeVeille/");
+				if (!file2.exists()) {
+					try {
+						Files.createDirectories(Paths.get(System.getProperty
+							("user.home")+"/AppData/Local/TSEWatch/AxeDeVeille/"));
+					} catch (IOException e1) {
+						e1.printStackTrace();
+					}
 				}
 			}
 		}
@@ -180,40 +195,59 @@ public class FileManager {
 				}
 			}
 		}
+		
 	}
 		
+	
+	public static void createFolder(String path) {
+		File file = new File(path);
+		if (!file.exists()) {
+			try {
+				Files.createDirectories(Paths.get(path));
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
+		}
+	}
 	public static AxeDeVeille readAxe(String name) throws IOException{
 		AxeDeVeille axe = new AxeDeVeille(); 
 		
+		
+		
 		String path = Const.FOLDER_AXE + name +"/avis.txt";	
 		File f = new File(path);
-		ArrayList<String> listStr = null;
-		listStr = (ArrayList<String>) FileUtils.readLines(f);
-		
-		ArrayList<Avis> listAvis = null;
-		if(listStr==null && listStr.size() == 0) {}
-		else {
-			listAvis = new ArrayList<Avis>();
-			for(String str : listStr) {
-				String[] strAvis = str.trim().split("\\|");
-				listAvis.add(new Avis(strAvis[2].trim(), strAvis[0].trim(), strAvis[1].trim()));
+		if(!f.exists()) {
+			createFolder(Const.FOLDER_AXE + name);
+		}if(f.exists()) {
+			ArrayList<String> listStr = null;
+			listStr = (ArrayList<String>) FileUtils.readLines(f);
+			
+			ArrayList<Avis> listAvis = null;
+			if(listStr==null && listStr.size() == 0) {}
+			else {
+				listAvis = new ArrayList<Avis>();
+				for(String str : listStr) {
+					String[] strAvis = str.trim().split("\\|");
+					listAvis.add(new Avis(strAvis[2].trim(), strAvis[0].trim(), strAvis[1].trim()));
+				}
 			}
+			
+			axe.setListAvis(listAvis);
+			axe.setName(name);
+			
+			String pathKeywords = Const.FOLDER_AXE + name + "/config.txt";
+			File fKeywords = new File(pathKeywords);
+			String[] keywordsArr = FileUtils.readLines(fKeywords)
+													.get(0).trim().split(",");
+			ArrayList<String> keywords = new ArrayList<String>();
+			
+			for(String str : keywordsArr) {
+				keywords.add(str.trim());
+			}
+			axe.setKeywords(keywords);
+			return axe;
 		}
-		
-		axe.setListAvis(listAvis);
-		axe.setName(name);
-		
-		String pathKeywords = Const.FOLDER_AXE + name + "/config.txt";
-		File fKeywords = new File(pathKeywords);
-		String[] keywordsArr = FileUtils.readLines(fKeywords)
-												.get(0).trim().split(",");
-		ArrayList<String> keywords = new ArrayList<String>();
-		
-		for(String str : keywordsArr) {
-			keywords.add(str.trim());
-		}
-		axe.setKeywords(keywords);				
-		return axe;
+		return null;
 	}
 
 	
@@ -232,7 +266,6 @@ public class FileManager {
 				listClient.add(new Client(strClient[0],strClient[1]));
 			}
 		}
-		
 		ld.setName(name);
 		ld.setListClient(listClient);
 		return ld;
