@@ -102,14 +102,14 @@ public class Crawlers {
 		
 		
 		
-//		ArrayList<Avis> avisList = crawler.marchepublicGouvCrawler("01/06/2019","06/06/2019");
+		ArrayList<Avis> avisList = crawler.marchepublicGouvCrawler("01/06/2019","06/06/2019");
 //		ArrayList<Avis> avisList = crawler.auvergnerCrawler("","",2);
 		
 		//crawler.tedEuropaCrawler();
-		crawler.EmarchesCrawler();
-//		for(Avis avis:avisList) {
-//			avis.print();
-//		}
+		//crawler.EmarchesCrawler();
+		for(Avis avis:avisList) {
+			avis.print();
+		}
 		
 
 	}
@@ -1336,5 +1336,23 @@ public class Crawlers {
 	/**
 	 * Crawler for Marchesonline
 	 */
-
+	public void marchesOnlineCrawler() {
+		// define the url of the site
+		String urlEMarcheOnline = "https://www.marchesonline.com/appels-offres/en-cours";
+		
+		ArrayList<String> listLinks = new ArrayList<String>();
+		ArrayList<String> listTitre = new ArrayList<String>();
+		ArrayList<String> listDate = new ArrayList<String>();
+		
+		// define the map of the settings
+		Map<String, String> params = new HashMap<String, String>();
+		
+		
+		params.put("_token", "VKKppFE0OlaWmqT7Igmfu3BhpwNdw6dH66HOo1r3");
+		params.put("category", "Tous");
+		params.put("what", "informatique");
+		params.put("where", "all");
+		params.put("notice_type", "AAPC");
+		
+	}
 }
