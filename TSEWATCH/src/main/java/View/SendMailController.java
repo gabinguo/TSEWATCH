@@ -22,22 +22,18 @@ public class SendMailController {
 	@FXML
 	private JFXButton btn_sm_cancel,btn_sm_ok;
 	
-	@FXML
-	private void ARAnnulerButtonClicked() {
-		displayCtrl.closeAddReportStage();
-	}
 	
 	
 	 @FXML
-	 private void handleButtonAction(ActionEvent event) {
-		 if(event.getSource() == btn_sm_ok) {
-			 displayCtrl.closeAddReportStage();
-		 }
-		 if(event.getSource() == btn_sm_cancel) {
-			 displayCtrl.closeAddReportStage();
-		 }
+	private void handleButtonAction(ActionEvent event) {
+		if(event.getSource() == btn_sm_ok) {
+			displayCtrl.closeSendMailStage();
+		}
+	    if(event.getSource() == btn_sm_cancel) {
+			 displayCtrl.closeSendMailStage();
+		}
 		 
-	 }
+	}
 	
 	 @FXML
 	 private void handleEvent(MouseEvent event) {    
