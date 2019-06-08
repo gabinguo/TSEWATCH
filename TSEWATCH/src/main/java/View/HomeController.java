@@ -55,7 +55,7 @@ public class HomeController {
     @FXML
     private JFXButton btn_add,btn_back,btn_options,btn_axe,btn_recherche,btn_diffusion,btn_rapport
     						,btn_rapport_nouveau,btn_add_client, btn_envoyer, btn_add_axe,
-    						btn_modify_axe, btn_annuler_axe,btn_save_axe;
+    						btn_modify_axe, btn_annuler_axe,btn_save_axe,btn_recherche_ok;
     
     @SuppressWarnings("rawtypes")
 	@FXML
@@ -96,9 +96,10 @@ public class HomeController {
     	for(String name : Const.namesOfSites) {
 			sites.add(name);
 		}
+    	sites.add("All");
     	ObservableList<String> list = FXCollections.observableArrayList(sites);
 		siteList.setItems(list);
-		siteList.setValue(list.get(0));
+		siteList.setValue(list.get(list.size()-1));
 		
 		
 		
@@ -144,6 +145,10 @@ public class HomeController {
              add_pane.setVisible(false);     
         }
 
+        if(event.getSource() == btn_recherche_ok) {
+        	rapport_pane.toFront();
+        }
+        
         if(event.getSource()== btn_axe)
         {
              

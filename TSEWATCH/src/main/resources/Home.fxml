@@ -22,31 +22,48 @@
    <children>
       <AnchorPane fx:id="add_pane" prefHeight="424.0" prefWidth="781.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="-4.0" AnchorPane.rightAnchor="-4.0" AnchorPane.topAnchor="0.0">
          <children>
-            <AnchorPane prefHeight="424.0" prefWidth="291.0" style="-fx-background-color: #fff;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="-4.0" AnchorPane.topAnchor="0.0">
+            <AnchorPane layoutX="286.0" opacity="0.32" prefHeight="424.0" prefWidth="499.0" style="-fx-background-color: #000;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="286.0" AnchorPane.rightAnchor="-4.0" AnchorPane.topAnchor="0.0" />
+            <AnchorPane prefHeight="424.0" prefWidth="291.0" style="-fx-background-color: #fff;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
                   <JFXButton fx:id="btn_back" contentDisplay="GRAPHIC_ONLY" layoutX="14.0" layoutY="21.0" onAction="#handleButtonAction" prefHeight="34.0" prefWidth="51.0" ripplerFill="#e1e1e1" style="-fx-background-radius: 10em;">
                      <graphic>
                         <MaterialDesignIconView fill="#2c2a2a" glyphName="KEYBOARD_BACKSPACE" size="15" />
                      </graphic>
                   </JFXButton>
-                  <JFXButton alignment="BASELINE_LEFT" layoutX="48.0" layoutY="86.0" prefHeight="28.0" prefWidth="120.0" style="-fx-background-radius: 10em;" text="API KEY">
-                     <graphic>
-                        <MaterialDesignIconView fill="#2c2a2a" glyphName="LABEL_OUTLINE" size="15" />
-                     </graphic>
-                  </JFXButton>
-                  <JFXButton alignment="BASELINE_LEFT" layoutX="48.0" layoutY="158.0" prefHeight="34.0" prefWidth="150.0" style="-fx-background-radius: 10em;" text="API PRIVATE KEY">
-                     <graphic>
-                        <MaterialDesignIconView fill="#2c2a2a" glyphName="LABEL_OUTLINE" size="15" />
-                     </graphic>
-                  </JFXButton>
-                  <JFXTextField layoutX="61.0" layoutY="114.0" />
-                  <JFXTextField layoutX="61.0" layoutY="192.0" />
-                  <JFXButton alignment="BASELINE_LEFT" layoutX="48.0" layoutY="230.0" prefHeight="34.0" prefWidth="147.0" style="-fx-background-radius: 10em;" text="Sender Email">
-                     <graphic>
-                        <MaterialDesignIconView fill="#2c2a2a" glyphName="LABEL_OUTLINE" size="15" />
-                     </graphic>
-                  </JFXButton>
-                  <JFXTextField layoutX="61.0" layoutY="264.0" />
+                  <VBox layoutX="48.0" layoutY="86.0" spacing="15.0">
+                     <children>
+                        <VBox>
+                           <children>
+                              <JFXButton alignment="BASELINE_LEFT" prefHeight="27.0" prefWidth="151.0" style="-fx-background-radius: 10em;" text="API KEY">
+                                 <graphic>
+                                    <MaterialDesignIconView fill="#2c2a2a" glyphName="LABEL_OUTLINE" size="15" />
+                                 </graphic>
+                              </JFXButton>
+                              <JFXTextField />
+                           </children>
+                        </VBox>
+                        <VBox>
+                           <children>
+                              <JFXButton alignment="BASELINE_LEFT" prefHeight="27.0" prefWidth="151.0" style="-fx-background-radius: 10em;" text="API PRIVATE KEY">
+                                 <graphic>
+                                    <MaterialDesignIconView fill="#2c2a2a" glyphName="LABEL_OUTLINE" size="15" />
+                                 </graphic>
+                              </JFXButton>
+                              <JFXTextField />
+                           </children>
+                        </VBox>
+                        <VBox>
+                           <children>
+                              <JFXButton alignment="BASELINE_LEFT" prefHeight="27.0" prefWidth="151.0" style="-fx-background-radius: 10em;" text="Sender Email">
+                                 <graphic>
+                                    <MaterialDesignIconView fill="#2c2a2a" glyphName="LABEL_OUTLINE" size="15" />
+                                 </graphic>
+                              </JFXButton>
+                              <JFXTextField />
+                           </children>
+                        </VBox>
+                     </children>
+                  </VBox>
                   <JFXButton buttonType="RAISED" layoutX="187.0" layoutY="307.0" prefHeight="23.0" prefWidth="72.0" text="Save" textFill="RED">
                      <effect>
                         <DropShadow color="#5b4444" />
@@ -65,7 +82,6 @@
                   </JFXButton>
                </children>
             </AnchorPane>
-            <AnchorPane layoutX="286.0" opacity="0.32" prefHeight="424.0" prefWidth="499.0" style="-fx-background-color: #000;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="286.0" AnchorPane.rightAnchor="-4.0" AnchorPane.topAnchor="0.0" />
          </children>
       </AnchorPane>
       <AnchorPane layoutX="-9.0" prefHeight="422.0" prefWidth="252.0" style="-fx-background-color: #0747A6;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="-9.0" AnchorPane.topAnchor="0.0">
@@ -172,81 +188,6 @@
             <MaterialDesignIconView fill="WHITE" glyphName="CODEPEN" layoutX="84.0" layoutY="75.0" size="30" />
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="recherche_pane" layoutX="532.0" prefHeight="551.0" prefWidth="510.0" style="-fx-background-color: #fff;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="242.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-         <children>
-            <HBox layoutX="206.0" layoutY="248.0" prefHeight="34.0" prefWidth="437.0" spacing="5.0">
-               <children>
-                  <Label text="Site : ">
-                     <font>
-                        <Font name="System Bold" size="18.0" />
-                     </font>
-                     <graphic>
-                        <MaterialDesignIconView glyphName="EARTH" size="30" />
-                     </graphic>
-                  </Label>
-                  <JFXComboBox fx:id="siteList" prefHeight="30.0" prefWidth="291.0" />
-                  <JFXButton fx:id="recherche_ok_button" prefHeight="32.0" prefWidth="50.0" text="GO">
-                     <font>
-                        <Font name="System Bold" size="15.0" />
-                     </font>
-                  </JFXButton>
-               </children>
-            </HBox>
-            <JFXButton layoutX="696.0" layoutY="490.0" ripplerFill="#d73c3c" text="Auto Mode">
-               <graphic>
-                  <MaterialDesignIconView glyphName="BIOHAZARD" size="30" />
-               </graphic>
-            </JFXButton>
-         </children>
-      </AnchorPane>
-      <AnchorPane fx:id="diffusion_pane" layoutX="241.0" prefHeight="541.0" prefWidth="800.0" style="-fx-background-color: #fff;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="242.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-         <children>
-            <Label layoutX="211.0" layoutY="62.0" text="Liste de diffusion : ">
-               <font>
-                  <Font name="System Bold" size="15.0" />
-               </font>
-            </Label>
-            <JFXComboBox layoutX="372.0" layoutY="61.0" prefHeight="20.0" prefWidth="218.0" />
-            <TableView layoutX="66.0" layoutY="93.0" prefHeight="373.0" prefWidth="679.0">
-              <columns>
-                <TableColumn prefWidth="343.0" text="Client">
-                     <graphic>
-                        <MaterialDesignIconView glyphName="ACCOUNT" size="20" />
-                     </graphic>
-                  </TableColumn>
-                <TableColumn minWidth="0.0" prefWidth="335.0" text="Email">
-                     <graphic>
-                        <MaterialDesignIconView glyphName="GMAIL" size="20" />
-                     </graphic>
-                  </TableColumn>
-              </columns>
-            </TableView>
-            <JFXButton fx:id="btn_envoyer" layoutX="684.0" layoutY="472.0" onAction="#handleButtonAction" ripplerFill="#1d14c3" text="Envoyer" textFill="WHITE">
-               <graphic>
-                  <MaterialDesignIconView glyphName="SEND" size="20" />
-               </graphic>
-            </JFXButton>
-            <JFXButton fx:id="btn_add_client" alignment="BASELINE_LEFT" layoutX="748.0" layoutY="110.0" onAction="#handleButtonAction" prefHeight="30.0" prefWidth="50.0" ripplerFill="#0747a6" text="Ajouter" textFill="WHITE">
-               <font>
-                  <Font name="System Bold" size="15.0" />
-               </font>
-               <graphic>
-                  <MaterialDesignIconView glyphName="DATABASE_PLUS" size="20" wrappingWidth="20.0" />
-               </graphic>
-            </JFXButton>
-            <JFXButton layoutX="745.0" layoutY="157.0" onAction="#handleButtonAction" prefHeight="30.0" prefWidth="25.0" ripplerFill="#0748a4" text="Modifier" textFill="WHITE">
-               <font>
-                  <Font name="System Bold" size="15.0" />
-               </font>
-               <graphic>
-                  <MaterialDesignIconView glyphName="DELETE" size="20" wrappingWidth="20.0" />
-               </graphic>
-            </JFXButton>
-            <Pane layoutX="44.0" layoutY="14.0" prefHeight="12.0" prefWidth="859.0" style="-fx-background-color: #0747A6;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
-            <Pane layoutX="700.0" layoutY="14.0" opacity="0.5" prefHeight="12.0" prefWidth="159.0" style="-fx-background-color: #0747A6;" AnchorPane.leftAnchor="700.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-            <Pane layoutX="562.0" layoutY="14.0" opacity="0.8" prefHeight="551.0" prefWidth="24.0" style="-fx-background-color: #0747A6;" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-         </children>
-      </AnchorPane>
       <AnchorPane fx:id="axe_pane" layoutX="241.0" prefHeight="551.0" prefWidth="875.0" style="-fx-background-color: #fff;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="241.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <TableView fx:id="veilleTableView" layoutX="52.0" layoutY="93.0" prefHeight="333.0" prefWidth="195.0">
@@ -318,17 +259,98 @@
             <Pane layoutX="668.0" layoutY="31.0" opacity="0.8" prefHeight="70.0" prefWidth="24.0" style="-fx-background-color: #0747A6;" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="rapport_pane" layoutX="241.0" prefHeight="541.0" prefWidth="800.0" style="-fx-background-color: #fff;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="241.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <AnchorPane fx:id="diffusion_pane" layoutX="241.0" prefHeight="541.0" prefWidth="800.0" style="-fx-background-color: #fff;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="242.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <Label layoutX="265.0" layoutY="87.0" text="Axe de veille: ">
+            <HBox layoutX="211.0" layoutY="61.0">
+               <children>
+                  <Label prefHeight="27.0" prefWidth="135.0" text="Liste de diffusion : ">
+                     <font>
+                        <Font name="System Bold" size="15.0" />
+                     </font>
+                  </Label>
+                  <JFXComboBox prefHeight="20.0" prefWidth="218.0" />
+               </children>
+            </HBox>
+            <TableView layoutX="66.0" layoutY="93.0" prefHeight="373.0" prefWidth="679.0">
+              <columns>
+                <TableColumn prefWidth="343.0" text="Client">
+                     <graphic>
+                        <MaterialDesignIconView glyphName="ACCOUNT" size="20" />
+                     </graphic>
+                  </TableColumn>
+                <TableColumn minWidth="0.0" prefWidth="335.0" text="Email">
+                     <graphic>
+                        <MaterialDesignIconView glyphName="GMAIL" size="20" />
+                     </graphic>
+                  </TableColumn>
+              </columns>
+            </TableView>
+            <JFXButton fx:id="btn_envoyer" layoutX="684.0" layoutY="472.0" onAction="#handleButtonAction" ripplerFill="#1d14c3" text="Envoyer" textFill="WHITE">
                <graphic>
-                  <MaterialDesignIconView glyphName="OWL" size="20" />
+                  <MaterialDesignIconView glyphName="SEND" size="20" />
                </graphic>
+            </JFXButton>
+            <JFXButton fx:id="btn_add_client" alignment="BASELINE_LEFT" layoutX="748.0" layoutY="110.0" onAction="#handleButtonAction" prefHeight="30.0" prefWidth="50.0" ripplerFill="#0747a6" text="Ajouter" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="15.0" />
                </font>
-            </Label>
-            <JFXComboBox layoutX="409.0" layoutY="86.0" prefHeight="20.0" prefWidth="136.0" />
+               <graphic>
+                  <MaterialDesignIconView glyphName="ACCOUNT_PLUS" size="20" wrappingWidth="20.0" />
+               </graphic>
+            </JFXButton>
+            <JFXButton layoutX="745.0" layoutY="157.0" onAction="#handleButtonAction" prefHeight="30.0" prefWidth="25.0" ripplerFill="#0748a4" text="Modifier" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font>
+            </JFXButton>
+            <Pane layoutX="44.0" layoutY="14.0" prefHeight="12.0" prefWidth="859.0" style="-fx-background-color: #0747A6;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+            <Pane layoutX="700.0" layoutY="14.0" opacity="0.5" prefHeight="12.0" prefWidth="159.0" style="-fx-background-color: #0747A6;" AnchorPane.leftAnchor="700.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+            <Pane layoutX="562.0" layoutY="14.0" opacity="0.8" prefHeight="551.0" prefWidth="24.0" style="-fx-background-color: #0747A6;" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+            <MaterialDesignIconView glyphName="DELETE" layoutX="760.0" layoutY="179.0" size="20" wrappingWidth="20.0" />
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="recherche_pane" layoutX="532.0" prefHeight="551.0" prefWidth="510.0" style="-fx-background-color: #fff;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="242.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <HBox layoutX="206.0" layoutY="248.0" prefHeight="34.0" prefWidth="437.0" spacing="5.0">
+               <children>
+                  <Label text="Site : ">
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                     <graphic>
+                        <MaterialDesignIconView glyphName="EARTH" size="30" />
+                     </graphic>
+                  </Label>
+                  <JFXComboBox fx:id="siteList" prefHeight="30.0" prefWidth="291.0" />
+                  <JFXButton fx:id="btn_recherche_ok" onAction="#handleButtonAction" prefHeight="32.0" prefWidth="50.0" text="GO">
+                     <font>
+                        <Font name="System Bold" size="15.0" />
+                     </font>
+                  </JFXButton>
+               </children>
+            </HBox>
+            <JFXButton layoutX="696.0" layoutY="490.0" ripplerFill="#d73c3c" text="Auto Mode">
+               <graphic>
+                  <MaterialDesignIconView glyphName="BIOHAZARD" size="30" />
+               </graphic>
+            </JFXButton>
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="rapport_pane" layoutX="241.0" prefHeight="541.0" prefWidth="800.0" style="-fx-background-color: #fff;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="241.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <HBox layoutX="273.0" layoutY="86.0" spacing="15.0">
+               <children>
+                  <Label prefHeight="27.0" prefWidth="122.0" text="Axe de veille: ">
+                     <graphic>
+                        <MaterialDesignIconView glyphName="OWL" size="20" />
+                     </graphic>
+                     <font>
+                        <Font name="System Bold" size="15.0" />
+                     </font>
+                  </Label>
+                  <JFXComboBox prefHeight="20.0" prefWidth="136.0" />
+               </children>
+            </HBox>
             <TableView layoutX="141.0" layoutY="137.0" prefHeight="304.0" prefWidth="537.0">
               <columns>
                 <TableColumn prefWidth="267.0" text="Date">

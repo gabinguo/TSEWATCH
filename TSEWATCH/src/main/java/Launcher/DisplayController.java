@@ -28,7 +28,7 @@ public class DisplayController extends Application{
 	
 	private static ArrayList<AxeDeVeille> listVeille;
 	private static ArrayList<ListDiffusion> listDiffusion;
-	private FileManager fileManager;
+	private static FileManager fileManager;
 	
 	
 	public static void display(String[] args) {
@@ -160,6 +160,32 @@ public class DisplayController extends Application{
 	
 	
 	
+	public static ArrayList<AxeDeVeille> getListVeille() {
+		return listVeille;
+	}
+
+	public static void setListVeille(ArrayList<AxeDeVeille> listVeille) {
+		DisplayController.listVeille = listVeille;
+	}
+
+	public static ArrayList<ListDiffusion> getListDiffusion() {
+		return listDiffusion;
+	}
+
+	public static void setListDiffusion(ArrayList<ListDiffusion> listDiffusion) {
+		DisplayController.listDiffusion = listDiffusion;
+	}
+	
+	
+
+	public static FileManager getFileManager() {
+		return fileManager;
+	}
+
+	public static void setFileManager(FileManager fileManager) {
+		DisplayController.fileManager = fileManager;
+	}
+
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		this.primaryStage = primaryStage;

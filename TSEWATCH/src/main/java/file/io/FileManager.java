@@ -100,6 +100,19 @@ public class FileManager {
 		saveLine(Const.FILE_AXELIST,axe.getName());
 	}
 	
+	public static void saveAvis(Avis avis, String path) {
+		File txt2StoreInfo = new File(path);
+		
+		if(!txt2StoreInfo.exists()) {
+			try {
+				new PrintWriter(path);
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		saveLine(avis.getTitre()+ "|" + avis.getLink() + "|" +avis.getDate(), path);
+	}
 	
 	public static void saveDiffusionList(ListDiffusion listDiffusion) {
 		// Step 1
@@ -168,8 +181,7 @@ public class FileManager {
 			}
 		}
 	}
-	
-	
+		
 	public static AxeDeVeille readAxe(String name) throws IOException{
 		AxeDeVeille axe = new AxeDeVeille(); 
 		
