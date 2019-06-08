@@ -179,20 +179,20 @@ public class DisplayController extends Application{
 	
 	
 	
-	public static ArrayList<AxeDeVeille> getListVeille() {
+	public ArrayList<AxeDeVeille> getListVeille() {
 		return listVeille;
 	}
 
-	public static void setListVeille(ArrayList<AxeDeVeille> listVeille) {
-		DisplayController.listVeille = listVeille;
+	public void setListVeille(ArrayList<AxeDeVeille> listVeille) {
+		this.listVeille = listVeille;
 	}
 
-	public static ArrayList<ListDiffusion> getListDiffusion() {
+	public ArrayList<ListDiffusion> getListDiffusion() {
 		return listDiffusion;
 	}
 
-	public static void setListDiffusion(ArrayList<ListDiffusion> listDiffusion) {
-		DisplayController.listDiffusion = listDiffusion;
+	public void setListDiffusion(ArrayList<ListDiffusion> listDiffusion) {
+		this.listDiffusion = listDiffusion;
 	}
 	
 	

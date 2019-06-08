@@ -68,7 +68,7 @@ public class FileManager {
 		}
 	}
 	
-
+	
 	
 	/**
 	 *   ---> 1 Store a AxeDeVeille(we will name it axe after)
@@ -99,7 +99,7 @@ public class FileManager {
 		}
 		// Step 4
 		// Save axe's name to all_axe_list.txt
-		saveLine(axe.getName(),Const.FILE_AXELIST);
+		saveLine(axe.getName()+"\n",Const.FILE_AXELIST);
 	}
 	
 	public static void saveAvis(Avis avis, String path) {
@@ -270,7 +270,9 @@ public class FileManager {
 		ld.setListClient(listClient);
 		return ld;
 	}
-	
+	public static void main(String[] args) {
+		
+	}
 	
 	
 }

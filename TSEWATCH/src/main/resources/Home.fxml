@@ -188,72 +188,6 @@
             <MaterialDesignIconView fill="WHITE" glyphName="CODEPEN" layoutX="84.0" layoutY="75.0" size="30" />
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="axe_pane" layoutX="241.0" prefHeight="551.0" prefWidth="875.0" style="-fx-background-color: #fff;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="241.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-         <children>
-            <TableView fx:id="veilleTableView" layoutX="52.0" layoutY="93.0" prefHeight="333.0" prefWidth="195.0">
-              <columns>
-                <TableColumn fx:id="colVeille" prefWidth="198.0" text="Axe de veille">
-                     <graphic>
-                        <MaterialDesignIconView glyphName="EYE" size="20" />
-                     </graphic>
-                  </TableColumn>
-              </columns>
-            </TableView>
-            <VBox layoutX="247.0" layoutY="93.0" spacing="10.0">
-               <children>
-                  <JFXButton fx:id="btn_add_axe" alignment="BASELINE_LEFT" onAction="#handleButtonAction" prefHeight="30.0" prefWidth="50.0" ripplerFill="#0747a6" text="Ajouter" textFill="WHITE">
-                     <font>
-                        <Font name="System Bold" size="15.0" />
-                     </font>
-                     <graphic>
-                        <MaterialDesignIconView glyphName="DATABASE_PLUS" size="20" />
-                     </graphic>
-                  </JFXButton>
-                  <JFXButton fx:id="btn_modify_axe" onAction="#handleButtonAction" prefHeight="30.0" prefWidth="25.0" ripplerFill="#0748a4" text="Modifier" textFill="WHITE">
-                     <font>
-                        <Font name="System Bold" size="15.0" />
-                     </font>
-                     <graphic>
-                        <MaterialDesignIconView glyphName="BORDER_COLOR" size="20" />
-                     </graphic>
-                  </JFXButton>
-               </children>
-            </VBox>
-            <Pane fx:id="add_modify_pane" layoutX="338.0" layoutY="93.0" prefHeight="333.0" prefWidth="429.0">
-               <children>
-                  <Label layoutX="75.0" layoutY="74.0" text="Nom de l'axe:">
-                     <font>
-                        <Font name="System Bold" size="15.0" />
-                     </font>
-                  </Label>
-                  <JFXTextField fx:id="nameVeilleTextField" layoutX="203.0" layoutY="73.0" prefHeight="23.0" prefWidth="185.0" />
-                  <HBox layoutX="257.0" layoutY="291.0">
-                     <children>
-                        <JFXButton fx:id="btn_annuler_axe" onAction="#handleButtonAction" ripplerFill="#0648a4" text="Annuler" textFill="WHITE">
-                           <graphic>
-                              <MaterialDesignIconView glyphName="WINDOW_CLOSE" size="20" />
-                           </graphic>
-                        </JFXButton>
-                        <JFXButton fx:id="btn_save_axe" onAction="#handleButtonAction" ripplerFill="#0649a1" text="Add" textFill="WHITE">
-                           <graphic>
-                              <MaterialDesignIconView glyphName="CHECK" size="20" />
-                           </graphic>
-                        </JFXButton>
-                     </children>
-                  </HBox>
-                  <Label layoutX="89.0" layoutY="205.0" text="Mots cles:">
-                     <font>
-                        <Font name="System Bold" size="15.0" />
-                     </font>
-                  </Label>
-                  <TextField fx:id="keywordsTextField" layoutX="203.0" layoutY="170.0" prefHeight="105.0" prefWidth="185.0" />
-               </children>
-            </Pane>
-            <Pane layoutX="50.0" layoutY="531.0" prefHeight="12.0" prefWidth="200.0" style="-fx-background-color: #0747A6;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
-            <Pane layoutX="463.0" layoutY="23.0" opacity="0.5" prefHeight="12.0" prefWidth="200.0" style="-fx-background-color: #0747A6;" AnchorPane.leftAnchor="700.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-            <Pane layoutX="668.0" layoutY="31.0" opacity="0.8" prefHeight="70.0" prefWidth="24.0" style="-fx-background-color: #0747A6;" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-         </children>
-      </AnchorPane>
       <AnchorPane fx:id="diffusion_pane" layoutX="241.0" prefHeight="541.0" prefWidth="800.0" style="-fx-background-color: #fff;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="242.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <HBox layoutX="211.0" layoutY="61.0">
@@ -331,6 +265,77 @@
             </JFXButton>
          </children>
       </AnchorPane>
+      <AnchorPane fx:id="axe_pane" layoutX="241.0" prefHeight="551.0" prefWidth="875.0" style="-fx-background-color: #fff;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="241.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <TableView fx:id="veilleTableView" layoutX="52.0" layoutY="93.0" prefHeight="333.0" prefWidth="195.0">
+              <columns>
+                <TableColumn fx:id="colVeille" prefWidth="198.0" text="Axe de veille">
+                     <graphic>
+                        <MaterialDesignIconView glyphName="EYE" size="20" />
+                     </graphic>
+                  </TableColumn>
+              </columns>
+            </TableView>
+            <VBox layoutX="247.0" layoutY="93.0" spacing="3.0">
+               <children>
+                  <JFXButton fx:id="btn_add_axe" alignment="BASELINE_LEFT" onAction="#handleButtonAction" prefHeight="30.0" prefWidth="50.0" ripplerFill="#0747a6" text="Ajouter" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="15.0" />
+                     </font>
+                     <graphic>
+                        <MaterialDesignIconView glyphName="DATABASE_PLUS" size="20" />
+                     </graphic>
+                  </JFXButton>
+                  <JFXButton fx:id="btn_delete_axe" onAction="#handleButtonAction" prefHeight="27.0" prefWidth="58.0" text="Supprimer" textFill="WHITE">
+                     <graphic>
+                        <MaterialDesignIconView glyphName="DATABASE_MINUS" size="20" />
+                     </graphic>
+                  </JFXButton>
+                  <JFXButton fx:id="btn_modify_axe" onAction="#handleButtonAction" prefHeight="30.0" prefWidth="25.0" ripplerFill="#0748a4" text="Modifier" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="15.0" />
+                     </font>
+                     <graphic>
+                        <MaterialDesignIconView glyphName="BORDER_COLOR" size="20" />
+                     </graphic>
+                  </JFXButton>
+               </children>
+            </VBox>
+            <Pane fx:id="add_modify_pane" layoutX="338.0" layoutY="93.0" prefHeight="333.0" prefWidth="429.0">
+               <children>
+                  <Label layoutX="75.0" layoutY="74.0" text="Nom de l'axe:">
+                     <font>
+                        <Font name="System Bold" size="15.0" />
+                     </font>
+                  </Label>
+                  <JFXTextField fx:id="nameVeilleTextField" layoutX="203.0" layoutY="73.0" prefHeight="23.0" prefWidth="185.0" />
+                  <HBox layoutX="257.0" layoutY="291.0">
+                     <children>
+                        <JFXButton fx:id="btn_annuler_axe" onAction="#handleButtonAction" ripplerFill="#0648a4" text="Annuler" textFill="WHITE">
+                           <graphic>
+                              <MaterialDesignIconView glyphName="WINDOW_CLOSE" size="20" />
+                           </graphic>
+                        </JFXButton>
+                        <JFXButton fx:id="btn_save_axe" onAction="#handleButtonAction" ripplerFill="#0649a1" text="Add" textFill="WHITE">
+                           <graphic>
+                              <MaterialDesignIconView glyphName="CHECK" size="20" />
+                           </graphic>
+                        </JFXButton>
+                     </children>
+                  </HBox>
+                  <Label layoutX="89.0" layoutY="205.0" text="Mots cles:">
+                     <font>
+                        <Font name="System Bold" size="15.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="keywordsTextField" layoutX="203.0" layoutY="170.0" prefHeight="105.0" prefWidth="185.0" />
+               </children>
+            </Pane>
+            <Pane layoutX="50.0" layoutY="531.0" prefHeight="12.0" prefWidth="200.0" style="-fx-background-color: #0747A6;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+            <Pane layoutX="463.0" layoutY="23.0" opacity="0.5" prefHeight="12.0" prefWidth="200.0" style="-fx-background-color: #0747A6;" AnchorPane.leftAnchor="700.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+            <Pane layoutX="668.0" layoutY="31.0" opacity="0.8" prefHeight="70.0" prefWidth="24.0" style="-fx-background-color: #0747A6;" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+         </children>
+      </AnchorPane>
       <AnchorPane fx:id="rapport_pane" layoutX="241.0" prefHeight="541.0" prefWidth="800.0" style="-fx-background-color: #fff;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="241.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <HBox layoutX="273.0" layoutY="86.0" spacing="15.0">
@@ -343,7 +348,7 @@
                         <Font name="System Bold" size="15.0" />
                      </font>
                   </Label>
-                  <JFXComboBox prefHeight="20.0" prefWidth="136.0" />
+                  <JFXComboBox fx:id="page_report_veilleList" prefHeight="20.0" prefWidth="136.0" />
                </children>
             </HBox>
             <TableView layoutX="141.0" layoutY="137.0" prefHeight="304.0" prefWidth="537.0">

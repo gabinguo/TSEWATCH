@@ -7,13 +7,20 @@ package View;
 
 
 import java.awt.event.MouseEvent;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
+import org.apache.commons.io.FileUtils;
+
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
+import com.webfirmframework.wffweb.tag.html.attribute.For;
 
 import Launcher.DisplayController;
 import Model.AxeDeVeille;
@@ -23,6 +30,8 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
@@ -45,17 +54,20 @@ public class HomeController {
 	 */
 	private static ArrayList<String> sites = new ArrayList<String>();
 	private DisplayController displayCtrl;
-	
+	private boolean modifyModeFlag = false;
 	
     
     @FXML
     private JFXButton btn_add,btn_back,btn_options,btn_axe,btn_recherche,btn_diffusion,btn_rapport
-    						,btn_rapport_nouveau,btn_add_client, btn_envoyer, btn_add_axe,
+    						,btn_rapport_nouveau,btn_add_client, btn_envoyer, btn_add_axe,btn_delete_axe,
     						btn_modify_axe, btn_annuler_axe,btn_save_axe,btn_recherche_ok;
     
     @SuppressWarnings("rawtypes")
 	@FXML
     private JFXComboBox siteList;
+    
+    @FXML
+    private JFXComboBox page_report_veilleList;
     
      @FXML
     private AnchorPane add_pane, options_pane,diffusion_pane,rapport_pane,recherche_pane,axe_pane;
@@ -96,30 +108,14 @@ public class HomeController {
     	sites.add("All");
     	ObservableList<String> list = FXCollections.observableArrayList(sites);
     	siteList.setItems(list);
-    	
+    	siteList.getSelectionModel().select(siteList.getItems().size()-1);
     	
     	colVeille.setCellValueFactory(new PropertyValueFactory<>("name"));
     	veilleTableView.setItems(displayCtrl.getAxes());
     	
     	
-		
-		/**
-		 * check Veille Table clickEvent
-		 */
-    	checkVeillePageClickEvent() ;
-	}
-
-    
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-	public void checkVeillePageClickEvent() {
-		veilleTableView.setRowFactory(tv -> {
-			TableRow row = new TableRow<>();
-			row.setOnMouseClicked(event -> {
-				if(!row.isEmpty() && event.getButton() == MouseButton.PRIMARY && event.getClickCount() == 1) {
-				}
-			});
-			return row;
-		});
+    	
+    	
 	}
     
     @FXML
@@ -134,9 +130,52 @@ public class HomeController {
         {
              add_pane.setVisible(false);     
         }
-
+        
+        if(event.getSource() == btn_delete_axe) {
+        	if(veilleTableView.getSelectionModel().getSelectedItems() == null ||
+        			veilleTableView.getSelectionModel().getSelectedItems().size()==0) {
+        		
+        	}else {
+        		ObservableList<AxeDeVeille> allAxes , selectedOne;
+            	allAxes = veilleTableView.getItems();
+            	selectedOne =  veilleTableView.getSelectionModel().getSelectedItems();
+            	AxeDeVeille axe2delete = (AxeDeVeille) veilleTableView.getSelectionModel().getSelectedItem();
+            	
+            	selectedOne.forEach(allAxes::remove);
+            	
+            	System.out.println(displayCtrl.getListVeille().size());
+            	for( int i = 0; i < displayCtrl.getListVeille().size();i++) {
+            		if(displayCtrl.getListVeille().get(i).getName().equals(axe2delete.getName())){
+            			displayCtrl.getListVeille().remove(displayCtrl.getListVeille().get(i));
+            		}
+            	}
+            	System.out.println(displayCtrl.getListVeille().size());
+            	
+            	try {
+    				FileUtils.deleteDirectory(new File(Const.FOLDER_AXE + axe2delete.getName()));
+    			} catch (IOException e) {
+    				e.printStackTrace();
+    			}
+            	
+            	displayCtrl.getFileManager().emptyTXT(Const.FILE_AXELIST);
+            	for(int i = 0 ; i < displayCtrl.getListVeille().size();i++) {
+            		displayCtrl.getFileManager().saveLine(
+            				displayCtrl.getListVeille().get(i).getName() +"\n", Const.FILE_AXELIST);
+            	}
+        	}	
+        	
+        }
+        
         if(event.getSource() == btn_recherche_ok) {
+        	
         	rapport_pane.toFront();
+        	
+        	ArrayList<Object> listObj = new ArrayList<Object>();
+        	for(int i =0;i<displayCtrl.getListVeille().size();i++) {
+        		listObj.add(displayCtrl.getListVeille().get(i).getName());	
+        	}
+        	page_report_veilleList.getItems().clear();
+        	page_report_veilleList.getItems().addAll(listObj);
         }
         
         if(event.getSource()== btn_axe)
@@ -156,6 +195,12 @@ public class HomeController {
         if(event.getSource()==btn_rapport)
         {
              rapport_pane.toFront();
+             ArrayList<Object> listObj = new ArrayList<Object>();
+         	for(int i =0;i<displayCtrl.getListVeille().size();i++) {
+         		listObj.add(displayCtrl.getListVeille().get(i).getName());	
+         	}
+         	page_report_veilleList.getItems().clear();
+         	page_report_veilleList.getItems().addAll(listObj);
         }
         
         if(event.getSource() == btn_rapport_nouveau) {
@@ -171,35 +216,93 @@ public class HomeController {
         }
         
         if(event.getSource() == btn_add_axe) {
+        	modifyModeFlag = false;
         	add_modify_pane.setVisible(true);
         }
         
         if(event.getSource() == btn_modify_axe) {
+        	modifyModeFlag = true;
+        	add_modify_pane.setVisible(true);
         	
-        }
-        
-        if(event.getSource() == btn_annuler_axe) {
-        	add_modify_pane.setVisible(false);
-        	nameVeilleTextField.setText("");
-        	keywordsTextField.setText("");
+        	AxeDeVeille axe2Modify = (AxeDeVeille) veilleTableView.getSelectionModel().getSelectedItem();
+        	nameVeilleTextField.setText(axe2Modify.getName());
+        	keywordsTextField.setText(axe2Modify.getStr2File());
+        	
         }
         
         if(event.getSource() == btn_save_axe) {
-        	ArrayList<String> keywords = new ArrayList<String>();
-        	String[] allKeywords = keywordsTextField.getText().trim().split(",");
-        	for(int i=0;i<allKeywords.length;i++) {
-        		keywords.add(allKeywords[i].trim());
-        	
+        	if(modifyModeFlag) {
+        		if(veilleTableView.getSelectionModel().getSelectedItems() == null ||
+            			veilleTableView.getSelectionModel().getSelectedItems().size()==0) {
+            		
+            	}else {
+            		ObservableList<AxeDeVeille> allAxes , selectedOne;
+                	allAxes = veilleTableView.getItems();
+                	selectedOne =  veilleTableView.getSelectionModel().getSelectedItems();
+                	AxeDeVeille axe2delete = (AxeDeVeille) veilleTableView.getSelectionModel().getSelectedItem();
+                	
+                	selectedOne.forEach(allAxes::remove);
+                	
+                	System.out.println(displayCtrl.getListVeille().size());
+                	for( int i = 0; i < displayCtrl.getListVeille().size();i++) {
+                		if(displayCtrl.getListVeille().get(i).getName().equals(axe2delete.getName())){
+                			displayCtrl.getListVeille().remove(displayCtrl.getListVeille().get(i));
+                		}
+                	}
+                	System.out.println(displayCtrl.getListVeille().size());
+                	
+                	try {
+        				FileUtils.deleteDirectory(new File(Const.FOLDER_AXE + axe2delete.getName()));
+        			} catch (IOException e) {
+        				e.printStackTrace();
+        			}
+                	
+                	displayCtrl.getFileManager().emptyTXT(Const.FILE_AXELIST);
+                	for(int i = 0 ; i < displayCtrl.getListVeille().size();i++) {
+                		displayCtrl.getFileManager().saveLine(
+                				displayCtrl.getListVeille().get(i).getName() +"\n", Const.FILE_AXELIST);
+                	}
+            	}
         	}
-         	displayCtrl.getFileManager().saveAxe(
-        			new AxeDeVeille(nameVeilleTextField.getText().trim(), keywords));	
-         	
-         	veilleTableView.getItems().add(new AxeDeVeille(nameVeilleTextField.getText(),null));
-         	
-         	
-         	add_modify_pane.setVisible(false);
-        	nameVeilleTextField.setText("");
-        	keywordsTextField.setText("");
+        	boolean flag = true ;
+        	if(nameVeilleTextField.getText().length()==0 || keywordsTextField.getText().length() == 0) {
+        		flag = false;
+        		Alert alert = new Alert(AlertType.ERROR);
+    			alert.setTitle("Error");
+    			alert.setHeaderText("Attention");
+    			alert.setContentText("Rien rempli / Au moins un mot cle!");
+    			alert.showAndWait();
+        		return;
+        	}
+        	if(displayCtrl.getListVeille() != null)
+        	for(int i=0;i<displayCtrl.getListVeille().size();i++) {
+        		if(displayCtrl.getListVeille().get(i).getName().equals(nameVeilleTextField.getText().trim())) {
+        			flag = false;
+        		}
+        	}
+        	if(flag) {
+	        	ArrayList<String> keywords = new ArrayList<String>();
+	        	String[] allKeywords = keywordsTextField.getText().trim().split(",");
+	        	for(int i=0;i<allKeywords.length;i++) {
+	        		keywords.add(allKeywords[i].trim());
+	        	
+	        	}
+	        	AxeDeVeille axeNew = new AxeDeVeille(nameVeilleTextField.getText().trim(), keywords);
+	         	displayCtrl.getFileManager().saveAxe(axeNew);	
+	         	
+	         	veilleTableView.getItems().add(new AxeDeVeille(nameVeilleTextField.getText(),keywords));
+	         	displayCtrl.getListVeille().add(axeNew);
+	         	
+	         	add_modify_pane.setVisible(false);
+	        	nameVeilleTextField.setText("");
+	        	keywordsTextField.setText("");
+        	}else {
+        		Alert alert = new Alert(AlertType.ERROR);
+    			alert.setTitle("Error");
+    			alert.setHeaderText("Attention");
+    			alert.setContentText("Deja exist!");
+    			alert.showAndWait();
+        	}
         }
     }
     
