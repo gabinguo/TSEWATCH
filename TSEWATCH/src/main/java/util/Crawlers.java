@@ -170,7 +170,7 @@ public class Crawlers {
 	
 	//this version can't set the date,but it can get a part of the data(not all of them and we don't know why),so we use it before we solve the problem
 	// Scrawler ONLY for https://boamp.fr/avis/liste
-		public ArrayList<Avis> getLinksBOAMP(){
+		public ArrayList<Avis> getLinksBOAMP(int pageNum){
 			
 			String AuthFileName = this.getClass().getClassLoader().getResource("jssecacerts").getPath();
 			System.setProperty("javax.net.ssl.trustStore",AuthFileName);
@@ -198,6 +198,7 @@ public class Crawlers {
 			params.put("descripteur[]", "mc463");
 			params.put("descripteur[]", "mc283");
 			params.put("descripteur[]", "mc171");
+			params.put("page", Integer.toString(pageNum));
 			
 //			params.put("dateparutionmin", "01%2F06%2F2019");
 //			params.put("dateparutionmax", "07%2F06%2F2019");
@@ -311,7 +312,7 @@ public class Crawlers {
 		
 		//crawler.tedEuropaCrawler();
 		//crawler.EmarchesCrawler();
-		ArrayList<Avis> avisList = crawler.getLinksBOAMP();
+		ArrayList<Avis> avisList = crawler.getLinksBOAMP(1);
 		
 //		ArrayList<Avis> avisList = crawler.marchesOnlineCrawler("TODAY","76",2);
 		
