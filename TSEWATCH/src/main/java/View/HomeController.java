@@ -130,7 +130,11 @@ public class HomeController {
         {
              add_pane.setVisible(false);     
         }
-        
+        if(event.getSource() == btn_annuler_axe) {
+        	add_modify_pane.setVisible(false);
+        	nameVeilleTextField.clear();
+        	keywordsTextField.clear();
+        }
         if(event.getSource() == btn_delete_axe) {
         	if(veilleTableView.getSelectionModel().getSelectedItems() == null ||
         			veilleTableView.getSelectionModel().getSelectedItems().size()==0) {
