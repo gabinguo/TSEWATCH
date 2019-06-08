@@ -35,7 +35,20 @@ public class Const {
 	final static public String DATEEND = "dateparutionmax";
 	
 	
+	/**
+	 *  Some file/folder path
+	 */
+	final static public String FOLDER_DIFFUSION = System.getProperty("user.home")+"/AppData/Local/TSEWatch/Diffusion/";
 	
+	final static public String FOLDER_RAPPORT = System.getProperty("user.home")+"/AppData/Local/TSEWatch/Rapport/";
 	
+	final static public String FOLDER_AXE = System.getProperty("user.home") + "/AppData/Local/TSEWatch/AxeDeVeille/";
 	
+	final static public String URL_MAIN_CSS = "https://keywatch.digital-league.org/TSEWatch/Demo/assets/css/main.css";
+	
+	final static public String URL_STYLE_CSS = "https://keywatch.digital-league.org/TSEWatch/Demo/assets/css/style.css";
+	
+	final static public String FILE_AXELIST = FOLDER_AXE + "all_axe_list.txt";
+	
+	final static public String FILE_DIFFUSIONLIST = FOLDER_DIFFUSION + "all_diffusion_list.txt";
 }

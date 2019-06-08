@@ -30,6 +30,9 @@ public class Avis {
 		this.link = link;
 	}
 	
+	public String getStr2File() {
+		return this.titre+"|"+this.link+"|"+this.date;
+	}
 	
 	public void print() {
 		System.out.println(this.date);

@@ -1,12 +1,21 @@
 package Launcher;
 
+import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+
+import org.apache.commons.io.FileUtils;
+
+import Model.AxeDeVeille;
+import Model.ListDiffusion;
+import file.io.FileManager;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+import util.Const;
 
 public class DisplayController extends Application{
 	private Stage primaryStage;
@@ -16,6 +25,12 @@ public class DisplayController extends Application{
 	private static Stage sendMailStage;
 	private static Stage addClientStage;
 	private static Stage addReportStage;
+	
+	private static ArrayList<AxeDeVeille> listVeille;
+	private static ArrayList<ListDiffusion> listDiffusion;
+	private FileManager fileManager;
+	
+	
 	public static void display(String[] args) {
 		launch(args);
 	}
@@ -109,14 +124,52 @@ public class DisplayController extends Application{
 		addReportStage.close();
 	}
 
+	
+	public void loadFiles () {
+		FileManager.createFolder(null, 1);
+		FileManager.createFolder(null, 2);
+		FileManager.createFolder(null, 3);
+		fileManager = new FileManager();
+		ArrayList<String> allVeille = null;
+		ArrayList<String> allDiffusionList = null;
+		try {
+			allVeille = (ArrayList<String>) FileUtils.readLines(new File(Const.FILE_AXELIST));
+			allDiffusionList = (ArrayList<String>) FileUtils.readLines(new File(Const.FILE_DIFFUSIONLIST));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		if(allVeille != null )
+		for(String veilleName : allVeille) {
+			try {
+				listVeille.add(fileManager.readAxe(veilleName));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		if(allDiffusionList!=null)
+		for(String diffusionName : allDiffusionList) {
+			try {
+				listDiffusion.add(fileManager.readDiffusionList(diffusionName));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	
+	
+	
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		this.primaryStage = primaryStage;
 		this.primaryStage.setTitle("TSEWATCH");
 		this.instance = this;
 		
+		loadFiles();
+		
 		showMainpageOverview();
-		//showAddClient();
 	}
+	
 	
 }

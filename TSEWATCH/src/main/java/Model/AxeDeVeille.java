@@ -6,7 +6,7 @@ public class AxeDeVeille {
 	
 	private String name;
 	private ArrayList<String> keywords;
-	
+	private ArrayList<Avis> listAvis;
 	
 	
 	
@@ -17,6 +17,16 @@ public class AxeDeVeille {
 	}
 	
 	
+	
+	public AxeDeVeille(String name, ArrayList<String> keywords, ArrayList<Avis> listAvis) {
+		super();
+		this.name = name;
+		this.keywords = keywords;
+		this.listAvis = listAvis;
+	}
+
+
+
 	public AxeDeVeille() {
 		keywords = new ArrayList<String>();
 	}
@@ -42,15 +52,26 @@ public class AxeDeVeille {
 	public void addKeyword(String keyword) {
 		keywords.add(keyword);
 	}
-	
-	//TODO
-	public void save2File() {
-		
+
+
+	public ArrayList<Avis> getListAvis() {
+		return listAvis;
+	}
+
+
+	public void setListAvis(ArrayList<Avis> listAvis) {
+		this.listAvis = listAvis;
 	}
 	
-	//TODO
-	public void readFromFile() {
+	public String getStr2File() {
+		String result = "";
+		for(String str : this.keywords) {
+			result += str + ",";
+		}
+		
+		return result.substring(0, result.length()-1);
+	}
+	public static void main(String[] args) {
 		
 	}
-	
 }

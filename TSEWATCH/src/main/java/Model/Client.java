@@ -4,13 +4,11 @@ package Model;
 public class Client {
 	private String name;
 	private String email;
-	private Report report2Send;
 	
 	
-	public Client(String name, String email, Report report2Send) {
+	public Client(String name, String email) {
 		this.name = name;
 		this.email = email;
-		this.report2Send = report2Send;
 	}
 	
 	
@@ -27,12 +25,9 @@ public class Client {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	public Report getReport2Send() {
-		return report2Send;
-	}
-	public void setReport2Send(Report report2Send) {
-		this.report2Send = report2Send;
-	}
 	
+	public String getStr2File() {
+		return this.name + "|" + this.email;
+	}
 	
  }

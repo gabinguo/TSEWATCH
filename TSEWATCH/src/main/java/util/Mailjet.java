@@ -1,5 +1,7 @@
 package util;
 
+import java.util.Base64;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -12,7 +14,7 @@ import com.mailjet.client.errors.MailjetSocketTimeoutException;
 import com.mailjet.client.resource.Emailv31;
 
 public class Mailjet {
-	public static void SendMail(String Sender, String Receiver) throws MailjetException, MailjetSocketTimeoutException {
+	public static void SendMail(String Sender, String Receiver, String Content) throws MailjetException, MailjetSocketTimeoutException {
 		
 		MailjetClient client;
 	      MailjetRequest request;
@@ -27,20 +29,28 @@ public class Mailjet {
 	                    .put(Emailv31.Message.TO, new JSONArray()
 	                        .put(new JSONObject()
 	                            .put("Email", Receiver)
-	                            .put("Name", "DIGITAL-LEAGUE")))
-	                    .put(Emailv31.Message.SUBJECT, "My first Mailjet Email!")
-	                    .put(Emailv31.Message.TEXTPART, "Greetings from GKP")
-	                    .put(Emailv31.Message.HTMLPART, "<h3>Dear receiver, welcome to <a href=\"https://www.telecom-st-etienne/\">Telecom</a>!</h3><br />May the TSE force be with you!")));
+	                            ))
+	                    .put(Emailv31.Message.SUBJECT, "RAPPORT - DIGITAL-LEAGUE")
+	                    .put(Emailv31.Message.TEXTPART, "DIGITAL-LEAGUE VOUS PRESENTE.")
+	                    .put(Emailv31.Message.INLINEDATTACHMENTS,new JSONArray().put(new JSONObject()
+	                    		.put("ContentType", "text/html").put("Filename","rapport.html").put("Base64Content", getEncodedStr(Content))))));
 	      response = client.post(request);
 	      System.out.println(response.getStatus());
 	      if(response.getStatus() == 200) {
 	    	  System.out.println("Email Sent");
+	    	  
+	      }else {
+	    	  System.out.println(response.getData());
 	      }
+	}
+	
+	public static String getEncodedStr (String str) {
+		return com.mailjet.client.Base64.encode(str.getBytes());
 	}
 	
 	public static void main(String[] args) {
 		try {
-			SendMail(null, null);
+			SendMail(null, null,null);
 		} catch (MailjetException e) {
 			e.printStackTrace();
 		} catch (MailjetSocketTimeoutException e) {

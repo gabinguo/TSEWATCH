@@ -87,11 +87,11 @@ public class HTMLGenerator {
 		            new Content("width=device-width, initial-scale=1"));
 		        new Link(this,
 		            rel4,
-		            new Href("assets/css/main.css"));
+		            new Href(Const.URL_MAIN_CSS));
 		        new Link(this,
 		            rel4,
 		            new Type("text/css"),
-		            new Href("assets/css/style.css"));
+		            new Href(Const.URL_STYLE_CSS));
 		    }};
 		    new Body(this) {{
 		        new Div(this,
@@ -223,9 +223,12 @@ public class HTMLGenerator {
 		    }};
 		}};
 		html.setPrependDocType(true);
+		this.html = html;
 		return html;
 	}
 
+	
+	
 	public void generateReport(String path,String fileName) {
 		this.html = getReportHTML();
 		try {
@@ -237,6 +240,10 @@ public class HTMLGenerator {
 		}
 	}
 
+	
+	
+	
+	
 	/**
 	 * Test generating html file function
 	 * 
@@ -255,9 +262,8 @@ public class HTMLGenerator {
 		list2Test.add(new Avis("04/06/2019", "Titre d'avis3", "https://www.youtube.com"));
 		
 		HTMLGenerator generator = new HTMLGenerator(list2Test);
-		
-		generator.generateReport("src/main/resources/","report1");
-		
+		generator.generateReport("/Users/gkp/Desktop/", "test1234");		
+		System.out.println(generator.getHtml().toBigHtmlString());
 	}
 
 }
