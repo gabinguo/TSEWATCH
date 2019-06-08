@@ -11,15 +11,15 @@
 
 <AnchorPane prefHeight="218.0" prefWidth="355.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.AddReportController">
    <children>
-      <Pane prefHeight="94.0" prefWidth="355.0" style="-fx-background-color: #bbebec;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+      <Pane opacity="0.29" prefHeight="94.0" prefWidth="355.0" style="-fx-background-color: #bbebec;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
       <Pane layoutX="43.0" layoutY="-37.0" opacity="0.76" prefHeight="124.0" prefWidth="355.0" style="-fx-background-color: #0747A6;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
       <Pane prefHeight="134.0" prefWidth="313.0" style="-fx-background-color: #fff;" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="20.0">
          <children>
-            <HBox layoutX="22.0" layoutY="62.0" spacing="10.0">
+            <HBox layoutX="16.0" layoutY="66.0" spacing="10.0">
                <children>
-                  <Label prefHeight="27.0" prefWidth="98.0" text="Nom de rapport">
+                  <Label contentDisplay="TOP" text="Nom de rapport:">
                      <font>
-                        <Font name="Arial Black" size="11.0" />
+                        <Font name="System Bold" size="13.0" />
                      </font>
                   </Label>
                   <JFXTextField />

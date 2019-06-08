@@ -59,6 +59,7 @@ public class DisplayController extends Application{
 	 */
 	public void showMainpageOverview() {
 		primaryStage.setResizable(false);
+
 		try {
 			// Load person overview
 			FXMLLoader loader = new FXMLLoader();
@@ -75,6 +76,7 @@ public class DisplayController extends Application{
 
 	
 	public void showAddReport() {
+		
 		try {
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(this.getClass().getClassLoader().getResource("AddReport.fxml"));
@@ -88,6 +90,7 @@ public class DisplayController extends Application{
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		addReportStage.setResizable(false);
 	}
 	
 	public static DisplayController getInstance() {
@@ -113,9 +116,10 @@ public class DisplayController extends Application{
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
+		addClientStage.setResizable(false);
 	}
 	public void showSendMail() {
+		
 		try {
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(this.getClass().getClassLoader().getResource("SendMail.fxml"));
@@ -129,6 +133,7 @@ public class DisplayController extends Application{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		sendMailStage.setResizable(false);
 	}
 	
 	public void closeSendMailStage() {
@@ -210,6 +215,8 @@ public class DisplayController extends Application{
 		this.primaryStage = primaryStage;
 		this.primaryStage.setTitle("TSEWATCH");
 		this.instance = this;
+		
+		
 		
 		loadFiles();
 		

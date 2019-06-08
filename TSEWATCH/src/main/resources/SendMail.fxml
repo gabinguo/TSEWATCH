@@ -1,35 +1,55 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ChoiceBox?>
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXComboBox?>
+<?import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.SendMailController">
+<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.SendMailController">
    <children>
-      <VBox layoutX="42.0" layoutY="33.0" prefHeight="100.0" prefWidth="300.0" spacing="20.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0">
+      <Pane opacity="0.76" prefHeight="129.0" prefWidth="400.0" style="-fx-background-color: #0747A6;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+      <Pane opacity="0.29" prefHeight="72.0" prefWidth="400.0" style="-fx-background-color: #bbebec;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+      <Pane prefHeight="200.0" prefWidth="400.0" style="-fx-background-color: #fff;" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="20.0">
          <children>
-            <HBox spacing="20.0">
+            <HBox layoutX="57.0" layoutY="29.0" spacing="18.0">
                <children>
-                  <Label prefHeight="31.0" prefWidth="106.0" text="Liste de diffusion" />
-                  <ChoiceBox prefWidth="150.0" />
+                  <Label alignment="CENTER" text="Rapport">
+                     <font>
+                        <Font name="System Bold" size="13.0" />
+                     </font>
+                  </Label>
+                  <JFXComboBox prefHeight="25.0" prefWidth="170.0" />
                </children>
             </HBox>
-            <HBox spacing="18.0">
+            <HBox layoutX="24.0" layoutY="80.0" spacing="10.0">
                <children>
-                  <Label alignment="CENTER" prefHeight="28.0" prefWidth="109.0" text="Rapport" />
-                  <ChoiceBox prefWidth="150.0" />
+                  <Label text="Liste de diffusion">
+                     <font>
+                        <Font name="System Bold" size="13.0" />
+                     </font>
+                  </Label>
+                  <JFXComboBox prefHeight="25.0" prefWidth="170.0" />
+               </children>
+            </HBox>
+            <HBox layoutX="218.0" layoutY="118.0" spacing="8.0">
+               <children>
+                  <JFXButton fx:id="btn_sm_cancel" onAction="#handleButtonAction" prefHeight="28.0" prefWidth="50.0" text="Cancel" textFill="WHITE">
+                     <graphic>
+                        <MaterialDesignIconView glyphName="WINDOW_CLOSE" size="20" />
+                     </graphic>
+                  </JFXButton>
+                  <JFXButton fx:id="btn_sm_ok" onAction="#handleButtonAction" prefHeight="28.0" prefWidth="50.0" text="Envoyer" textFill="WHITE">
+                     <graphic>
+                        <MaterialDesignIconView glyphName="CHECK" size="20" />
+                     </graphic>
+                  </JFXButton>
                </children>
             </HBox>
          </children>
-      </VBox>
-      <HBox layoutX="94.0" layoutY="141.0" spacing="80.0">
-         <children>
-            <Button fx:id="SMAnnulerButton" cancelButton="true" mnemonicParsing="false" onAction="#SMAnnulerButtonClicked" text="Annuler" />
-            <Button defaultButton="true" mnemonicParsing="false" text="Envoyer" />
-         </children>
-      </HBox>
+      </Pane>
    </children>
 </AnchorPane>
