@@ -1,8 +1,11 @@
 package file.io;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -46,13 +49,27 @@ public class FileManager {
 	 * @param path
 	 * @param rewriteFileFlag  : true to delete all the content in file
 	 */
-	public static void saveLine(String lineStr , String filepath) {
+	public static void saveLine(String lineStr,String filepath) {
+		File fout = new File(filepath);
+		FileOutputStream fos = null;
 		try {
-				FileUtils.writeStringToFile(new File(filepath), lineStr,true);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			fos = new FileOutputStream(fout,true);
+		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
+		
+		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(fos));
+		try {
+			bw.write(lineStr);
+			bw.newLine();
+			bw.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		
+		
+		
 	}
 	
 	/**
@@ -99,7 +116,7 @@ public class FileManager {
 		}
 		// Step 4
 		// Save axe's name to all_axe_list.txt
-		saveLine(axe.getName()+"\n",Const.FILE_AXELIST);
+		saveLine(axe.getName(),Const.FILE_AXELIST);
 	}
 	
 	public static void saveAvis(Avis avis, String path) {
@@ -125,14 +142,16 @@ public class FileManager {
 		emptyTXT(fileTXT);
 		
 		// Step 2 
-		// --> Stop all the Client info
+		// --> Store all the Client info
+		
 		for(Client client : listDiffusion.getListClient()) {
 			saveLine(client.getStr2File(), fileTXT);
 		}
 		
 		// Step 3
 		// --> save diffusion list's name to all_diffusion_list.txt 
-		saveLine(Const.FILE_DIFFUSIONLIST, listDiffusion.getName());
+		saveLine(listDiffusion.getName() ,Const.FILE_DIFFUSIONLIST);
+		
 	};
 	
 	/**

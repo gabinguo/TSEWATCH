@@ -24,6 +24,8 @@ import com.webfirmframework.wffweb.tag.html.attribute.For;
 
 import Launcher.DisplayController;
 import Model.AxeDeVeille;
+import Model.Client;
+import Model.ListDiffusion;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -61,29 +63,31 @@ public class HomeController {
     @FXML
     private JFXButton btn_add,btn_back,btn_options,btn_axe,btn_recherche,btn_diffusion,btn_rapport
     						,btn_rapport_nouveau,btn_add_client, btn_envoyer, btn_add_axe,btn_delete_axe,
-    						btn_modify_axe, btn_annuler_axe,btn_save_axe,btn_recherche_ok;
+    						btn_modify_axe, btn_annuler_axe,btn_save_axe,btn_recherche_ok,btn_delete_diffusion,
+    						btn_add_diffusion, btn_modify_listd,btn_not_create;
+    
     
     @SuppressWarnings("rawtypes")
 	@FXML
-    private JFXComboBox siteList;
+    private JFXComboBox siteList,page_report_veilleList,list_diffusion;
     
-    @FXML
-    private JFXComboBox page_report_veilleList;
-    
+
      @FXML
-    private AnchorPane add_pane, options_pane,diffusion_pane,rapport_pane,recherche_pane,axe_pane;
+    private AnchorPane add_pane, options_pane,diffusion_pane,rapport_pane,
+    			recherche_pane,axe_pane,addLd_pane;
     
      @FXML
     private Pane add_modify_pane;
      
     @FXML
-    private JFXTextField nameVeilleTextField;
+    private JFXTextField nameVeilleTextField,nameLd;
     
+    // Did not change!!! still TextField
     @FXML
     private TextField keywordsTextField;
     
     @FXML
-    private TableView veilleTableView,resultTableView;
+    private TableView veilleTableView,resultTableView,clientTableView;
     
     
     @FXML
@@ -99,10 +103,14 @@ public class HomeController {
 		 *  get DisplayController for displaying or some new Tab
 		 */
 		displayCtrl = DisplayController.getInstance();
-		
+		clientTableView.setPlaceholder(new Label("vide"));
+		veilleTableView.setPlaceholder(new Label("vide"));
+		resultTableView.setPlaceholder(new Label("vide"));
 		add_modify_pane.setVisible(false);
     	recherche_pane.toFront();
     	
+    	
+    	//Search page's table
     	for(String name : Const.namesOfSites) {
 			sites.add(name);
 		}
@@ -111,13 +119,11 @@ public class HomeController {
     	siteList.setItems(list);
     	siteList.getSelectionModel().select(siteList.getItems().size()-1);
     	
+    	// axe de veille pages' table
     	colVeille.setCellValueFactory(new PropertyValueFactory<>("name"));
     	veilleTableView.setItems(displayCtrl.getAxes());
-    	
-    	
-    	
-    	
-    	
+    	list_diffusion.setItems(displayCtrl.getDF());
+
 	}
     
     @FXML
@@ -132,11 +138,92 @@ public class HomeController {
         {
              add_pane.setVisible(false);     
         }
+        
+        if(event.getSource() == btn_not_create) {
+        	diffusion_pane.toFront();
+        	nameLd.clear();
+        }
+        
         if(event.getSource() == btn_annuler_axe) {
         	add_modify_pane.setVisible(false);
         	nameVeilleTextField.clear();
         	keywordsTextField.clear();
         }
+        
+        if(event.getSource() == btn_delete_diffusion) {
+        	String str = nameLd.getText().trim();
+        	ObservableList<String> allLists;
+        	allLists = list_diffusion.getItems();
+        	for(int i = 0 ; i < list_diffusion.getItems().size();i++) {
+        		if(list_diffusion.getItems().get(i).equals(str)) {
+        			list_diffusion.getItems().remove(i);
+        			break;
+        		}
+        	}	
+        	
+        	for( int i = 0; i < displayCtrl.getListDiffusion().size();i++) {
+        		if(displayCtrl.getListDiffusion().get(i).getName().equals(str)){
+        			displayCtrl.getListDiffusion().remove(displayCtrl.getListDiffusion().get(i));
+        			break;
+        		}
+        	}
+        	
+        	FileUtils.deleteQuietly(new File(Const.FOLDER_DIFFUSION + str + ".txt"));
+        	
+        	displayCtrl.getFileManager().emptyTXT(Const.FILE_DIFFUSIONLIST);
+        	for(int i = 0 ; i < displayCtrl.getListDiffusion().size();i++)
+        	{
+        		displayCtrl.getFileManager().saveLine(displayCtrl.getListDiffusion().get(i).getName(), Const.FILE_DIFFUSIONLIST);
+        	}
+        	diffusion_pane.toFront();
+        }
+        
+        if(event.getSource() == btn_add_diffusion) {
+        	String name = nameLd.getText().trim();
+        	ArrayList<Client> empty = new ArrayList<Client>();
+        	boolean flag = true ;
+        	if(name.length() == 0) {
+        		flag = false;
+        		Alert alert = new Alert(AlertType.ERROR);
+    			alert.setTitle("Error");
+    			alert.setHeaderText("Attention");
+    			alert.setContentText("Rien rempli.");
+    			alert.showAndWait();
+        		return;
+        	}
+        	if(displayCtrl.getListDiffusion() != null)
+        	for(int i=0;i<displayCtrl.getListDiffusion().size();i++) {
+        		if(displayCtrl.getListDiffusion().get(i).getName().equals(name)) {
+        			flag = false;
+        		}
+        	}
+        	if(flag) {
+	        	
+	        	
+	        	ListDiffusion listNew  = new ListDiffusion(name, empty);
+	        	
+	        	
+	         	displayCtrl.getFileManager().saveDiffusionList(listNew);
+	         	
+	         	list_diffusion.getItems().add(listNew.getName());
+	         	displayCtrl.getListDiffusion().add(listNew);
+	         	
+	         	addLd_pane.toBack();
+	        	nameLd.clear();
+        	}else {
+        		Alert alert = new Alert(AlertType.ERROR);
+    			alert.setTitle("Error");
+    			alert.setHeaderText("Attention");
+    			alert.setContentText("Deja exist!");
+    			alert.showAndWait();
+        	}
+        }
+        
+        if(event.getSource() == btn_modify_listd) {
+        	
+        	addLd_pane.toFront();
+        }
+        
         if(event.getSource() == btn_delete_axe) {
         	if(veilleTableView.getSelectionModel().getSelectedItems() == null ||
         			veilleTableView.getSelectionModel().getSelectedItems().size()==0) {
@@ -149,13 +236,13 @@ public class HomeController {
             	
             	selectedOne.forEach(allAxes::remove);
             	
-            	System.out.println(displayCtrl.getListVeille().size());
+            	
             	for( int i = 0; i < displayCtrl.getListVeille().size();i++) {
             		if(displayCtrl.getListVeille().get(i).getName().equals(axe2delete.getName())){
             			displayCtrl.getListVeille().remove(displayCtrl.getListVeille().get(i));
             		}
             	}
-            	System.out.println(displayCtrl.getListVeille().size());
+            	
             	
             	try {
     				FileUtils.deleteDirectory(new File(Const.FOLDER_AXE + axe2delete.getName()));
@@ -197,6 +284,7 @@ public class HomeController {
         if(event.getSource()==btn_diffusion)
         {
         	 diffusion_pane.toFront();
+        	 
         }
         if(event.getSource()==btn_rapport)
         {
@@ -249,13 +337,13 @@ public class HomeController {
                 	
                 	selectedOne.forEach(allAxes::remove);
                 	
-                	System.out.println(displayCtrl.getListVeille().size());
+                	
                 	for( int i = 0; i < displayCtrl.getListVeille().size();i++) {
                 		if(displayCtrl.getListVeille().get(i).getName().equals(axe2delete.getName())){
                 			displayCtrl.getListVeille().remove(displayCtrl.getListVeille().get(i));
                 		}
                 	}
-                	System.out.println(displayCtrl.getListVeille().size());
+                	
                 	
                 	try {
         				FileUtils.deleteDirectory(new File(Const.FOLDER_AXE + axe2delete.getName()));

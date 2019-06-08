@@ -45,10 +45,10 @@ public class DisplayController extends Application{
 		return listAxes;
 	}
 	
-	public ObservableList<ListDiffusion> getDF(){
-		ObservableList<ListDiffusion> listDf = FXCollections.observableArrayList();
+	public ObservableList<String> getDF(){
+		ObservableList<String> listDf = FXCollections.observableArrayList();
 		for(ListDiffusion df : listDiffusion) {
-			listDf.add(df);
+			listDf.add(df.getName());
 		}
 		return listDf;
 	}
@@ -171,6 +171,7 @@ public class DisplayController extends Application{
 				e.printStackTrace();
 			}
 		}
+		
 		if(allDiffusionList!=null)
 		for(String diffusionName : allDiffusionList) {
 			try {

@@ -12,6 +12,10 @@ public class ListDiffusion {
 		this.name = name;
 		this.listClient = listClient;
 	}
+	
+	public ListDiffusion(String name) {
+		this.name = name;
+	}
 
 	public ListDiffusion() {
 	}
