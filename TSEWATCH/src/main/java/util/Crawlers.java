@@ -168,9 +168,9 @@ public class Crawlers {
 //	}
 
 	
-	//this version can't set the date,but it can get a part of the data(not all of them and we don't know why),so we use it before we solve the problem
+	//this version can get a part of the data(not all of them and we don't know why),so we use it before we solve the problem
 	// Scrawler ONLY for https://boamp.fr/avis/liste
-		public ArrayList<Avis> getLinksBOAMP(int pageNum){
+		public ArrayList<Avis> getLinksBOAMP(String dateparutionmin,String dateparutionmax,int pageNum){
 			
 			String AuthFileName = this.getClass().getClassLoader().getResource("jssecacerts").getPath();
 			System.setProperty("javax.net.ssl.trustStore",AuthFileName);
@@ -199,6 +199,13 @@ public class Crawlers {
 			params.put("descripteur[]", "mc283");
 			params.put("descripteur[]", "mc171");
 			params.put("page", Integer.toString(pageNum));
+			
+			params.put("dateparutionmin", dateparutionmin);
+			params.put("dateparutionmax", dateparutionmax);
+	
+			params.put("datelimitereponsemin", "");
+			params.put("datelimitereponsemax", "");
+			
 			
 //			params.put("dateparutionmin", "01%2F06%2F2019");
 //			params.put("dateparutionmax", "07%2F06%2F2019");
@@ -310,16 +317,16 @@ public class Crawlers {
 //		ArrayList<Avis> avisList = crawler.marchepublicGouvCrawler("01/06/2019","06/06/2019");
 //		ArrayList<Avis> avisList = crawler.auvergnerCrawler("","",2);
 		
-		//crawler.tedEuropaCrawler();
+		crawler.tedEuropaCrawler();
 		//crawler.EmarchesCrawler();
-		ArrayList<Avis> avisList = crawler.getLinksBOAMP(1);
 		
+//		ArrayList<Avis> avisList = crawler.getLinksBOAMP("01/06/2019","07/06/2019",1);	
 //		ArrayList<Avis> avisList = crawler.marchesOnlineCrawler("TODAY","76",2);
 		
 		
-		for(Avis avis:avisList) {
-			avis.print();
-		}
+//		for(Avis avis:avisList) {
+//			avis.print();
+//		}
 		
 
 	}
@@ -1234,6 +1241,8 @@ public class Crawlers {
 	Rs.gp.6531439.pid: secured
 	Rs.gp.6531440.pid: secured	
 */		
+		
+		
 		String HTML = null;
 		//send the GET request to the site to get HTML data
 		try {
@@ -1246,9 +1255,10 @@ public class Crawlers {
 		
 		
 		
-		params.put("action", "search");
-		params.put("expertSearchCriteria.searchScope", "CURRENTLY_ACTIVE");
-		params.put("expertSearchCriteria.query", "CY=[FR] AND TD=[I or M or O or A] AND PD=[20190501 <> 20190601]");
+//		params.put("action", "search");
+//		params.put("expertSearchCriteria.searchScope", "CURRENTLY_ACTIVE");
+//		params.put("expertSearchCriteria.query", "CY=[FR] AND TD=[I or M or O or A] AND PD=[20190501 <> 20190601]");
+//		params.put("_expertSearchCriteria.statisticsMode","on");
 		
 		
 		
@@ -1517,15 +1527,15 @@ public class Crawlers {
 			notice_type: AAPC
 		 */
 		params.put("_token", "VKKppFE0OlaWmqT7Igmfu3BhpwNdw6dH66HOo1r3");
-		params.put("category", "Tous");
+		//params.put("category", "Tous");
 		params.put("what", "informatique");
-		params.put("where", "all");
-		params.put("notice_type", "AAPC");
+		//params.put("where", "all");
+		//params.put("notice_type", "AAPC");
 		
 		String result = null;
 		// send POST request to the site to get the HTML data
 		try {
-			result = HTTPRequest.sendPostEMarche(urlEMarche, params);
+			result = HTTPRequest.sendPost(urlEMarche, params);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
