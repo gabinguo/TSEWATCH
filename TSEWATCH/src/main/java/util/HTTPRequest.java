@@ -150,11 +150,14 @@ public class HTTPRequest {
 		return result;
 	}
 
-	public static String sendPostEMarche(String url, Map<String, String> params ) throws Exception {
+	public static String sendPostTed(String url, Map<String, String> params ) throws Exception {
 
 		//disableCertificateValidation();
 		// Get a httpClient object
-		CloseableHttpClient httpclient = HttpClients.createDefault();
+		RequestConfig config = RequestConfig.custom().setRedirectsEnabled(false).build();
+
+		CloseableHttpClient httpclient = HttpClients.custom().setDefaultRequestConfig(config).build();
+		//CloseableHttpClient httpclient = HttpClients.createDefault();
 		//httpclient = (CloseableHttpClient) wrapClient(httpclient);
 		// Creat a list to store params
 		List<NameValuePair> formparams = new ArrayList<NameValuePair>();
@@ -374,6 +377,60 @@ public class HTTPRequest {
         }
 	}
 
+	
+	
+	/**
+	 * 
+	 * @param url
+	 * @return html data
+	 * @throws Exception This function is for sending the GET request to the site
+	 *                   with a fake header and the delay of time to pass the
+	 *                   anti-crawler program
+	 *                   and solve the problem of the 302
+	 */
+	public final static String sendGET302(String url) throws Exception {
+		RequestConfig config = RequestConfig.custom().setRedirectsEnabled(false).build();
+
+		CloseableHttpClient httpclient = HttpClients.custom().setDefaultRequestConfig(config).build();
+        //CloseableHttpClient httpclient = HttpClients.createDefault();
+        //httpclient.getParams().setParameter(ClientPNames.ALLOW_CIRCULAR_REDIRECTS, false);
+       // httpclient.getParams().setParameter(ClientPNames.ALLOW_CIRCULAR_REDIRECTS, false);
+        //org.apache.http.client.Params.
+        //org.apache.http.client.
+        try {
+            HttpGet httpget = new HttpGet(url);
+            httpget.addHeader("Accept", "text/html");
+	    httpget.addHeader("Accept-Charset", "utf-8");
+            httpget.addHeader("Accept-Encoding", "gzip");
+	    httpget.addHeader("Accept-Language", "en-US,en");
+	    httpget.addHeader("User-Agent",
+			"Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.22 (KHTML, like Gecko) Chrome/25.0.1364.160 Safari/537.22");
+            ResponseHandler<String> responseHandler = new ResponseHandler<String>() {
+ 
+                public String handleResponse(
+                        final HttpResponse response) throws ClientProtocolException, IOException {
+                    int status = response.getStatusLine().getStatusCode();
+                    if (status >= 200 && status < 300) {
+                        HttpEntity entity = response.getEntity();
+                        System.out.println(status);
+                        return entity != null ? EntityUtils.toString(entity) : null;
+                    } else {
+                    	System.out.println(status);
+                    	Date date=new Date();
+                    	System.out.println(date);
+                    	System.exit(0);
+                        throw new ClientProtocolException("Unexpected response status: " + status);
+                    }
+                }
+            };
+            String responseBody = httpclient.execute(httpget, responseHandler);
+            Thread.currentThread();
+			Thread.sleep(200);
+            return responseBody;
+        } finally {
+            httpclient.close();
+        }
+	}
 	// GET request to get the location from the 302
 	public static String getLocationUrl(String url) {
 		RequestConfig config = RequestConfig.custom().setConnectTimeout(50000).setConnectionRequestTimeout(10000)

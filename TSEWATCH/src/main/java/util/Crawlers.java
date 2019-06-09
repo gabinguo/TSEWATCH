@@ -1157,7 +1157,7 @@ public class Crawlers {
 	/*****************************************************/
 
 	/**
-	 * Crawler for Ted.europa!! Attention : we can't solve the problem because of the pid and 302
+	 * Crawler for Ted.europa!! Attention : we can't solve the problem because of the pid and 302 307
 	 * @throws Exception 
 	 */
 	public void tedEuropaCrawler()   {
@@ -1243,10 +1243,18 @@ public class Crawlers {
 */		
 		
 		
+		params.put("action", "search");
+		params.put("expertSearchCriteria.searchScope", "CURRENTLY_ACTIVE");
+		params.put("expertSearchCriteria.query", "CY=[FR] AND TD=[I or M or O or A] AND PD=[20190501 <> 20190601]");
+		params.put("_expertSearchCriteria.statisticsMode","on");
+		
+		
+		
+		
 		String HTML = null;
 		//send the GET request to the site to get HTML data
 		try {
-			HTML = HTTPRequest.sendGET(urlAuvergner);
+			HTML = HTTPRequest.sendPostTed(urlAuvergner,params);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -1255,10 +1263,7 @@ public class Crawlers {
 		
 		
 		
-//		params.put("action", "search");
-//		params.put("expertSearchCriteria.searchScope", "CURRENTLY_ACTIVE");
-//		params.put("expertSearchCriteria.query", "CY=[FR] AND TD=[I or M or O or A] AND PD=[20190501 <> 20190601]");
-//		params.put("_expertSearchCriteria.statisticsMode","on");
+
 		
 		
 		
@@ -1504,7 +1509,7 @@ public class Crawlers {
 	/*****************************************************/
 
 	/**
-	 * Crawler for E-marchespublics
+	 * Crawler for E-marchespublics    it doesn't work maybe because of the cookie (there is maybe some kinds of the encoding because it's different everytime)
 	 */
 	public void EmarchesCrawler() {
 		// define the url of the site
@@ -1527,10 +1532,10 @@ public class Crawlers {
 			notice_type: AAPC
 		 */
 		params.put("_token", "VKKppFE0OlaWmqT7Igmfu3BhpwNdw6dH66HOo1r3");
-		//params.put("category", "Tous");
+		params.put("category", "Tous");
 		params.put("what", "informatique");
-		//params.put("where", "all");
-		//params.put("notice_type", "AAPC");
+		params.put("where", "all");
+		params.put("notice_type", "AAPC");
 		
 		String result = null;
 		// send POST request to the site to get the HTML data
