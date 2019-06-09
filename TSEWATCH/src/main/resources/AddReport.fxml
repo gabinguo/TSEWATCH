@@ -23,7 +23,7 @@
                         <Font name="System Bold" size="13.0" />
                      </font>
                   </Label>
-                  <JFXTextField />
+                  <JFXTextField fx:id="nameReport" />
                </children>
             </HBox>
             <HBox layoutX="156.0" layoutY="119.0" spacing="10.0">

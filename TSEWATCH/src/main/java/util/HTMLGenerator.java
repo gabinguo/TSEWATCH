@@ -229,15 +229,17 @@ public class HTMLGenerator {
 
 	
 	
-	public void generateReport(String path,String fileName) {
+	public void generateReport(String fileName) {
 		this.html = getReportHTML();
-		try {
-			html.toOutputStream(new FileOutputStream(path + fileName+".html"),"UTF-8");
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		
+		// ? Generate a file (not necessary?)
+//		try {
+//			html.toOutputStream(new FileOutputStream(Const.FOLDER_RAPPORT + fileName +".html"),"UTF-8");
+//		} catch (FileNotFoundException e) {
+//			e.printStackTrace();
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
 	}
 
 	
@@ -262,7 +264,7 @@ public class HTMLGenerator {
 		list2Test.add(new Avis("04/06/2019", "Titre d'avis3", "https://www.youtube.com"));
 		
 		HTMLGenerator generator = new HTMLGenerator(list2Test);
-		generator.generateReport("/Users/gkp/Desktop/", "test1234");		
+		generator.generateReport("test1234");		
 		System.out.println(generator.getHtml().toBigHtmlString());
 	}
 

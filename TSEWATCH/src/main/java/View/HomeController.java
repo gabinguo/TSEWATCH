@@ -23,6 +23,7 @@ import com.jfoenix.controls.JFXTextField;
 import com.webfirmframework.wffweb.tag.html.attribute.For;
 
 import Launcher.DisplayController;
+import Model.Avis;
 import Model.AxeDeVeille;
 import Model.Client;
 import Model.ListDiffusion;
@@ -40,6 +41,7 @@ import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseButton;
@@ -83,9 +85,9 @@ public class HomeController {
     @FXML
     private JFXTextField nameVeilleTextField,nameLd;
     
-    // Did not change!!! still TextField
+    // Did not change!!! still TextArea
     @FXML
-    private TextField keywordsTextField;
+    private TextArea keywordsTextField;
     
     @FXML
     private TableView veilleTableView,resultTableView;
@@ -99,6 +101,8 @@ public class HomeController {
     
     @FXML
     private TableColumn<Client,String> colClient,colEmail;
+    @FXML
+    private TableColumn<Avis,String> colDate,colLien;
     
     
     @SuppressWarnings("unchecked")
@@ -113,7 +117,7 @@ public class HomeController {
 		resultTableView.setPlaceholder(new Label("vide"));
 		add_modify_pane.setVisible(false);
     	recherche_pane.toFront();
-    	
+    	keywordsTextField.setWrapText(true);
     	list_diffusion.getSelectionModel().selectedItemProperty().addListener((v,oldValue,newValue) ->
     		updateClientTableView((String) newValue));
     	
@@ -138,6 +142,9 @@ public class HomeController {
     	//set col value factory
     	colClient.setCellValueFactory(new PropertyValueFactory<>("name"));
     	colEmail.setCellValueFactory(new PropertyValueFactory<>("email"));
+
+    	colDate.setCellValueFactory(new PropertyValueFactory<>("date"));
+    	colLien.setCellValueFactory(new PropertyValueFactory<>("link"));
     	
 	}
     
@@ -151,12 +158,27 @@ public class HomeController {
 			}
 			clientTableView.setItems(listClient);			
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 
+    
     private void updateAvisTableView(String value) {
+    	String filepath = Const.FOLDER_AXE + value
+    					+ "/avis.txt";
+    	try {
+			ArrayList<String> listStr = (ArrayList<String>) FileUtils.readLines(new File(filepath));
+			ObservableList<Avis> listAvis = FXCollections.observableArrayList();
+			for(int i =0; i< listStr.size();i++) {
+				String[] arr = listStr.get(i).split("\\|");
+				listAvis.add(new Avis(arr[2], arr[0], arr[1]));
+			}
+			resultTableView.setItems(listAvis);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+    	
+    	
     	
     }
 	

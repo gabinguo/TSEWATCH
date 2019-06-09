@@ -91,6 +91,7 @@ public class DisplayController extends Application{
 			Scene scene = new Scene(addReportPane);
 			addReportStage.setTitle("Ajouter Rapport");
 			addReportStage.setScene(scene);
+			addReportPane.requestFocus();
 			addReportStage.show();
 		} catch (IOException e) {
 			e.printStackTrace();
