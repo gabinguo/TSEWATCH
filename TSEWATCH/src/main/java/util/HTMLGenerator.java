@@ -232,14 +232,14 @@ public class HTMLGenerator {
 	public void generateReport(String fileName) {
 		this.html = getReportHTML();
 		
-		// ? Generate a file (not necessary?)
-//		try {
-//			html.toOutputStream(new FileOutputStream(Const.FOLDER_RAPPORT + fileName +".html"),"UTF-8");
-//		} catch (FileNotFoundException e) {
-//			e.printStackTrace();
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
+//		 ? Generate a file (not necessary?)
+		try {
+			html.toOutputStream(new FileOutputStream(Const.FOLDER_RAPPORT + fileName +".html"),"UTF-8");
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	

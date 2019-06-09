@@ -1,6 +1,7 @@
 package View;
 
 import java.awt.event.MouseEvent;
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -82,16 +83,8 @@ public class AddReportController {
 				HTMLGenerator htmlGenerator = new HTMLGenerator(avis);
 				htmlGenerator.generateReport(nameOfReport);
 				String pathReport = Const.FOLDER_RAPPORT + nameOfReport + ".html" ;
-				Stage stage = new Stage();
-				stage.setTitle("Report page");
-				WebView browser = new WebView();
-				WebEngine engine = browser.getEngine();
-				engine.loadContent(htmlGenerator.getHtml().toBigHtmlString());
 				
-				engine.setUserStyleSheetLocation("C:/Users/Alienware/Desktop/assets/css/style.css");
-				Scene scene = new Scene(browser,800,600, Color.web("#666970"));
-				stage.setScene(scene);
-				stage.show();
+				java.awt.Desktop.getDesktop().browse(new File(pathReport).toURI());
 			}
 			
 		} catch (IOException e) {
