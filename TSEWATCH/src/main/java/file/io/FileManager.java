@@ -1,8 +1,10 @@
 package file.io;
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
@@ -41,8 +43,7 @@ public class FileManager {
 			}
 		}
 	}
-	
-	
+		
 	/**
 	 * Userd to save one line of .txt file 
 	 * @param lineStr
@@ -84,8 +85,6 @@ public class FileManager {
 			e.printStackTrace();
 		}
 	}
-	
-	
 	
 	/**
 	 *   ---> 1 Store a AxeDeVeille(we will name it axe after)
@@ -133,26 +132,31 @@ public class FileManager {
 		saveLine(avis.getTitre()+ "|" + avis.getLink() + "|" +avis.getDate(), path);
 	}
 	
-	public static void saveDiffusionList(ListDiffusion listDiffusion) {
+	public static void creatediffusionListTxT(ListDiffusion listDiffusion) {
 		// Step 1
 		// --> Create a folder to store all the avis
 		createFolder(null, 3);
 		// --> Create a file to store a list of clients
 		String fileTXT = Const.FOLDER_DIFFUSION + listDiffusion.getName() + ".txt";
 		emptyTXT(fileTXT);
-		
-		// Step 2 
-		// --> Store all the Client info
-		
-		for(Client client : listDiffusion.getListClient()) {
-			saveLine(client.getStr2File(), fileTXT);
-		}
-		
-		// Step 3
+				
+		// Step 2
 		// --> save diffusion list's name to all_diffusion_list.txt 
 		saveLine(listDiffusion.getName() ,Const.FILE_DIFFUSIONLIST);
 		
 	};
+	
+	public static void saveOneClient(String fileName ,Client client) 
+	{
+		// Get filepath
+		String filepath = Const.FOLDER_DIFFUSION + fileName  + ".txt";
+		
+		// save a new client to .txt
+		saveLine(client.getStr2File(), filepath);
+		System.out.println("done writing");
+		
+	}
+	
 	
 	/**
 	 * Create a folder as we want
@@ -217,7 +221,6 @@ public class FileManager {
 		
 	}
 		
-	
 	public static void createFolder(String path) {
 		File file = new File(path);
 		if (!file.exists()) {
@@ -269,7 +272,6 @@ public class FileManager {
 		return null;
 	}
 
-	
 	public static ListDiffusion readDiffusionList(String name) throws IOException {
 		ListDiffusion ld = new ListDiffusion();
 		String txtPath = Const.FOLDER_DIFFUSION + name + ".txt";

@@ -22,7 +22,7 @@
                         <Font name="System Bold" size="13.0" />
                      </font>
                   </Label>
-                  <JFXComboBox prefHeight="25.0" prefWidth="170.0" />
+                  <JFXComboBox fx:id="comboBox_rapport" prefHeight="25.0" prefWidth="170.0" />
                </children>
             </HBox>
             <HBox layoutX="24.0" layoutY="80.0" spacing="10.0">
@@ -32,7 +32,7 @@
                         <Font name="System Bold" size="13.0" />
                      </font>
                   </Label>
-                  <JFXComboBox prefHeight="25.0" prefWidth="170.0" />
+                  <JFXComboBox fx:id="comboBox_listD" prefHeight="25.0" prefWidth="170.0" />
                </children>
             </HBox>
             <HBox layoutX="218.0" layoutY="118.0" spacing="8.0">

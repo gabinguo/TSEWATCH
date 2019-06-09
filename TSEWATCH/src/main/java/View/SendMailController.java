@@ -3,6 +3,7 @@ package View;
 import java.awt.event.MouseEvent;
 
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXComboBox;
 
 import Launcher.DisplayController;
 import javafx.event.ActionEvent;
@@ -13,12 +14,18 @@ public class SendMailController {
 	
 	private DisplayController displayCtrl;
 	
+	@FXML
+	private JFXComboBox comboBox_rapport;
+	@FXML 
+	private JFXComboBox<String> comboBox_listD = new JFXComboBox<String>();
 	
+
+
 	@FXML
 	public void initialize() {
 		displayCtrl = DisplayController.getInstance();
+		comboBox_listD.setItems(displayCtrl.getDF());
 	}
-	
 	@FXML
 	private JFXButton btn_sm_cancel,btn_sm_ok;
 	
@@ -39,4 +46,5 @@ public class SendMailController {
 	 private void handleEvent(MouseEvent event) {    
 	   
 	 }
+	 
 }

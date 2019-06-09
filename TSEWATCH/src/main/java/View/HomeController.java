@@ -26,6 +26,7 @@ import Launcher.DisplayController;
 import Model.AxeDeVeille;
 import Model.Client;
 import Model.ListDiffusion;
+import file.io.FileManager;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -64,7 +65,7 @@ public class HomeController {
     private JFXButton btn_add,btn_back,btn_options,btn_axe,btn_recherche,btn_diffusion,btn_rapport
     						,btn_rapport_nouveau,btn_add_client, btn_envoyer, btn_add_axe,btn_delete_axe,
     						btn_modify_axe, btn_annuler_axe,btn_save_axe,btn_recherche_ok,btn_delete_diffusion,
-    						btn_add_diffusion, btn_modify_listd,btn_not_create;
+    						btn_add_diffusion, btn_modify_listd,btn_not_create,btn_delete_client;
     
     
     @SuppressWarnings("rawtypes")
@@ -87,13 +88,17 @@ public class HomeController {
     private TextField keywordsTextField;
     
     @FXML
-    private TableView veilleTableView,resultTableView,clientTableView;
+    private TableView veilleTableView,resultTableView;
+    
+    @FXML
+    private TableView<Client> clientTableView = new TableView<>();
     
     
     @FXML
     private TableColumn<AxeDeVeille, String> colVeille;
     
-    
+    @FXML
+    private TableColumn<Client,String> colClient,colEmail;
     
     
     @SuppressWarnings("unchecked")
@@ -109,6 +114,12 @@ public class HomeController {
 		add_modify_pane.setVisible(false);
     	recherche_pane.toFront();
     	
+    	list_diffusion.getSelectionModel().selectedItemProperty().addListener((v,oldValue,newValue) ->
+    		updateClientTableView((String) newValue));
+    	
+    	page_report_veilleList.getSelectionModel().selectedItemProperty().addListener(
+    			(v,oldValue,newValue) -> updateAvisTableView((String) newValue));
+    	
     	
     	//Search page's table
     	for(String name : Const.namesOfSites) {
@@ -123,10 +134,33 @@ public class HomeController {
     	colVeille.setCellValueFactory(new PropertyValueFactory<>("name"));
     	veilleTableView.setItems(displayCtrl.getAxes());
     	list_diffusion.setItems(displayCtrl.getDF());
-
+    	
+    	//set col value factory
+    	colClient.setCellValueFactory(new PropertyValueFactory<>("name"));
+    	colEmail.setCellValueFactory(new PropertyValueFactory<>("email"));
+    	
 	}
     
-    @FXML
+    private void updateClientTableView(String value) {
+    	try {
+			ArrayList<String> listStr =  (ArrayList<String>) FileUtils.readLines(new File(Const.FOLDER_DIFFUSION + value + ".txt"));
+			ObservableList<Client> listClient = FXCollections.observableArrayList();
+			for(int i = 0 ; i < listStr.size();i++) {
+				String[] arr = listStr.get(i).split("\\|");
+				listClient.add(new Client(arr[0],arr[1]));
+			}
+			clientTableView.setItems(listClient);			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+    private void updateAvisTableView(String value) {
+    	
+    }
+	
+	@FXML
     private void handleButtonAction(ActionEvent event) {
         if(event.getSource() == btn_add)
         {
@@ -137,6 +171,23 @@ public class HomeController {
         if(event.getSource()==btn_back)
         {
              add_pane.setVisible(false);     
+        }
+        
+        if(event.getSource() == btn_delete_client) {
+        	
+        	ObservableList<Client> allClient , selectedOne;
+        	allClient = clientTableView.getItems();
+        	selectedOne =  clientTableView.getSelectionModel().getSelectedItems();
+        	selectedOne.forEach(allClient::remove);
+        	
+        	String filepathName = Const.FOLDER_DIFFUSION + list_diffusion.getValue().toString() 
+        			 				+ ".txt";
+        	FileManager.emptyTXT(filepathName);
+        	
+        	for(int i=0 ;i < allClient.size();i++) {
+        		FileManager.saveLine(allClient.get(i).getStr2File(), filepathName);
+        	}
+        	
         }
         
         if(event.getSource() == btn_not_create) {
@@ -203,7 +254,7 @@ public class HomeController {
 	        	ListDiffusion listNew  = new ListDiffusion(name, empty);
 	        	
 	        	
-	         	displayCtrl.getFileManager().saveDiffusionList(listNew);
+	         	displayCtrl.getFileManager().creatediffusionListTxT(listNew);
 	         	
 	         	list_diffusion.getItems().add(listNew.getName());
 	         	displayCtrl.getListDiffusion().add(listNew);
@@ -258,6 +309,8 @@ public class HomeController {
         	}	
         	
         }
+        
+        
         
         if(event.getSource() == btn_recherche_ok) {
         	
@@ -400,10 +453,14 @@ public class HomeController {
         }
     }
     
-    
-   
-    
-    
+    public void addClient2TableView(Client c) {
+    	clientTableView.getItems().add(c);
+    }
+	
+    public void saveOneClient(Client c) {
+    	displayCtrl.getFileManager().saveOneClient( (String) list_diffusion.getValue() ,  c);
+    }
+	
     @FXML
     private void handleEvent(MouseEvent event) {    
     }

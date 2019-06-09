@@ -7,7 +7,9 @@ import java.util.ArrayList;
 import org.apache.commons.io.FileUtils;
 
 import Model.AxeDeVeille;
+import Model.Client;
 import Model.ListDiffusion;
+import View.HomeController;
 import file.io.FileManager;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
@@ -31,6 +33,7 @@ public class DisplayController extends Application{
 	private static ArrayList<AxeDeVeille> listVeille = new ArrayList<AxeDeVeille>();
 	private static ArrayList<ListDiffusion> listDiffusion = new ArrayList<ListDiffusion>();
 	private static FileManager fileManager;
+	private HomeController homecontroller;
 	
 	
 	public static void display(String[] args) {
@@ -54,6 +57,7 @@ public class DisplayController extends Application{
 	}
 	
 	
+	
 	/*
 	 * Show the Mainpage Overview inside the root layout
 	 */
@@ -65,6 +69,7 @@ public class DisplayController extends Application{
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(this.getClass().getClassLoader().getResource("Home.fxml"));
 			AnchorPane mainpageOverview = (AnchorPane) loader.load();
+			this.homecontroller = loader.getController();
 			Scene scene = new Scene(mainpageOverview);
 			primaryStage.setScene(scene);
 			primaryStage.show();
@@ -128,12 +133,15 @@ public class DisplayController extends Application{
 			Scene scene = new Scene(sendMailPane);
 			sendMailStage.setTitle("Envoyer mail");
 			sendMailStage.setScene(scene);
-			sendMailStage.show();			
+			sendMailStage.setResizable(false);
+			
+			sendMailStage.show();	
+			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		sendMailStage.setResizable(false);
+		
 	}
 	
 	public void closeSendMailStage() {
@@ -149,6 +157,11 @@ public class DisplayController extends Application{
 	}
 
 	
+	
+	public HomeController getHomecontroller() {
+		return homecontroller;
+	}
+
 	public void loadFiles () {
 		FileManager.createFolder(null, 1);
 		FileManager.createFolder(null, 2);

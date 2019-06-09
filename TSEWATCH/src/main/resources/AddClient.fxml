@@ -26,7 +26,7 @@
                         <Font name="System Bold" size="13.0" />
                      </font>
                   </Label>
-                  <JFXTextField />
+                  <JFXTextField fx:id="nameClient" />
                </children>
             </HBox>
             <HBox layoutX="23.0" layoutY="89.0">
@@ -39,7 +39,7 @@
                         <Font name="System Bold" size="13.0" />
                      </font>
                   </Label>
-                  <JFXTextField />
+                  <JFXTextField fx:id="addrMail" />
                </children>
             </HBox>
             <HBox layoutX="169.0" layoutY="134.0" spacing="8.0">
