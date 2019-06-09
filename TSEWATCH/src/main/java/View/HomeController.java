@@ -146,6 +146,14 @@ public class HomeController {
     	colDate.setCellValueFactory(new PropertyValueFactory<>("date"));
     	colLien.setCellValueFactory(new PropertyValueFactory<>("link"));
     	
+    	
+    	ArrayList<Object> listObj = new ArrayList<Object>();
+     	for(int i =0;i<displayCtrl.getListVeille().size();i++) {
+     		listObj.add(displayCtrl.getListVeille().get(i).getName());	
+     	}
+     	page_report_veilleList.getItems().clear();
+     	page_report_veilleList.getItems().addAll(listObj);
+    	
 	}
     
     private void updateClientTableView(String value) {
@@ -164,21 +172,23 @@ public class HomeController {
 
     
     private void updateAvisTableView(String value) {
-    	String filepath = Const.FOLDER_AXE + value
-    					+ "/avis.txt";
-    	try {
-			ArrayList<String> listStr = (ArrayList<String>) FileUtils.readLines(new File(filepath));
-			ObservableList<Avis> listAvis = FXCollections.observableArrayList();
-			for(int i =0; i< listStr.size();i++) {
-				String[] arr = listStr.get(i).split("\\|");
-				listAvis.add(new Avis(arr[2], arr[0], arr[1]));
+    	if(value!=null) {
+	    	String filepath = Const.FOLDER_AXE + value
+	    					+ "/avis.txt";
+	    	
+	    	try {
+				ArrayList<String> listStr = (ArrayList<String>) FileUtils.readLines(new File(filepath));
+				ObservableList<Avis> listAvis = FXCollections.observableArrayList();
+				for(int i =0; i< listStr.size();i++) {
+					String[] arr = listStr.get(i).split("\\|");
+					listAvis.add(new Avis(arr[2], arr[0], arr[1]));
+				}
+				resultTableView.setItems(listAvis);
+			} catch (IOException e) {
+				e.printStackTrace();
 			}
-			resultTableView.setItems(listAvis);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
     	
-    	
+    	}
     	
     }
 	
@@ -337,13 +347,8 @@ public class HomeController {
         if(event.getSource() == btn_recherche_ok) {
         	
         	rapport_pane.toFront();
-        	
-        	ArrayList<Object> listObj = new ArrayList<Object>();
-        	for(int i =0;i<displayCtrl.getListVeille().size();i++) {
-        		listObj.add(displayCtrl.getListVeille().get(i).getName());	
-        	}
-        	page_report_veilleList.getItems().clear();
-        	page_report_veilleList.getItems().addAll(listObj);
+        	page_report_veilleList.getSelectionModel().select(0);
+        
         }
         
         if(event.getSource()== btn_axe)
@@ -363,13 +368,9 @@ public class HomeController {
         }
         if(event.getSource()==btn_rapport)
         {
+        	page_report_veilleList.getSelectionModel().select(0);
              rapport_pane.toFront();
-             ArrayList<Object> listObj = new ArrayList<Object>();
-         	for(int i =0;i<displayCtrl.getListVeille().size();i++) {
-         		listObj.add(displayCtrl.getListVeille().get(i).getName());	
-         	}
-         	page_report_veilleList.getItems().clear();
-         	page_report_veilleList.getItems().addAll(listObj);
+            
         }
         
         if(event.getSource() == btn_rapport_nouveau) {

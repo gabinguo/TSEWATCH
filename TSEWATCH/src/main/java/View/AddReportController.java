@@ -15,6 +15,8 @@ import Model.AxeDeVeille;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.web.WebEngine;
@@ -54,8 +56,10 @@ public class AddReportController {
 	@FXML
     private void handleButtonAction(ActionEvent event) {
 	  if(event.getSource() == btn_ar_ok) {
-		  generateAndShowReportHtmlPage();
-		 displayCtrl.closeAddReportStage();
+		  
+		  if(generateAndShowReportHtmlPage()) {
+			  displayCtrl.closeAddReportStage();
+		  }
 	  }
 	  if(event.getSource() == btn_ar_cancel) {
 		  displayCtrl.closeAddReportStage();
@@ -73,23 +77,37 @@ public class AddReportController {
     	comboBox_AR.getItems().addAll(listObj);
 	}
 	
-	public void generateAndShowReportHtmlPage(){
-		String nameOfFolder = comboBox_AR.getValue().toString();
-		String nameOfReport = nameReport.getText();
+	public boolean generateAndShowReportHtmlPage(){
+		String nameOfFolder = (String) comboBox_AR.getValue();
+		String nameOfReport = nameReport.getText().trim();
 		try {
-			if(nameOfReport!="") {
+			if(nameOfReport.length()!=0 && comboBox_AR.getValue()!=null) {
 				AxeDeVeille axe = displayCtrl.getFileManager().readAxe(nameOfFolder);
 				ArrayList<Avis> avis = axe.getListAvis();
 				HTMLGenerator htmlGenerator = new HTMLGenerator(avis);
 				htmlGenerator.generateReport(nameOfReport);
 				String pathReport = Const.FOLDER_RAPPORT + nameOfReport + ".html" ;
+				//java.awt.Desktop.getDesktop().browse(new File(pathReport).toURI());
 				
-				java.awt.Desktop.getDesktop().browse(new File(pathReport).toURI());
+				Alert alert = new Alert(AlertType.INFORMATION);
+    			alert.setTitle("Success");
+    			alert.setHeaderText("Report added");
+    			alert.setContentText("Un nouveau rapport est fait pour envoyer!");
+    			alert.showAndWait();
+    			return true;
+			}else {
+				Alert alert = new Alert(AlertType.ERROR);
+    			alert.setTitle("ERROR");
+    			alert.setHeaderText("ERROR");
+    			alert.setContentText("Il faut ajouter un nom et choisir un axe de veille");
+    			alert.showAndWait();
 			}
 			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		
+		return false;
 	}
 	
 	@FXML
