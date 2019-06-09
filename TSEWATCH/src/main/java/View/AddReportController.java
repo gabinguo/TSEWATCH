@@ -94,6 +94,8 @@ public class AddReportController {
     			alert.setHeaderText("Report added");
     			alert.setContentText("Un nouveau rapport est fait pour envoyer!");
     			alert.showAndWait();
+    			displayCtrl.getListReport().add(nameOfReport);
+    			displayCtrl.getFileManager().saveLine(nameOfReport, Const.FILE_REPORTLIST);
     			return true;
 			}else {
 				Alert alert = new Alert(AlertType.ERROR);

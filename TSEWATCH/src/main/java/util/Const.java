@@ -51,4 +51,6 @@ public class Const {
 	final static public String FILE_AXELIST = FOLDER_AXE + "all_axe_list.txt";
 	
 	final static public String FILE_DIFFUSIONLIST = FOLDER_DIFFUSION + "all_diffusion_list.txt";
+	
+	final static public String FILE_REPORTLIST = FOLDER_RAPPORT + "all_report_list.txt";
 }

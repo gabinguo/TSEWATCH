@@ -28,6 +28,7 @@ public class FileManager {
 	public FileManager() {
 		File fa = new File(Const.FILE_AXELIST);
 		File fd = new File(Const.FILE_DIFFUSIONLIST);
+		File fr = new File(Const.FILE_REPORTLIST);
 		if(!fa.exists()) {
 			try {
 				new PrintWriter(Const.FILE_AXELIST);
@@ -38,6 +39,13 @@ public class FileManager {
 		if(!fd.exists()) {
 			try {
 				new PrintWriter(Const.FILE_DIFFUSIONLIST);
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			}
+		}
+		if(!fr.exists()) {
+			try {
+				new PrintWriter(Const.FILE_REPORTLIST);
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();
 			}

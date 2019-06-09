@@ -307,6 +307,8 @@ public class HomeController {
         	addLd_pane.toFront();
         }
         
+        
+        
         if(event.getSource() == btn_delete_axe) {
         	if(veilleTableView.getSelectionModel().getSelectedItems() == null ||
         			veilleTableView.getSelectionModel().getSelectedItems().size()==0) {
@@ -320,6 +322,7 @@ public class HomeController {
             	selectedOne.forEach(allAxes::remove);
             	
             	
+                       		
             	for( int i = 0; i < displayCtrl.getListVeille().size();i++) {
             		if(displayCtrl.getListVeille().get(i).getName().equals(axe2delete.getName())){
             			displayCtrl.getListVeille().remove(displayCtrl.getListVeille().get(i));
@@ -338,6 +341,13 @@ public class HomeController {
             		displayCtrl.getFileManager().saveLine(
             				displayCtrl.getListVeille().get(i).getName() +"\n", Const.FILE_AXELIST);
             	}
+            	
+            	ArrayList<Object> listObj = new ArrayList<Object>();
+             	for(int i =0;i<displayCtrl.getListVeille().size();i++) {
+             		listObj.add(displayCtrl.getListVeille().get(i).getName());	
+             	}
+             	page_report_veilleList.getItems().clear();
+             	page_report_veilleList.getItems().addAll(listObj);
         	}	
         	
         }
@@ -432,6 +442,13 @@ public class HomeController {
                 		displayCtrl.getFileManager().saveLine(
                 				displayCtrl.getListVeille().get(i).getName() +"\n", Const.FILE_AXELIST);
                 	}
+                	
+                	ArrayList<Object> listObj = new ArrayList<Object>();
+                 	for(int i =0;i<displayCtrl.getListVeille().size();i++) {
+                 		listObj.add(displayCtrl.getListVeille().get(i).getName());	
+                 	}
+                 	page_report_veilleList.getItems().clear();
+                 	page_report_veilleList.getItems().addAll(listObj);
             	}
         	}
         	boolean flag = true ;
@@ -462,6 +479,13 @@ public class HomeController {
 	         	
 	         	veilleTableView.getItems().add(new AxeDeVeille(nameVeilleTextField.getText(),keywords));
 	         	displayCtrl.getListVeille().add(axeNew);
+	         	
+	         	ArrayList<Object> listObj = new ArrayList<Object>();
+             	for(int i =0;i<displayCtrl.getListVeille().size();i++) {
+             		listObj.add(displayCtrl.getListVeille().get(i).getName());	
+             	}
+             	page_report_veilleList.getItems().clear();
+             	page_report_veilleList.getItems().addAll(listObj);
 	         	
 	         	add_modify_pane.setVisible(false);
 	        	nameVeilleTextField.setText("");

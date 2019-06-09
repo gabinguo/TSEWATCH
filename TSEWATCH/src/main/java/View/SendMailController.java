@@ -25,6 +25,7 @@ public class SendMailController {
 	public void initialize() {
 		displayCtrl = DisplayController.getInstance();
 		comboBox_listD.setItems(displayCtrl.getDF());
+		comboBox_rapport.setItems(displayCtrl.gerRP());
 	}
 	@FXML
 	private JFXButton btn_sm_cancel,btn_sm_ok;

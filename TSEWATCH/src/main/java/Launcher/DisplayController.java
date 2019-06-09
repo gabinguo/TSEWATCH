@@ -32,8 +32,10 @@ public class DisplayController extends Application{
 	
 	private static ArrayList<AxeDeVeille> listVeille = new ArrayList<AxeDeVeille>();
 	private static ArrayList<ListDiffusion> listDiffusion = new ArrayList<ListDiffusion>();
+	private static ArrayList<String> listReport = new ArrayList<String>();
 	private static FileManager fileManager;
-	private HomeController homecontroller;
+	
+	private HomeController homeController;
 	
 	
 	public static void display(String[] args) {
@@ -56,6 +58,13 @@ public class DisplayController extends Application{
 		return listDf;
 	}
 	
+	public ObservableList<String> gerRP(){
+		ObservableList<String> listRP = FXCollections.observableArrayList();
+		for(String str : listReport) {
+			listRP.add(str);
+		}
+		return listRP;
+	}
 	
 	
 	/*
@@ -69,7 +78,7 @@ public class DisplayController extends Application{
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(this.getClass().getClassLoader().getResource("Home.fxml"));
 			AnchorPane mainpageOverview = (AnchorPane) loader.load();
-			this.homecontroller = loader.getController();
+			this.homeController = loader.getController();
 			Scene scene = new Scene(mainpageOverview);
 			primaryStage.setScene(scene);
 			primaryStage.show();
@@ -160,7 +169,7 @@ public class DisplayController extends Application{
 	
 	
 	public HomeController getHomecontroller() {
-		return homecontroller;
+		return homeController;
 	}
 
 	public void loadFiles () {
@@ -170,9 +179,11 @@ public class DisplayController extends Application{
 		fileManager = new FileManager();
 		ArrayList<String> allVeille = null;
 		ArrayList<String> allDiffusionList = null;
+		ArrayList<String> allReport = null;
 		try {
 			allVeille = (ArrayList<String>) FileUtils.readLines(new File(Const.FILE_AXELIST));
 			allDiffusionList = (ArrayList<String>) FileUtils.readLines(new File(Const.FILE_DIFFUSIONLIST));
+			allReport = (ArrayList<String>) FileUtils.readLines(new File(Const.FILE_REPORTLIST));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -192,6 +203,12 @@ public class DisplayController extends Application{
 					listDiffusion.add(fileManager.readDiffusionList(diffusionName));
 			} catch (IOException e) {
 				e.printStackTrace();
+			}
+		}
+		
+		if(allReport != null) {
+			for(String reportName : allReport) {
+				listReport.add(reportName);
 			}
 		}
 	}
@@ -216,6 +233,14 @@ public class DisplayController extends Application{
 	}
 	
 	
+
+	public static ArrayList<String> getListReport() {
+		return listReport;
+	}
+
+	public static void setListReport(ArrayList<String> listReport) {
+		DisplayController.listReport = listReport;
+	}
 
 	public static FileManager getFileManager() {
 		return fileManager;
