@@ -240,7 +240,6 @@ public class HomeController {
         	addLd_pane.toFront();
         }
         if(event.getSource() == btn_refresh) {
-        	System.out.println("refresh.");
         	updateAvisTableView((String) page_report_veilleList.getValue());
         }
         if(event.getSource() == btn_not_create) {
