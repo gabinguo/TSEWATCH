@@ -45,6 +45,7 @@ import org.apache.http.conn.ssl.NoopHostnameVerifier;
 import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
+import org.apache.http.impl.client.LaxRedirectStrategy;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.params.HttpParams;
 import org.apache.http.util.EntityUtils;
@@ -154,9 +155,14 @@ public class HTTPRequest {
 
 		//disableCertificateValidation();
 		// Get a httpClient object
-		RequestConfig config = RequestConfig.custom().setRedirectsEnabled(false).build();
+		//RequestConfig config = RequestConfig.custom().setRedirectsEnabled(false).build();
+		
+		CloseableHttpClient httpclient = HttpClients.custom()
+		         //关闭httpclient重定向
+		        .disableRedirectHandling()
+		        .build();
 
-		CloseableHttpClient httpclient = HttpClients.custom().setDefaultRequestConfig(config).build();
+		//CloseableHttpClient httpclient = HttpClients.custom().setDefaultRequestConfig(config).build();
 		//CloseableHttpClient httpclient = HttpClients.createDefault();
 		//httpclient = (CloseableHttpClient) wrapClient(httpclient);
 		// Creat a list to store params

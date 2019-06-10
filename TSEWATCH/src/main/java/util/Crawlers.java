@@ -317,16 +317,23 @@ public class Crawlers {
 //		ArrayList<Avis> avisList = crawler.marchepublicGouvCrawler("01/06/2019","06/06/2019");
 //		ArrayList<Avis> avisList = crawler.auvergnerCrawler("","",2);
 		
-		crawler.tedEuropaCrawler();
+		//crawler.tedEuropaCrawler();
 		//crawler.EmarchesCrawler();
 		
 //		ArrayList<Avis> avisList = crawler.getLinksBOAMP("01/06/2019","07/06/2019",1);	
 //		ArrayList<Avis> avisList = crawler.marchesOnlineCrawler("TODAY","76",2);
 		
+		ArrayList<Avis> avisList = crawler.auvergnerCrawler("","it",1);
+		ArrayList<String> keywords = new ArrayList<String>();
+		keywords.add("it");
+		keywords.add("informatique");
 		
-//		for(Avis avis:avisList) {
-//			avis.print();
-//		}
+		for(Avis avis:avisList) {
+			//avis.print();
+			if(avis.checkKeywordHTML(keywords)) {
+				System.out.println("#*#*");
+			}
+		}
 		
 
 	}
