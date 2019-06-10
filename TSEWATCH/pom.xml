@@ -4,6 +4,13 @@
   <artifactId>TSEWATCH</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   
+  
+  <properties>
+ 		<maven.compiler.source>1.8</maven.compiler.source>
+ 		<maven.compiler.target>1.8</maven.compiler.target>
+	</properties>
+  
+  
   <dependencies>
   
   	
@@ -54,4 +61,30 @@
 </dependency>
     
   	</dependencies>
+  	<build>
+  	<plugins>
+  	<plugin>
+          <artifactId>maven-assembly-plugin</artifactId>
+          <configuration>
+            <descriptorRefs>
+              <descriptorRef>jar-with-dependencies</descriptorRef>
+            </descriptorRefs>
+            <archive>
+              <manifest>
+                <mainClass>Launcher.App</mainClass>
+              </manifest>
+            </archive>
+          </configuration>
+          <executions>
+            <execution>
+              <id>make-assembly</id>
+              <phase>package</phase>
+              <goals>
+                <goal>single</goal>
+              </goals>
+            </execution>
+          </executions>
+        </plugin>
+  	</plugins>
+  	</build>
 </project>
