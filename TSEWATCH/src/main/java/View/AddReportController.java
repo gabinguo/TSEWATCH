@@ -88,7 +88,7 @@ public class AddReportController {
 				HTMLGenerator htmlGenerator = new HTMLGenerator(avis);
 				htmlGenerator.generateReport(nameOfReport);
 				String pathReport = Const.FOLDER_RAPPORT + nameOfReport + ".html" ;
-				//java.awt.Desktop.getDesktop().browse(new File(pathReport).toURI());
+				
 				
 				Alert alert = new Alert(AlertType.INFORMATION);
     			alert.setTitle("Success");

@@ -49,6 +49,11 @@
                   </JFXButton>
                </children>
             </HBox>
+            <JFXButton fx:id="btn_preview" layoutX="298.0" layoutY="30.0" onAction="#handleButtonAction" prefHeight="18.0" prefWidth="31.0" text=" ">
+               <graphic>
+                  <MaterialDesignIconView glyphName="EYE" size="15" />
+               </graphic>
+            </JFXButton>
          </children>
       </Pane>
    </children>

@@ -331,7 +331,13 @@ public class HomeController {
 		Crawlers c = new Crawlers();
 		switch (option) {
 		case "Auvergnerhonealpes":
-			f.classifyAvis(c.auvergnerCrawler("", "it", 1));
+			new Thread(new Runnable() {
+				
+				@Override
+				public void run() {
+					f.classifyAvis(c.auvergnerCrawler("", "it", 1));
+				}
+			}).start();;
 			break;
 
 		default:

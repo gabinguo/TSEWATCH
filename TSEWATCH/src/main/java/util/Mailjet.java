@@ -14,7 +14,7 @@ import com.mailjet.client.errors.MailjetSocketTimeoutException;
 import com.mailjet.client.resource.Emailv31;
 
 public class Mailjet {
-	public static void SendMail(String Sender, String Receiver, String Content) throws MailjetException, MailjetSocketTimeoutException {
+	public static boolean SendMail(String Sender, String Receiver, String Content) throws MailjetException, MailjetSocketTimeoutException {
 		
 		MailjetClient client;
 	      MailjetRequest request;
@@ -38,9 +38,10 @@ public class Mailjet {
 	      System.out.println(response.getStatus());
 	      if(response.getStatus() == 200) {
 	    	  System.out.println("Email Sent");
-	    	  
+	    	  return true;
 	      }else {
 	    	  System.out.println(response.getData());
+	    	  return false;
 	      }
 	}
 	
