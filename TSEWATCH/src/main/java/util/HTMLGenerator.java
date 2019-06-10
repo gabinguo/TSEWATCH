@@ -255,6 +255,8 @@ public class HTMLGenerator {
 	 * Put files .css to their server(MUST DO)! So that we can get remote access to these files
 	 * @param args
 	 */
+	
+	
 	public static void main(String[] args) {
 		ArrayList<Avis> list2Test = new ArrayList<Avis>();
 		

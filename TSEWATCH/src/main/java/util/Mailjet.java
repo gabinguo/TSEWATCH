@@ -49,6 +49,16 @@ public class Mailjet {
 	}
 	
 	public static void main(String[] args) {
+		/***************Send a email*******************/
+		/**
+		 *  10 email / hour (Limit by trial account)
+		 *  SendMail(Sender,Receicer)
+		 *  Sender can only be "gabin.guo@gmail.com"
+		 *  Receiver can be everybody
+		 */
+		//Mailjet.SendMail("gabin.guo@gmail.com", "gabin_guo@163.com" , generator.getHtml().toBigHtmlString());
+		
+		
 		try {
 			SendMail(null, null,null);
 		} catch (MailjetException e) {

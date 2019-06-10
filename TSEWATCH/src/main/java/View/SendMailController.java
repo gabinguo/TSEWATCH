@@ -5,6 +5,7 @@ import java.awt.event.MouseEvent;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 
+import Launcher.App;
 import Launcher.DisplayController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -24,8 +25,8 @@ public class SendMailController {
 	@FXML
 	public void initialize() {
 		displayCtrl = DisplayController.getInstance();
-		comboBox_listD.setItems(displayCtrl.getDF());
-		comboBox_rapport.setItems(displayCtrl.gerRP());
+		comboBox_listD.setItems(App.getDF());
+		comboBox_rapport.setItems(App.gerRP());
 	}
 	@FXML
 	private JFXButton btn_sm_cancel,btn_sm_ok;

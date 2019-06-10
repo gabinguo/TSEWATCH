@@ -9,6 +9,7 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
 
+import Launcher.App;
 import Launcher.DisplayController;
 import Model.Avis;
 import Model.AxeDeVeille;
@@ -70,8 +71,8 @@ public class AddReportController {
 	@FXML
 	private void comboBoxClickOn() {
 		ArrayList<Object> listObj = new ArrayList<Object>();
-    	for(int i =0;i<displayCtrl.getListVeille().size();i++) {
-    		listObj.add(displayCtrl.getListVeille().get(i).getName());	
+    	for(int i =0;i<App.getListVeille().size();i++) {
+    		listObj.add(App.getListVeille().get(i).getName());	
     	} 
     	comboBox_AR.getItems().clear();
     	comboBox_AR.getItems().addAll(listObj);
@@ -94,7 +95,7 @@ public class AddReportController {
     			alert.setHeaderText("Report added");
     			alert.setContentText("Un nouveau rapport est fait pour envoyer!");
     			alert.showAndWait();
-    			displayCtrl.getListReport().add(nameOfReport);
+    			App.getListReport().add(nameOfReport);
     			displayCtrl.getFileManager().saveLine(nameOfReport, Const.FILE_REPORTLIST);
     			return true;
 			}else {

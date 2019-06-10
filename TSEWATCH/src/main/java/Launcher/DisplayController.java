@@ -30,9 +30,6 @@ public class DisplayController extends Application{
 	private static Stage addClientStage;
 	private static Stage addReportStage;
 	
-	private static ArrayList<AxeDeVeille> listVeille = new ArrayList<AxeDeVeille>();
-	private static ArrayList<ListDiffusion> listDiffusion = new ArrayList<ListDiffusion>();
-	private static ArrayList<String> listReport = new ArrayList<String>();
 	private static FileManager fileManager;
 	
 	private HomeController homeController;
@@ -42,29 +39,7 @@ public class DisplayController extends Application{
 		launch(args);
 	}
 	
-	public ObservableList<AxeDeVeille> getAxes(){
-		ObservableList<AxeDeVeille> listAxes = FXCollections.observableArrayList();
-		for(AxeDeVeille axe : listVeille) {
-			listAxes.add(axe);
-		}
-		return listAxes;
-	}
 	
-	public ObservableList<String> getDF(){
-		ObservableList<String> listDf = FXCollections.observableArrayList();
-		for(ListDiffusion df : listDiffusion) {
-			listDf.add(df.getName());
-		}
-		return listDf;
-	}
-	
-	public ObservableList<String> gerRP(){
-		ObservableList<String> listRP = FXCollections.observableArrayList();
-		for(String str : listReport) {
-			listRP.add(str);
-		}
-		return listRP;
-	}
 	
 	
 	/*
@@ -172,75 +147,6 @@ public class DisplayController extends Application{
 		return homeController;
 	}
 
-	public void loadFiles () {
-		FileManager.createFolder(null, 1);
-		FileManager.createFolder(null, 2);
-		FileManager.createFolder(null, 3);
-		fileManager = new FileManager();
-		ArrayList<String> allVeille = null;
-		ArrayList<String> allDiffusionList = null;
-		ArrayList<String> allReport = null;
-		try {
-			allVeille = (ArrayList<String>) FileUtils.readLines(new File(Const.FILE_AXELIST));
-			allDiffusionList = (ArrayList<String>) FileUtils.readLines(new File(Const.FILE_DIFFUSIONLIST));
-			allReport = (ArrayList<String>) FileUtils.readLines(new File(Const.FILE_REPORTLIST));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		//System.out.println(allVeille.size());
-		if(allVeille != null )
-		for(String veilleName : allVeille) {
-			try {
-					listVeille.add(fileManager.readAxe(veilleName));
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-		
-		if(allDiffusionList!=null)
-		for(String diffusionName : allDiffusionList) {
-			try {
-					listDiffusion.add(fileManager.readDiffusionList(diffusionName));
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-		
-		if(allReport != null) {
-			for(String reportName : allReport) {
-				listReport.add(reportName);
-			}
-		}
-	}
-	
-	
-	
-	
-	public ArrayList<AxeDeVeille> getListVeille() {
-		return listVeille;
-	}
-
-	public void setListVeille(ArrayList<AxeDeVeille> listVeille) {
-		this.listVeille = listVeille;
-	}
-
-	public ArrayList<ListDiffusion> getListDiffusion() {
-		return listDiffusion;
-	}
-
-	public void setListDiffusion(ArrayList<ListDiffusion> listDiffusion) {
-		this.listDiffusion = listDiffusion;
-	}
-	
-	
-
-	public static ArrayList<String> getListReport() {
-		return listReport;
-	}
-
-	public static void setListReport(ArrayList<String> listReport) {
-		DisplayController.listReport = listReport;
-	}
 
 	public static FileManager getFileManager() {
 		return fileManager;
@@ -254,12 +160,7 @@ public class DisplayController extends Application{
 	public void start(Stage primaryStage) throws Exception {
 		this.primaryStage = primaryStage;
 		this.primaryStage.setTitle("TSEWATCH");
-		this.instance = this;
-		
-		
-		
-		loadFiles();
-		
+		this.instance = this;	
 		//System.out.println(listVeille.size());
 		showMainpageOverview();
 	}

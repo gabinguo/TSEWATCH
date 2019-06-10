@@ -9,6 +9,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -26,6 +27,7 @@ public class FileManager {
 	
 	@SuppressWarnings("resource")
 	public FileManager() {
+		// Creat 3 file in 3 different folders to store .txt files
 		File fa = new File(Const.FILE_AXELIST);
 		File fd = new File(Const.FILE_DIFFUSIONLIST);
 		File fr = new File(Const.FILE_REPORTLIST);
@@ -67,7 +69,7 @@ public class FileManager {
 			e.printStackTrace();
 		}
 		
-		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(fos));
+		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(fos,StandardCharsets.ISO_8859_1));
 		try {
 			bw.write(lineStr);
 			bw.newLine();
@@ -242,15 +244,14 @@ public class FileManager {
 	public static AxeDeVeille readAxe(String name) throws IOException{
 		AxeDeVeille axe = new AxeDeVeille(); 
 		
-		
-		
 		String path = Const.FOLDER_AXE + name +"/avis.txt";	
+		
 		File f = new File(path);
 		if(!f.exists()) {
 			createFolder(Const.FOLDER_AXE + name);
 		}if(f.exists()) {
 			ArrayList<String> listStr = null;
-			listStr = (ArrayList<String>) FileUtils.readLines(f);
+			listStr = (ArrayList<String>) FileUtils.readLines(f,"ISO8859_1");
 			
 			ArrayList<Avis> listAvis = null;
 			if(listStr==null && listStr.size() == 0) {}
@@ -267,7 +268,7 @@ public class FileManager {
 			
 			String pathKeywords = Const.FOLDER_AXE + name + "/config.txt";
 			File fKeywords = new File(pathKeywords);
-			String[] keywordsArr = FileUtils.readLines(fKeywords)
+			String[] keywordsArr = FileUtils.readLines(fKeywords,"ISO8859_1")
 													.get(0).trim().split(",");
 			ArrayList<String> keywords = new ArrayList<String>();
 			
@@ -286,7 +287,7 @@ public class FileManager {
 		File f = new File(txtPath);
 		
 		ArrayList<String> listStr = null;
-		listStr = (ArrayList<String>) FileUtils.readLines(f);
+		listStr = (ArrayList<String>) FileUtils.readLines(f,"ISO8859_1");
 		ArrayList<Client> listClient = null;
 		if(listStr != null && listStr.size() !=0) {
 			listClient = new ArrayList<Client>();
@@ -299,6 +300,12 @@ public class FileManager {
 		ld.setListClient(listClient);
 		return ld;
 	}
+	
+	
+	
+	
+	
+	
 	public static void main(String[] args) {
 		
 	}
