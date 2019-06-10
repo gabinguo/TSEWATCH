@@ -80,7 +80,7 @@ public class Avis {
 		boolean result = false;
 		// send GET request to the link to get the HTML data
 		for (String key : keyword) {
-			String result_ = null;
+			String result_ = "";
 			try {
 				result_ = HTTPRequest.sendGET(this.link);
 			} catch (Exception e) {
@@ -89,6 +89,9 @@ public class Avis {
 			}
 			String text = null;
 
+			if(result_ == "") {
+				System.out.println("true");
+			}
 			// parse the HTML data to get the text data
 			Document doc = Jsoup.parse(result_);
 			Elements eles = doc.getAllElements();

@@ -2,6 +2,7 @@ package file.io;
 
 import java.util.ArrayList;
 
+import Launcher.App;
 import Launcher.DisplayController;
 import Model.Avis;
 import Model.AxeDeVeille;
@@ -15,8 +16,9 @@ public class Filter {
 		displayCtrl = DisplayController.getInstance();
 	}
 	
-	public void classifyAvis( ArrayList<Avis> listAvis , ArrayList<AxeDeVeille> listAxes) {
+	public void classifyAvis( ArrayList<Avis> listAvis) {
 		String path = "";
+		ArrayList<AxeDeVeille> listAxes = App.getListVeille();
 		for(Avis avis : listAvis){ 
 			for(AxeDeVeille axe : listAxes) {
 				if(avis.checkKeywordHTML(axe.getKeywords())){

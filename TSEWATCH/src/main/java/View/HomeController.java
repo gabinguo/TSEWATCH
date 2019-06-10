@@ -29,6 +29,7 @@ import Model.AxeDeVeille;
 import Model.Client;
 import Model.ListDiffusion;
 import file.io.FileManager;
+import file.io.Filter;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -49,6 +50,7 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import util.Const;
+import util.Crawlers;
 
 /**
  * TODO
@@ -286,7 +288,9 @@ public class HomeController {
 
         if(event.getSource() == btn_recherche_ok) {    	
         	rapport_pane.toFront();
-        	page_report_veilleList.getSelectionModel().select(0);   
+        	page_report_veilleList.getSelectionModel().select(0);  
+        	
+        	searchEngine((String) siteList.getValue());
         }
         
         /**
@@ -322,6 +326,20 @@ public class HomeController {
         }
     }
 	
+	private void searchEngine(String option) {
+		Filter f = new Filter();
+		Crawlers c = new Crawlers();
+		switch (option) {
+		case "Auvergnerhonealpes":
+			f.classifyAvis(c.auvergnerCrawler("", "it", 1));
+			break;
+
+		default:
+			break;
+		}
+		
+	}
+
 	public void btn_save_axe_modify_Action() {
 		for(int i= 0 ; i < App.getListVeille().size();i++) {
 			if(App.getListVeille().get(i).getName() == ((AxeDeVeille)veilleTableView.getSelectionModel().getSelectedItem()).getName()) {
