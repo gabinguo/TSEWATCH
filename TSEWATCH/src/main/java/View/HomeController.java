@@ -71,7 +71,7 @@ public class HomeController {
     						,btn_rapport_nouveau,btn_add_client, btn_envoyer, btn_add_axe,btn_delete_axe,
     						btn_modify_axe, btn_annuler_axe,btn_save_axe,btn_recherche_ok,btn_delete_diffusion,
     						btn_add_diffusion, btn_modify_listd,btn_not_create,btn_delete_client,btn_annuler_axe_modify,
-    						btn_save_axe_modify;
+    						btn_save_axe_modify, btn_refresh;
     
     
     @SuppressWarnings("rawtypes")
@@ -123,6 +123,7 @@ public class HomeController {
 		add_axe_pane.setVisible(false);
     	recherche_pane.toFront();
     	keywordsTextField.setWrapText(true);
+    	
     	list_diffusion.getSelectionModel().selectedItemProperty().addListener((v,oldValue,newValue) ->
     		updateClientTableView((String) newValue));
     	
@@ -238,7 +239,10 @@ public class HomeController {
         	
         	addLd_pane.toFront();
         }
-
+        if(event.getSource() == btn_refresh) {
+        	System.out.println("refresh.");
+        	updateAvisTableView((String) page_report_veilleList.getValue());
+        }
         if(event.getSource() == btn_not_create) {
         	diffusion_pane.toFront();
         	nameLd.clear();
