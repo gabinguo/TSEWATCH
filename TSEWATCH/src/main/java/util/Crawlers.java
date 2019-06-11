@@ -28,7 +28,7 @@ public class Crawlers {
 		/** for test **/
 //		ArrayList<Avis> avisList = crawler.franceMarcheCrawler("auvergne-rhone-alpes","2019-05-01","2019-06-01",2);
 //		ArrayList<Avis> avisList = crawler.proxiLegalesCrawler("info", 2);	
-		ArrayList<Avis> avisList = crawler.marchepublicsInfoCrawler("75","< 8");	
+		ArrayList<Avis> avisList = crawler.marchepublicsInfoCrawler("3","< 30");	
 
 //		ArrayList<Avis> avisList = crawler.auvergnerCrawler("","",2);
 		
