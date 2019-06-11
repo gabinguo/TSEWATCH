@@ -21,6 +21,7 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
 import com.webfirmframework.wffweb.tag.html.attribute.For;
+import com.webfirmframework.wffweb.tag.html.identifier.TBodyAttributable;
 
 import Launcher.App;
 import Launcher.DisplayController;
@@ -158,37 +159,44 @@ public class HomeController {
 	}
     
     private void updateClientTableView(String value) {
-    	try {
-			ArrayList<String> listStr =  (ArrayList<String>) FileUtils.readLines(new File(Const.FOLDER_DIFFUSION + value + ".txt"),"ISO8859_1");
-			ObservableList<Client> listClient = FXCollections.observableArrayList();
-			for(int i = 0 ; i < listStr.size();i++) {
-				String[] arr = listStr.get(i).split("\\|");
-				listClient.add(new Client(arr[0],arr[1]));
+    	if(value!=null) {
+	    	try {
+				ArrayList<String> listStr =  (ArrayList<String>) FileUtils.readLines(new File(Const.FOLDER_DIFFUSION + value + ".txt"),"ISO8859_1");
+				ObservableList<Client> listClient = FXCollections.observableArrayList();
+				for(int i = 0 ; i < listStr.size();i++) {
+					String[] arr = listStr.get(i).split("\\|");
+					listClient.add(new Client(arr[0],arr[1]));
+				}
+				clientTableView.setItems(listClient);			
+			} catch (IOException e) {
+				e.printStackTrace();
 			}
-			clientTableView.setItems(listClient);			
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+    	}else{
+    		clientTableView.getItems().clear();
+    	}
 	}
 
     
     private void updateAvisTableView(String value) {
-    	if(value!=null) {
-	    	String filepath = Const.FOLDER_AXE + value
-	    					+ "/avis.txt";
-	    	
-	    	try {
-				ArrayList<String> listStr = (ArrayList<String>) FileUtils.readLines(new File(filepath),"ISO8859_1");
-				ObservableList<Avis> listAvis = FXCollections.observableArrayList();
-				for(int i =0; i< listStr.size();i++) {
-					String[] arr = listStr.get(i).split("\\|");
-					listAvis.add(new Avis(arr[2], arr[0], arr[1]));
+    	if(value != null) {
+    		if(value.length()!=0) {
+		    	String filepath = Const.FOLDER_AXE + value
+		    					+ "/avis.txt";
+		    	
+		    	try {
+					ArrayList<String> listStr = (ArrayList<String>) FileUtils.readLines(new File(filepath),"ISO8859_1");
+					ObservableList<Avis> listAvis = FXCollections.observableArrayList();
+					for(int i =0; i< listStr.size();i++) {
+						String[] arr = listStr.get(i).split("\\|");
+						listAvis.add(new Avis(arr[2], arr[0], arr[1]));
+					}
+					resultTableView.setItems(listAvis);
+				} catch (IOException e) {
+					e.printStackTrace();
 				}
-				resultTableView.setItems(listAvis);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-    	
+    		}
+    	}else {
+    		resultTableView.getItems().clear();
     	}
     	
     }
@@ -409,7 +417,8 @@ public class HomeController {
 			}
 		}
 		
-		
+		page_report_veilleList.getSelectionModel().clearSelection();
+		updateAvisTableView("");
 		
 	}
 	
@@ -437,19 +446,25 @@ public class HomeController {
 	}
 	
 	public void btn_modify_axe_Action() {
-    	modify_axe_pane.setVisible(true);
+		if(veilleTableView.getItems().size() != 0) {
+	    	modify_axe_pane.setVisible(true);
+	    	
+	    	AxeDeVeille axe2Modify = (AxeDeVeille) veilleTableView.getSelectionModel().getSelectedItem();
+	    	nameVeilleTextField_modify.setText(axe2Modify.getName());
+	    	keywordsTextField_modify.setText(axe2Modify.getStr2File());   
     	
-    	AxeDeVeille axe2Modify = (AxeDeVeille) veilleTableView.getSelectionModel().getSelectedItem();
-    	nameVeilleTextField_modify.setText(axe2Modify.getName());
-    	keywordsTextField_modify.setText(axe2Modify.getStr2File());   
-    	
-    	
+		}else {
+			
+		}
 	}
 	
 	public void btn_delete_diffusion_Action() {
 		String str = nameLd.getText().trim();
     	ObservableList<String> allLists;
     	allLists = list_diffusion.getItems();
+    	
+    	
+    	// remove the item youw wanna delete in the comboBox
     	for(int i = 0 ; i < list_diffusion.getItems().size();i++) {
     		if(list_diffusion.getItems().get(i).equals(str)) {
     			list_diffusion.getItems().remove(i);
@@ -457,6 +472,7 @@ public class HomeController {
     		}
     	}	
     	
+    	// remove the item related in the static list of App
     	for( int i = 0; i < App.getListDiffusion().size();i++) {
     		if(App.getListDiffusion().get(i).getName().equals(str)){
     			App.getListDiffusion().remove(App.getListDiffusion().get(i));
@@ -464,6 +480,7 @@ public class HomeController {
     		}
     	}
     	
+    	// detele the file .txt which store all the client in this listOfD
     	FileUtils.deleteQuietly(new File(Const.FOLDER_DIFFUSION + str + ".txt"));
     	
     	displayCtrl.getFileManager().emptyTXT(Const.FILE_DIFFUSIONLIST);
@@ -557,7 +574,11 @@ public class HomeController {
          	}
          	page_report_veilleList.getItems().clear();
          	page_report_veilleList.getItems().addAll(listObj);
+         	
+         	
     	}	
+		page_report_veilleList.getSelectionModel().clearSelection();
+		updateAvisTableView("");
 	}
   
 	public void addClient2TableView(Client c) {
