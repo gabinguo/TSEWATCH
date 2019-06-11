@@ -381,7 +381,7 @@ public class HomeController {
 				
 				@Override
 				public void run() {
-					f.classifyAvis(c.proxiLegalesCrawler("info", 5));
+					f.classifyAvis(c.proxiLegalesCrawler("logiciel", 5));
 					
 				}
 			}).start();
