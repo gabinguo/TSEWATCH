@@ -131,9 +131,11 @@ public class Crawlers {
 		//crawler.tedEuropaCrawler();
 		//crawler.EmarchesCrawler();
 		
-//		ArrayList<Avis> avisList = crawler.getLinksBOAMP("01/05/2019","10/05/2019",2);	
+		ArrayList<String> location = new ArrayList<String>();
+		location.add("75");
+		ArrayList<Avis> avisList = crawler.getLinksBOAMP("01/06/2019","10/06/2019",location,2);	
 //		ArrayList<Avis> avisList = crawler.marchesOnlineCrawler("TODAY","76",2);
-		ArrayList<Avis> avisList = crawler.marchepublicGouvCrawler(2);
+		//ArrayList<Avis> avisList = crawler.marchepublicGouvCrawler(2);
 		
 		for(Avis avis:avisList) {
 			avis.print();
@@ -170,8 +172,8 @@ public class Crawlers {
 	// Scrawler ONLY for https://boamp.fr/avis/liste
 		public ArrayList<Avis> getLinksBOAMP(String dateparutionmin,String dateparutionmax,ArrayList<String> location,int pageNum){
 			
-			String AuthFileName = this.getClass().getClassLoader().getResource("jssecacerts").getPath();
-			System.setProperty("javax.net.ssl.trustStore",AuthFileName);
+//			String AuthFileName = this.getClass().getClassLoader().getResource("jssecacerts").getPath();
+//			System.setProperty("javax.net.ssl.trustStore",AuthFileName);
 			
 			ArrayList<String> listLinks = new ArrayList<String>();
 			ArrayList<String> listTitre = new ArrayList<String>();
@@ -660,7 +662,7 @@ public class Crawlers {
 	 * Crawler for Marche-publics(gouv)
 	 * 
 	 * @author ZHI
-	 * @param the date before today (Aujourd'hui : 0  ;2 derniers
+	 * @param the date before today (Aujourd'hui : 1  ;2 derniers
 	 *         jours : 2 ;3 derniers jours : 3; 4 derniers jours : 4....)
 	 * @return list of the avis
 	 * 
@@ -1147,135 +1149,151 @@ public class Crawlers {
 	 * 
 	 */
 	public ArrayList<Avis> auvergnerCrawler(String departement,String intitule, int pageNum) {
-		// define the url of the site
-		String urlAuvergner = "https://auvergnerhonealpes.achatpublic.com/sdm/ent/gen/ent_recherche.do";
+//		// define the url of the site
+//		String urlAuvergner = "https://auvergnerhonealpes.achatpublic.com/sdm/ent/gen/ent_recherche.do";
+//
+//		ArrayList<String> listLinks = new ArrayList<String>();
+//		ArrayList<String> listTitre = new ArrayList<String>();
+//		ArrayList<String> listDate = new ArrayList<String>();
+//
+//		// for the different page
+//		for (int j = 0; j < pageNum; j++) {
+//			Map<String, String> params = new HashMap<String, String>();
+//			/*
+//			 * debug: jg orderby: 0 page: -1 nbAffiche: 10 objetRecherche: -1
+//			 * personnepublique: typeLieu: passation region: R01 departement:
+//			 * 02!;!59!;!60!;!62!;!80 procedure: -1 marche: -1 intitule: informatique
+//			 * reference: codeCPV: jour: 07 mois: 06 annee: 2019 precisionDate: apres page:
+//			 * 1
+//			 */
+//			params.put("departement", departement);
+//			params.put("intitule", intitule);
+//			params.put("page", Integer.toString(j));
+//			// params.put("jour", "07");
+//			// params.put("mois", "06");
+//			// params.put("annee", "2019");
+//			// params.put("debug", "jg");
+//			// params.put("", "");
+//			// params.put("", "");
+//			// params.put("", "");
+//
+//			String result = null;
+//			// send POST request to the site to get the HTML data
+//			try {
+//				result = HTTPRequest.sendPost(urlAuvergner, params);
+//			} catch (Exception e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+//			// System.out.println(result);
+//
+//			// parse the HTML data
+//			Document doc = Jsoup.parse(result);
+//
+//			// get the links from the HTML data
+//			Elements eles_link1 = doc.getElementsByClass("lineTable03 fixed_grey arial_11");
+//			Elements eles_link2 = doc.getElementsByClass("lineTable02 fixed_grey arial_11");
+//			ArrayList<String> listHTML = new ArrayList<String>();
+//			for (int i = 0; i < eles_link1.size(); i += 2) {
+//
+//				Element ele = eles_link1.get(i);
+//				// System.out.println(ele.attr("onclick"));
+//				listHTML.add(ele.attr("onclick"));
+//				if (i < eles_link2.size()) {
+//					Element ele2 = eles_link2.get(i);
+//					listHTML.add(ele2.attr("onclick"));
+//				}
+//			}
+//
+//			// split the String to get the links
+//			String[] ListString;
+//			for (String link : listHTML) {
+//				// System.out.println(link);
+//				ListString = link.split("'");
+//				listLinks.add("https://auvergnerhonealpes.achatpublic.com/sdm/ent/gen/ent_detail.do?selected=0&PCSLID="
+//						+ ListString[3]);
+//			}
+//
+//			// get the titre from the HTML data
+//			Elements eles_titre1 = doc.getElementsByClass("lineTable03 fixed_grey arial_11 align_left");
+//			Elements eles_titre2 = doc.getElementsByClass("lineTable02 fixed_grey arial_11 align_left");
+//
+//			for (int i = 0; i < eles_titre1.size(); i += 2) {
+//				Element ele = eles_titre1.get(i);
+//				listTitre.add(ele.text());
+//				if (i < eles_titre2.size()) {
+//					Element ele2 = eles_titre2.get(i);
+//					listTitre.add(ele2.text());
+//				}
+//			}
+//
+//			// get the date from the HTML data (attention: the date is the limited date)
+//			for (int i = 1; i < eles_titre1.size(); i += 2) {
+//				Element ele = eles_titre1.get(i);
+//				listDate.add(ele.text());
+//				if (i < eles_titre2.size()) {
+//					Element ele2 = eles_titre2.get(i);
+//					listDate.add(ele2.text());
+//				}
+//			}
+//
+//		}
+//
+////		System.out.println(listLinks.size());
+////		System.out.println(listTitre.size());
+////		System.out.println(listDate.size());
+////		System.out.println(listLinks);
+////		System.out.println(listTitre);
+////		System.out.println(listDate);
+//		
+//		ArrayList<Avis> avisList = new ArrayList<Avis>();
+//		for (int i = 0; i < listLinks.size(); i++) {
+//			avisList.add(new Avis(listDate.get(i), listTitre.get(i), listLinks.get(i)));
+//		}
+//
+//		return avisList;
 
+		/** for the website  decocher "Consultations du conseil régional uniquement"  **/
 		ArrayList<String> listLinks = new ArrayList<String>();
 		ArrayList<String> listTitre = new ArrayList<String>();
 		ArrayList<String> listDate = new ArrayList<String>();
-
-		// for the different page
-		for (int j = 0; j < pageNum; j++) {
-			Map<String, String> params = new HashMap<String, String>();
-			/*
-			 * debug: jg orderby: 0 page: -1 nbAffiche: 10 objetRecherche: -1
-			 * personnepublique: typeLieu: passation region: R01 departement:
-			 * 02!;!59!;!60!;!62!;!80 procedure: -1 marche: -1 intitule: informatique
-			 * reference: codeCPV: jour: 07 mois: 06 annee: 2019 precisionDate: apres page:
-			 * 1
-			 */
-			params.put("departement", departement);
-			params.put("intitule", intitule);
-			params.put("page", Integer.toString(j));
-			// params.put("jour", "07");
-			// params.put("mois", "06");
-			// params.put("annee", "2019");
-			// params.put("debug", "jg");
-			// params.put("", "");
-			// params.put("", "");
-			// params.put("", "");
-
-			String result = null;
-			// send POST request to the site to get the HTML data
-			try {
-				result = HTTPRequest.sendPost(urlAuvergner, params);
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			// System.out.println(result);
-
-			// parse the HTML data
-			Document doc = Jsoup.parse(result);
-
-			// get the links from the HTML data
-			Elements eles_link1 = doc.getElementsByClass("lineTable03 fixed_grey arial_11");
-			Elements eles_link2 = doc.getElementsByClass("lineTable02 fixed_grey arial_11");
-			ArrayList<String> listHTML = new ArrayList<String>();
-			for (int i = 0; i < eles_link1.size(); i += 2) {
-
-				Element ele = eles_link1.get(i);
-				// System.out.println(ele.attr("onclick"));
-				listHTML.add(ele.attr("onclick"));
-				if (i < eles_link2.size()) {
-					Element ele2 = eles_link2.get(i);
-					listHTML.add(ele2.attr("onclick"));
-				}
-			}
-
-			// split the String to get the links
-			String[] ListString;
-			for (String link : listHTML) {
-				// System.out.println(link);
-				ListString = link.split("'");
-				listLinks.add("https://auvergnerhonealpes.achatpublic.com/sdm/ent/gen/ent_detail.do?selected=0&PCSLID="
-						+ ListString[3]);
-			}
-
-			// get the titre from the HTML data
-			Elements eles_titre1 = doc.getElementsByClass("lineTable03 fixed_grey arial_11 align_left");
-			Elements eles_titre2 = doc.getElementsByClass("lineTable02 fixed_grey arial_11 align_left");
-
-			for (int i = 0; i < eles_titre1.size(); i += 2) {
-				Element ele = eles_titre1.get(i);
-				listTitre.add(ele.text());
-				if (i < eles_titre2.size()) {
-					Element ele2 = eles_titre2.get(i);
-					listTitre.add(ele2.text());
-				}
-			}
-
-			// get the date from the HTML data (attention: the date is the limited date)
-			for (int i = 1; i < eles_titre1.size(); i += 2) {
-				Element ele = eles_titre1.get(i);
-				listDate.add(ele.text());
-				if (i < eles_titre2.size()) {
-					Element ele2 = eles_titre2.get(i);
-					listDate.add(ele2.text());
-				}
-			}
-
-		}
-
-//		System.out.println(listLinks.size());
-//		System.out.println(listTitre.size());
-//		System.out.println(listDate.size());
-//		System.out.println(listLinks);
-//		System.out.println(listTitre);
-//		System.out.println(listDate);
 		
-		ArrayList<Avis> avisList = new ArrayList<Avis>();
-		for (int i = 0; i < listLinks.size(); i++) {
-			avisList.add(new Avis(listDate.get(i), listTitre.get(i), listLinks.get(i)));
+		/** for the service **/
+		// define the url of the site
+		String urlMPI_service = "https://auvergnerhonealpes.achatpublic.com/accueil/?page_id=143%2F&departement%5B0%5D="+""+"%2F&typeMarche=2&intitule="+"informatique";
+		
+		String result = null;
+		// send POST request to the site to get the HTML data
+		try {
+			result = HTTPRequest.sendGET(urlMPI_service);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-
-		return avisList;
-
-//		/** for the website  decocher "Consultations du conseil régional uniquement"  **/
-////		ArrayList<String> listLinks = new ArrayList<String>();
-////		ArrayList<String> listTitre = new ArrayList<String>();
-////		ArrayList<String> listDate = new ArrayList<String>();
-//		
-//		/** for the service **/
-//		// define the url of the site
-//		String urlMPI_service = "https://auvergnerhonealpes.achatpublic.com/accueil/?page_id=143%2F&typeMarche=2&intitule="+"informatique";
-//		
-//		String result = null;
-//		// send POST request to the site to get the HTML data
-//		try {
-//			result = HTTPRequest.sendGET(urlMPI_service);
-//		} catch (Exception e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//		 //System.out.println(result);
-//		
-//		// parse the HTML data
-//		Document doc = Jsoup.parse(result);
-//		
-//		// get the links from the HTML data
-//		//Elements eles_link = doc.getElementsByAttributeValueContaining("href", "/avis/detail/");
-//		//System.out.println(eles_link.size());
+		 //System.out.println(result);
+		
+		// parse the HTML data
+		Document doc = Jsoup.parse(result);
+		
+		// get the links from the HTML data
+		//Elements eles_link = doc.getElementsByAttributeValueContaining("href", "/avis/detail/");
+		//System.out.println(eles_link.size());
+		
+		/**
+		 * 07 - Ardèche
+		 * 26 - Drôme
+		 * 43 - Haute-Loire
+		 * 63 - Puy-de-Dôme
+		 * 01 - Ain
+		 * 42 - Loire
+		 * 74 - Haute-Savoie
+		 * 03 - Allier
+		 * 73 - Savoie
+		 * 38 - Isère
+		 * 69 - Rhône
+		 * 15 - Cantal
+		 * https://auvergnerhonealpes.achatpublic.com/accueil/?page_id=143%2F&departement%5B0%5D=01&departement%5B1%5D=03&typeMarche=2&intitule=informatique
+		 */
 	}
 
 	/*****************************************************/
