@@ -157,14 +157,14 @@ public class HTTPRequest {
 		// Get a httpClient object
 		//RequestConfig config = RequestConfig.custom().setRedirectsEnabled(false).build();
 		
-		CloseableHttpClient httpclient = HttpClients.custom()
-		         //关闭httpclient重定向
-		        .disableRedirectHandling()
-		        .build();
+//		CloseableHttpClient httpclient = HttpClients.custom()
+//		         //关闭httpclient重定向
+//		        .disableRedirectHandling()
+//		        .build();
 
 		//CloseableHttpClient httpclient = HttpClients.custom().setDefaultRequestConfig(config).build();
-		//CloseableHttpClient httpclient = HttpClients.createDefault();
-		//httpclient = (CloseableHttpClient) wrapClient(httpclient);
+		CloseableHttpClient httpclient = HttpClients.createDefault();
+		httpclient = (CloseableHttpClient) wrapClient(httpclient);
 		// Creat a list to store params
 		List<NameValuePair> formparams = new ArrayList<NameValuePair>();
 		for (Map.Entry<String, String> entry : params.entrySet()) {
@@ -174,7 +174,7 @@ public class HTTPRequest {
 
 		// Generate a post request
 		HttpPost httpPost = new HttpPost(url);
-		if (url == Const.BOAMP) {
+		
 			httpPost.setHeader("Accept",
 					"text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3");
 			httpPost.setHeader("Accept-Encoding", "gzip, deflate, br");
@@ -187,11 +187,12 @@ public class HTTPRequest {
 			httpPost.setHeader("Referer", "https://www.e-marchespublics.com/");
 			httpPost.setHeader("Origin", "https://www.e-marchespublics.com");
 			httpPost.setHeader("Upgrade-Insecure-Requests", "1");
-			httpPost.setHeader("Cookie", "__utmz=221947975.1559915323.1.1.utmcsr=(direct)|utmccn=(direct)|utmcmd=(none); __tawkuuid=e::e-marchespublics.com::gznHPhb9/fQSvIFEWRjnhiN7U7tXlLqAlyu7Wo5QHIi4JawF3RfZDy9vuStSVsBT::2; __utma=221947975.483012384.1559915323.1559922344.1559998322.3; __utmc=221947975; __utmt=1; __utmb=221947975.6.10.1559998322; XSRF-TOKEN=eyJpdiI6IjBtcWhGSW9LaVdSbHQybDYrcExiUmc9PSIsInZhbHVlIjoiWlZteGc1ZThoMFVpaTJoRjZVRVI1WDhXdEV3bk0xbWFiR0RZOGNWZDBYbVlkcUI3TEZmbksxdDZCRlNCckhxUSIsIm1hYyI6Ijc4OWEwOGMzMmZkYmY1NjFjYmVkZmY2MDJmYjA3MDVlYmM2ZTYyNTA5ZDQwNjM0NTRmY2RiNzhmOTYwOGY1NzMifQ%3D%3D; laravel_session=eyJpdiI6IkZsTjJLbzg3MURlelJQZHRSU0JKaXc9PSIsInZhbHVlIjoiajhIRkVIMGlsU1N0Y0dmOTIzZUpoMnVMa05NZ0Y2d2hnSHpXS2JqSXJJWlZZTE5NazZcL2FLMDVGblFORUZhR3UiLCJtYWMiOiJjMWJjMTRkODk5NWE4NDFiOGQ5ZGFiMjhmMDUwMzFhZGU3OWE5ODZhN2U0MTI5MDUwNzdkMmE0YzRhZTc4MTY3In0%3D; TawkConnectionTime=0");
+			httpPost.setHeader("Cookie", "JSESSIONID=89ADFC365DDBEB2BC10EA3AED5C37282.backend-b2; WT_FPC=id=10.226.49.21-2249038464.30743816:lv=1560236303935:ss=1560236303935; _pk_id.73.46f9=3079e670dbd53efa.1559895054.6.1560239905.1560239905.; _pk_ses.73.46f9=*");
+			httpPost.setHeader("laravel_session", "eyJpdiI6ImNZODAwVHB4NUFTbHAxZExaeTJVc2c9PSIsInZhbHVlIjoiUlIzWjhNdGtGME5NTnRGSnZcL1lGVWRoT3lKN0FERnVYYW5aXC80VXRCbnhyMVVSQlFjZUU1c0JBMzZlSU9LTktKIiwibWFjIjoiOThlNjY5M2E2YzYzODMxMWVlMWRlZTM0NzdhYjRjMDBmZjM0MmUyMjdiYzRlZGQzM2NiZDJkOWY3ZGMxYmExNyJ9");
 			httpPost.setHeader("User-Agent",
 					"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36");
 
-		}
+		
 		httpPost.setEntity(entity);
 		CloseableHttpResponse response = null;
 
