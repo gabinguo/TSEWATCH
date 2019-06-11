@@ -32,6 +32,7 @@ public class Mailjet {
 	                            ))
 	                    .put(Emailv31.Message.SUBJECT, "RAPPORT - DIGITAL-LEAGUE")
 	                    .put(Emailv31.Message.TEXTPART, "DIGITAL-LEAGUE VOUS PRESENTE.")
+	                    //.put(Emailv31.Message.HTMLPART, "DIGITAL <b>LEAGUE</b> VOUS PRESENTE."+Content)
 	                    .put(Emailv31.Message.INLINEDATTACHMENTS,new JSONArray().put(new JSONObject()
 	                    		.put("ContentType", "text/html").put("Filename","rapport.html").put("Base64Content", getEncodedStr(Content))))));
 	      response = client.post(request);

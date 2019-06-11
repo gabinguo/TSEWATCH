@@ -99,7 +99,7 @@ public class Avis {
 				text += ele.text();
 			}
 			
-			if(text.contains(key)) {
+			if(text.toLowerCase().contains(key.toLowerCase())) {
 				result = true;
 			}
 			

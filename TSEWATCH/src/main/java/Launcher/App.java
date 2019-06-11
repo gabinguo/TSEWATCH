@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import org.apache.commons.io.Charsets;
 import org.apache.commons.io.FileUtils;
 
 import Model.AxeDeVeille;
@@ -41,9 +42,9 @@ public class App {
 		// load all the 3 list .txt file
 		// all_axe_list | all_diffusion_list | all_report
 		try {
-			allVeille = (ArrayList<String>) FileUtils.readLines(new File(Const.FILE_AXELIST),"ISO8859_1");
-			allDiffusionList = (ArrayList<String>) FileUtils.readLines(new File(Const.FILE_DIFFUSIONLIST),"ISO8859_1");
-			allReport = (ArrayList<String>) FileUtils.readLines(new File(Const.FILE_REPORTLIST),"ISO8859_1");
+			allVeille = (ArrayList<String>) FileUtils.readLines(new File(Const.FILE_AXELIST),Charsets.ISO_8859_1);
+			allDiffusionList = (ArrayList<String>) FileUtils.readLines(new File(Const.FILE_DIFFUSIONLIST),Charsets.ISO_8859_1);
+			allReport = (ArrayList<String>) FileUtils.readLines(new File(Const.FILE_REPORTLIST),Charsets.ISO_8859_1);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -93,6 +94,7 @@ public class App {
 		for(AxeDeVeille axe : listVeille) {
 			listAxes.add(axe.getName());
 		}
+		
 		return listAxes;
 	}
 	

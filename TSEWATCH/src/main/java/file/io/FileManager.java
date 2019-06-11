@@ -9,11 +9,13 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 
+import org.apache.commons.io.Charsets;
 import org.apache.commons.io.FileUtils;
 
 import Model.Avis;
@@ -77,10 +79,6 @@ public class FileManager {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
-		
-		
-		
 	}
 	
 	/**
@@ -102,6 +100,7 @@ public class FileManager {
 	 *   Usage : Store those avis that could find the keyword of this axe in it 
 	 */
 	public static void saveAxe(AxeDeVeille axe) {
+		
 		// Step 1 
 		// ---> Create a new folder to store all the avis
 		createFolder(axe.getName(), 1);
@@ -127,7 +126,31 @@ public class FileManager {
 		// Save axe's name to all_axe_list.txt
 		saveLine(axe.getName(),Const.FILE_AXELIST);
 	}
-	
+public static void saveAxe(AxeDeVeille axe,boolean flag) {
+		
+		// Step 1 
+		// ---> Create a new folder to store all the avis
+		createFolder(axe.getName(), 1);
+		// ---> Create a file to store info(keywords)
+		String infoTXT = Const.FOLDER_AXE + axe.getName() + "/" + "config.txt";
+		emptyTXT(infoTXT);
+		// ---> Create a file to store avis
+		String avisTXT = Const.FOLDER_AXE + axe.getName() + "/" + "avis.txt";
+		emptyTXT(avisTXT);
+		
+		// Step 2
+		// --> Store all the keywords
+		saveLine(axe.getStr2File(), infoTXT);
+		
+		// Step 3
+		// Store all the links info in another txt file
+		if(axe.getListAvis() != null) {
+			for(Avis avis : axe.getListAvis()) {
+				saveLine(avis.getStr2File(),avisTXT);
+			}
+		}
+
+	}
 	public static void saveAvis(Avis avis, String path) {
 		File txt2StoreInfo = new File(path);
 		
@@ -251,7 +274,7 @@ public class FileManager {
 			createFolder(Const.FOLDER_AXE + name);
 		}if(f.exists()) {
 			ArrayList<String> listStr = null;
-			listStr = (ArrayList<String>) FileUtils.readLines(f,"ISO8859_1");
+			listStr = (ArrayList<String>) FileUtils.readLines(f,Charsets.ISO_8859_1);
 			
 			ArrayList<Avis> listAvis = null;
 			if(listStr==null && listStr.size() == 0) {}
@@ -268,7 +291,7 @@ public class FileManager {
 			
 			String pathKeywords = Const.FOLDER_AXE + name + "/config.txt";
 			File fKeywords = new File(pathKeywords);
-			String[] keywordsArr = FileUtils.readLines(fKeywords,"ISO8859_1")
+			String[] keywordsArr = FileUtils.readLines(fKeywords,Charsets.ISO_8859_1)
 													.get(0).trim().split(",");
 			ArrayList<String> keywords = new ArrayList<String>();
 			
@@ -287,7 +310,7 @@ public class FileManager {
 		File f = new File(txtPath);
 		
 		ArrayList<String> listStr = null;
-		listStr = (ArrayList<String>) FileUtils.readLines(f,"ISO8859_1");
+		listStr = (ArrayList<String>) FileUtils.readLines(f,Charsets.ISO_8859_1);
 		ArrayList<Client> listClient = null;
 		if(listStr != null && listStr.size() !=0) {
 			listClient = new ArrayList<Client>();

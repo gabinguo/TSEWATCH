@@ -407,12 +407,12 @@
             </HBox>
             <TableView fx:id="resultTableView" layoutX="141.0" layoutY="137.0" prefHeight="304.0" prefWidth="537.0">
               <columns>
-                <TableColumn fx:id="colDate" prefWidth="267.0" text="Date">
+                <TableColumn fx:id="colDate" prefWidth="170.0" text="Date">
                      <graphic>
                         <MaterialDesignIconView glyphName="CALENDAR_CHECK" size="20" />
                      </graphic>
                   </TableColumn>
-                <TableColumn fx:id="colLien" prefWidth="261.0" text="Lien ">
+                <TableColumn fx:id="colTitre" prefWidth="365.0" text="Titre">
                      <graphic>
                         <MaterialDesignIconView glyphName="EDGE" size="15" />
                      </graphic>

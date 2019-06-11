@@ -11,10 +11,13 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
+import org.apache.commons.io.Charsets;
 import org.apache.commons.io.FileUtils;
 
 import com.jfoenix.controls.JFXButton;
@@ -107,7 +110,7 @@ public class HomeController {
     @FXML
     private TableColumn<Client,String> colClient,colEmail;
     @FXML
-    private TableColumn<Avis,String> colDate,colLien;
+    private TableColumn<Avis,String> colDate,colTitre;
     
     
     @SuppressWarnings("unchecked")
@@ -131,6 +134,22 @@ public class HomeController {
     	page_report_veilleList.getSelectionModel().selectedItemProperty().addListener(
     			(v,oldValue,newValue) -> updateAvisTableView((String) newValue));
     	
+    	resultTableView.setOnMouseClicked(event -> {
+    		if(event.getClickCount() == 2) {
+    			Avis avis = (Avis) resultTableView.getSelectionModel().getSelectedItem();
+    			try {
+					java.awt.Desktop.getDesktop().browse(new URI(avis.getLink()));
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (URISyntaxException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+    		}
+    	});
+    	
     	
     	//Search page's table
     	for(String name : Const.namesOfSites) {
@@ -151,17 +170,14 @@ public class HomeController {
     	colEmail.setCellValueFactory(new PropertyValueFactory<>("email"));
 
     	colDate.setCellValueFactory(new PropertyValueFactory<>("date"));
-    	colLien.setCellValueFactory(new PropertyValueFactory<>("link"));
-    	
-    	
-    	
-    	
+    	colTitre.setCellValueFactory(new PropertyValueFactory<>("titre"));
+    		
 	}
     
     private void updateClientTableView(String value) {
     	if(value!=null) {
 	    	try {
-				ArrayList<String> listStr =  (ArrayList<String>) FileUtils.readLines(new File(Const.FOLDER_DIFFUSION + value + ".txt"),"ISO8859_1");
+				ArrayList<String> listStr =  (ArrayList<String>) FileUtils.readLines(new File(Const.FOLDER_DIFFUSION + value + ".txt"),Charsets.ISO_8859_1);
 				ObservableList<Client> listClient = FXCollections.observableArrayList();
 				for(int i = 0 ; i < listStr.size();i++) {
 					String[] arr = listStr.get(i).split("\\|");
@@ -184,7 +200,7 @@ public class HomeController {
 		    					+ "/avis.txt";
 		    	
 		    	try {
-					ArrayList<String> listStr = (ArrayList<String>) FileUtils.readLines(new File(filepath),"ISO8859_1");
+					ArrayList<String> listStr = (ArrayList<String>) FileUtils.readLines(new File(filepath),Charsets.ISO_8859_1);
 					ObservableList<Avis> listAvis = FXCollections.observableArrayList();
 					for(int i =0; i< listStr.size();i++) {
 						String[] arr = listStr.get(i).split("\\|");
@@ -350,7 +366,35 @@ public class HomeController {
 				}
 			}).start();;
 			break;
+		case "Boamp":
+			new Thread( new Runnable() {
 
+				@Override
+				public void run() {
+					f.classifyAvis(c.getLinksBOAMP("01/05/2019","10/05/2019",2));
+				}
+				
+			}).start();
+			break;
+		case "Proxilegales":
+			new Thread(new Runnable() {
+				
+				@Override
+				public void run() {
+					f.classifyAvis(c.proxiLegalesCrawler("info", 5));
+					
+				}
+			}).start();
+			
+		case "Marche-publics(info)":
+			new Thread(new Runnable() {
+				@Override
+				public void run() {
+					f.classifyAvis(c.marchepublicsInfoCrawler("75", "<8"));
+				}
+				
+			}).start();
+		break;
 		default:
 			break;
 		}
@@ -358,11 +402,7 @@ public class HomeController {
 	}
 
 	public void btn_save_axe_modify_Action() {
-		for(int i= 0 ; i < App.getListVeille().size();i++) {
-			if(App.getListVeille().get(i).getName() == ((AxeDeVeille)veilleTableView.getSelectionModel().getSelectedItem()).getName()) {
-				System.out.println("index : " + i);
-			}
-		}
+		
 		
 		try {
 			FileUtils.deleteDirectory(new File(Const.FOLDER_AXE + ((AxeDeVeille)veilleTableView.getSelectionModel().getSelectedItem()).getName()));
@@ -371,11 +411,12 @@ public class HomeController {
 		}
 		
 		int axe2ModifyIndex = (int) veilleTableView.getSelectionModel().getSelectedIndex();
-		System.out.println("axe2ModifyIndex: " + axe2ModifyIndex);
+		
 		
 		String name = nameVeilleTextField_modify.getText().trim();
 		String[] keywordsArr = keywordsTextField_modify.getText().trim().split(","); 
 		boolean flag = true;
+		
 		if(! ((AxeDeVeille)veilleTableView.getSelectionModel().getSelectedItem()).getName().equals(name) ) {
 			for(int i=0;i<App.getListVeille().size();i++) {
 	    		if(App.getListVeille().get(i).getName().equals(nameVeilleTextField_modify.getText().trim())) {
@@ -383,7 +424,8 @@ public class HomeController {
 	    			Alert alert = new Alert(AlertType.ERROR);
 	    			alert.setTitle("Error");
 	    			alert.setHeaderText("Attention");
-	    			alert.setContentText("Deja exist!");
+	    			alert.setContentText("Vous ne pouvez pas créé un axe avec nom déjà existant.\n"
+	    					+ "Veuillez choisir un autre nom!");
 	    			alert.showAndWait();
 	    		}
 	    	}
@@ -397,13 +439,14 @@ public class HomeController {
 				AxeDeVeille axeNew = new AxeDeVeille(name,listKeywords);
 				veilleTableView.getItems().remove(axe2ModifyIndex);
 				veilleTableView.getItems().add(axe2ModifyIndex, axeNew);
-								
+				
+				
 				App.getListVeille().remove(axe2ModifyIndex);
 				App.getListVeille().add(axe2ModifyIndex,axeNew);
-				
-				
+
+				displayCtrl.getFileManager().saveAxe(axeNew,false);	
 				reWriteAllAxeListTXT();
-				displayCtrl.getFileManager().saveAxe(axeNew);	
+				
 				
 				modify_axe_pane.setVisible(false);
 
@@ -412,7 +455,7 @@ public class HomeController {
 	    		Alert alert = new Alert(AlertType.ERROR);
 				alert.setTitle("Error");
 				alert.setHeaderText("Attention");
-				alert.setContentText("Rien rempli / Au moins un mot cle!");
+				alert.setContentText("Vous devez renseigner un titre et des mots clés.");
 				alert.showAndWait();
 			}
 		}
@@ -638,6 +681,7 @@ public class HomeController {
     				App.getListVeille().get(i).getName(), Const.FILE_AXELIST);
     	}
 	}
+	
     @FXML
     private void handleEvent(MouseEvent event) {    
     }
