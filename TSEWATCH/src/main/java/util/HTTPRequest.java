@@ -227,7 +227,7 @@ public class HTTPRequest {
 	}
 	
 	
-	public static String sendPostBoamp(String url, Map<String, String> params ) throws Exception {
+	public static String sendPostBoamp(String url, Map<String, String> params, ArrayList<String> locationList ) throws Exception {
 
 		disableCertificateValidation();
 		// Get a httpClient object
@@ -239,8 +239,12 @@ public class HTTPRequest {
 			formparams.add(new BasicNameValuePair(entry.getKey(), entry.getValue()));
 		}
 		
-		for(String location :Const.listDescripteur) {
-			formparams.add(new BasicNameValuePair("descripteur[]", location));
+		for(String descripteur :Const.listDescripteur) {
+			formparams.add(new BasicNameValuePair("descripteur[]", descripteur));
+		}
+		
+		for(String location :locationList) {
+			formparams.add(new BasicNameValuePair("numerodepartement[]", location));
 		}
 		
 		UrlEncodedFormEntity entity = new UrlEncodedFormEntity(formparams, Consts.UTF_8);

@@ -68,7 +68,7 @@ public class Avis {
 	/**
 	 * 
 	 * @param keyWord
-	 * @return true : It has the keyword false: it hasn't it
+	 * @return true : It has the keyword ; false: it hasn't it
 	 */
 	public boolean checkKeywordHTML(ArrayList<String> keyword) {
 
@@ -90,8 +90,8 @@ public class Avis {
 			for (Element ele : eles) {
 				text += ele.text();
 			}
-			
-			if(text.toLowerCase().contains(key)) {
+			System.out.println(text);
+			if(text.toLowerCase().contains(key.toLowerCase())) {
 				result = true;
 			}
 			
