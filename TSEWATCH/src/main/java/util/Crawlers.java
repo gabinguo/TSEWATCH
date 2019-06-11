@@ -28,14 +28,14 @@ public class Crawlers {
 		/** for test **/
 //		ArrayList<Avis> avisList = crawler.franceMarcheCrawler("auvergne-rhone-alpes","2019-05-01","2019-06-01",2);
 //		ArrayList<Avis> avisList = crawler.proxiLegalesCrawler("info", 2);	
-//		ArrayList<Avis> avisList = crawler.marchepublicsInfoCrawler("75","< 8");	
+		ArrayList<Avis> avisList = crawler.marchepublicsInfoCrawler("75","< 8");	
 
 //		ArrayList<Avis> avisList = crawler.auvergnerCrawler("","",2);
 		
 		//crawler.tedEuropaCrawler();
 		//crawler.EmarchesCrawler();
 		
-		ArrayList<Avis> avisList = crawler.getLinksBOAMP("01/05/2019","10/05/2019",2);	
+//		ArrayList<Avis> avisList = crawler.getLinksBOAMP("01/05/2019","10/05/2019",2);	
 //		ArrayList<Avis> avisList = crawler.marchesOnlineCrawler("TODAY","76",2);
 //		ArrayList<Avis> avisList = crawler.marchepublicGouvCrawler("01/06/2019","06/06/2019");
 		
@@ -476,7 +476,7 @@ public class Crawlers {
 		ArrayList<String> listTitre = new ArrayList<String>();
 		ArrayList<String> listDate = new ArrayList<String>();
 		
-		/** for the service**/
+		/** for the service **/
 		// define the map of the settings
 		Map<String, String> params = new HashMap<String, String>();
 		/*
@@ -583,8 +583,8 @@ public class Crawlers {
 		}
 
 		// get the titres from the HTML data
-		Elements eles_titre02 = doc.getElementsByClass("AW_Table_Ligne0");
-		Elements eles_titre12 = doc.getElementsByClass("AW_Table_Ligne1");
+		Elements eles_titre02 = doc2.getElementsByClass("AW_Table_Ligne0");
+		Elements eles_titre12 = doc2.getElementsByClass("AW_Table_Ligne1");
 		for (int i = 2; i < eles_titre02.size(); i += 3) {
 			Element ele0 = eles_titre02.get(i);
 			listTitre.add(ele0.text());
@@ -607,11 +607,7 @@ public class Crawlers {
 				listDate.add(ele1.text());
 			}
 		}
-		
-		
-		
-		
-		
+
 //		System.out.println(listLinks.size());
 //		System.out.println(listTitre.size());
 //		System.out.println(listDate.size());
