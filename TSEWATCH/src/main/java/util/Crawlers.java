@@ -16,158 +16,51 @@ import org.jsoup.select.Elements;
 import Model.Avis;
 
 public class Crawlers {
+	public static void main(String[] args) {
+		ArrayList<String> urls = new ArrayList<String>();
+		Crawlers crawler = new Crawlers();
+//		urls = crawler.getLinksBOAMP();
+//		
+//		for(String url : urls) {
+//			System.out.println(url);
+//		}
+
+		/** for test **/
+//		ArrayList<Avis> avisList = crawler.franceMarcheCrawler("auvergne-rhone-alpes","2019-05-01","2019-06-01",2);
+//		ArrayList<Avis> avisList = crawler.proxiLegalesCrawler("info", 2);	
+//		ArrayList<Avis> avisList = crawler.marchepublicsInfoCrawler("75","< 8");	
+
+//		ArrayList<Avis> avisList = crawler.auvergnerCrawler("","",2);
+		
+		//crawler.tedEuropaCrawler();
+		//crawler.EmarchesCrawler();
+		
+		ArrayList<Avis> avisList = crawler.getLinksBOAMP("01/05/2019","10/05/2019",2);	
+//		ArrayList<Avis> avisList = crawler.marchesOnlineCrawler("TODAY","76",2);
+//		ArrayList<Avis> avisList = crawler.marchepublicGouvCrawler("01/06/2019","06/06/2019");
+		
+		for(Avis avis:avisList) {
+			avis.print();
+		}
+		
+//		ArrayList<Avis> avisList = crawler.auvergnerCrawler("","it",1);
+//		ArrayList<String> keywords = new ArrayList<String>();
+//		keywords.add("it");
+//		keywords.add("informatique");
+//		
+//		for(Avis avis:avisList) {
+//			//avis.print();
+//			if(avis.checkKeywordHTML(keywords)) {
+//				System.out.println("#*#*");
+//			}
+//		}
+
+	}
+
 
 	/**
 	 * Crawler for Boamp (GUO's WORKING ON)
 	 */
-
-//	// Scrawler ONLY for https://boamp.fr/avis/liste
-//	public ArrayList<String> getLinksBOAMP() {
-//
-//		String AuthFileName = this.getClass().getClassLoader().getResource("jssecacerts").getPath();
-//		System.setProperty("javax.net.ssl.trustStore", AuthFileName);
-//
-//		Map<String, String> params = new HashMap<String, String>();
-//
-//		
-//		/*
-//		 * estrecherchesimple: 0
-//			archive: 0
-//			idweb: 
-//			nomacheteur: 
-//			fulltext: 
-//			descripteur[]: mc68
-//			descripteur[]: mc97
-//			descripteur[]: mc453
-//			descripteur[]: mc454
-//			descripteur[]: mc162
-//			descripteur[]: mc163
-//			descripteur[]: mc186
-//			descripteur[]: mc463
-//			descripteur[]: mc283
-//			descripteur[]: mc171
-//			numerodepartement[]: 77
-//			typeavis[]: 5
-//			typeavis[]: 1
-//			typeavis[]: 2
-//			typeavis[]: 3
-//			typeavis[]: 4
-//			dateparutionmin: 01/05/2019
-//			dateparutionmax: 01/06/2019
-//			datelimitereponsemin: 
-//			datelimitereponsemax: 
-//			famille: 
-//			prestataire: 
-//		 */
-//		params.put("estrecherchesimple", "0");
-//		params.put("archive", "0");
-//		
-////		params.put("idweb", "");
-////		params.put("nomacheteur", "");
-////		params.put("fulltext", "");
-//
-//		// Add all the keywords corresponding
-////		for(String str : Const.listDescripteur) {
-////			params.put(Const.DESCRIPTION, str);
-////		}
-//		
-////		params.put("descripteur[]", "mc63");
-////		params.put("descripteur[]", "mc83");
-//		
-//
-////		params.put("descripteur%5B%5D", "mc68");
-////		params.put("descripteur%5B%5D", "mc97");
-////		params.put("descripteur%5B%5D", "mc453");
-////		params.put("descripteur%5B%5D", "mc454");
-////		params.put("descripteur%5B%5D", "mc162");
-////		params.put("descripteur%5B%5D", "mc163");
-////		params.put("descripteur%5B%5D", "mc186");
-////		params.put("descripteur%5B%5D", "mc463");
-////		params.put("descripteur%5B%5D", "mc283");
-////		params.put("descripteur%5B%5D", "mc171");
-//		
-//		
-//		
-//		
-//		params.put("numerodepartement%5B%5D", "75");
-//
-//		// 5 -> Cover all 1-4 options
-////		params.put("typeavis%5B%5D", "5");
-////		params.put("typeavis%5B%5D", "1");
-////		params.put("typeavis%5B%5D", "2");
-////		params.put("typeavis%5B%5D", "3");
-////		params.put("typeavis%5B%5D", "4");
-////		
-//		params.put("dateparutionmin", "01/06/2019");
-//		params.put("dateparutionmax", "07/06/2019");
-//
-//		params.put("datelimitereponsemin", "");
-//		params.put("datelimitereponsemax", "");
-////		params.put("famille", "");
-////		params.put("prestataire", "");
-//		// Get result
-//		String result;
-//		try {
-//			result = HTTPRequest.sendPostBoamp(Const.BOAMP, params);
-//			
-//			//System.out.println(result);
-//			Document doc = Jsoup.parse(result);
-//
-////			Elements test = doc.getElementsByClass("search-result-caption");
-////			System.out.println(test.html());
-//			
-//			ArrayList<String> listLinks = new ArrayList<String>();
-//			ArrayList<String> listTitre = new ArrayList<String>();
-//			ArrayList<String> listDate = new ArrayList<String>();
-//			ArrayList<String> listLocation = new ArrayList<String>();
-//			
-//			
-//			// get the links from the HTML data
-//			Elements eles_link = doc.getElementsByAttributeValueContaining("href", "/avis/detail/");
-//			//System.out.println(eles_link.size());
-//						
-//			for (Element ele : eles_link) {
-//			//System.out.println(ele.attr("href"));
-//				if (!listLinks.contains("https://www.boamp.fr" + ele.attr("href")))
-//					listLinks.add("https://www.boamp.fr" + ele.attr("href"));
-//			}
-//			System.out.println(listLinks.size());
-//			System.out.println(listLinks);
-//			//get the titre from the HTML data
-//			
-//			
-////			ArrayList<String> linksOfPages = new ArrayList<String>();
-////			Elements elesPageIndex = doc.getElementsByAttributeValueStarting("href", "/avis/page?page=");
-////			for (Element ele : elesPageIndex) {
-////				if (!linksOfPages.contains("https://www.boamp.fr" + ele.attr("href")))
-////					linksOfPages.add("https://www.boamp.fr" + ele.attr("href"));
-////			}
-////
-////			ArrayList<String> listLinks = new ArrayList<String>();
-////			Elements hrefs = doc.getElementsByAttributeValueContaining("href", "/avis/detail/");
-////			for (Element href : hrefs) {
-////				if (!listLinks.contains("https://www.boamp.fr" + href.attr("href")))
-////					listLinks.add("https://www.boamp.fr" + href.attr("href"));
-////			}
-////
-////			ListIterator li = listLinks.listIterator();
-////			while (li.hasNext()) {
-////				Object obj = li.next();
-////				int length = obj.toString().split("/").length;
-////				li.set("https://www.boamp.fr/avis/pdf/" + obj.toString().split("/")[length - 2]);
-////			}
-////			System.out.println(listLinks.size());
-////			return listLinks;
-//		} catch (Exception e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//
-//		return null;
-//
-//	}
-
-	
 	//this version can get a part of the data(not all of them and we don't know why),so we use it before we solve the problem
 	// Scrawler ONLY for https://boamp.fr/avis/liste
 		public ArrayList<Avis> getLinksBOAMP(String dateparutionmin,String dateparutionmax,int pageNum){
@@ -175,8 +68,13 @@ public class Crawlers {
 			String AuthFileName = this.getClass().getClassLoader().getResource("jssecacerts").getPath();
 			System.setProperty("javax.net.ssl.trustStore",AuthFileName);
 			
-			Map<String,String> params = new HashMap<String, String>();
+			ArrayList<String> listLinks = new ArrayList<String>();
+			ArrayList<String> listTitre = new ArrayList<String>();
+			ArrayList<String> listDate = new ArrayList<String>();
+			ArrayList<String> listLocation = new ArrayList<String>();
 			
+			for(int j = 1; j < pageNum+1 ; j++) {
+			Map<String,String> params = new HashMap<String, String>();
 			params.put(Const.CONF1,"0");
 			params.put(Const.CONF2,"0");
 			
@@ -187,18 +85,21 @@ public class Crawlers {
 //			params.put("descripteur[]", "mc38");
 //			params.put("descripteur[]", "mc283");
 			
+			//params.put("descripteur[]", "mc186");
+
+			params.put("numerodepartement[]", "75");
 			
-			params.put("descripteur[]", "mc68");
-			params.put("descripteur[]", "mc97");
-			params.put("descripteur[]", "mc453");
-			params.put("descripteur[]", "mc454");
-			params.put("descripteur[]", "mc162");
-			params.put("descripteur[]", "mc163");
-			params.put("descripteur[]", "mc186");
-			params.put("descripteur[]", "mc463");
-			params.put("descripteur[]", "mc283");
-			params.put("descripteur[]", "mc171");
-			params.put("page", Integer.toString(pageNum));
+//			params.put("descripteur[]", "mc68");
+//			params.put("descripteur[]", "mc97");
+//			params.put("descripteur[]", "mc453");
+//			params.put("descripteur[]", "mc454");
+//			params.put("descripteur[]", "mc162");
+//			params.put("descripteur[]", "mc163");
+//			params.put("descripteur[]", "mc186");
+//			params.put("descripteur[]", "mc463");
+//			params.put("descripteur[]", "mc283");
+//			params.put("descripteur[]", "mc171");
+			params.put("page", Integer.toString(j));
 			
 			params.put("dateparutionmin", dateparutionmin);
 			params.put("dateparutionmax", dateparutionmax);
@@ -215,7 +116,7 @@ public class Crawlers {
 			// Get result
 			String result;
 			try {
-				result = HTTPRequest.sendPost(Const.BOAMP, params);
+				result = HTTPRequest.sendPostBoamp(Const.BOAMP, params);
 				Document doc = Jsoup.parse(result);
 				/**
 				 *  To verify if the results exist in more than one page
@@ -229,14 +130,7 @@ public class Crawlers {
 					if(!linksOfPages.contains("https://www.boamp.fr" + ele.attr("href")))
 						linksOfPages.add("https://www.boamp.fr" + ele.attr("href"));
 				}
-				
-				
-				ArrayList<String> listLinks = new ArrayList<String>();
-				ArrayList<String> listTitre = new ArrayList<String>();
-				ArrayList<String> listDate = new ArrayList<String>();
-				ArrayList<String> listLocation = new ArrayList<String>();
-				
-				
+
 				//get the link from the HTML data
 				Elements hrefs = doc.getElementsByAttributeValueContaining("href","/avis/detail/");
 				for(Element href : hrefs) {
@@ -270,77 +164,32 @@ public class Crawlers {
 //		            li.set("https://www.boamp.fr/avis/pdf/" + obj.toString().split("/")[length-2]);
 //		        }
 
-				
-		        System.out.println(listLinks.size());
-		        System.out.println(listTitre.size());
-		        System.out.println(listDate.size());
-		        System.out.println(listLocation.size());
-		        System.out.println(listLinks);
-		        System.out.println(listTitre);
-		        System.out.println(listDate);
-		        System.out.println(listLocation);
+			
+//		        System.out.println(listLinks.size());
+//		        System.out.println(listTitre.size());
+//		        System.out.println(listDate.size());
+//		        System.out.println(listLocation.size());
+//		        System.out.println(listLinks);
+//		        System.out.println(listTitre);
+//		        System.out.println(listDate);
+//		        System.out.println(listLocation);
 		        
-		        ArrayList<Avis> avisList = new ArrayList<Avis>();
-				for (int i = 0; i < listLinks.size(); i++) {
-					avisList.add(new Avis(listDate.get(i), listTitre.get(i), listLinks.get(i),listLocation.get(i)));
-				}
-
-				return avisList;
-		        
-		        
-		        
-		        
-		        
+		     
 		        //return listLinks;
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			
-			
-			return null;
-	        
+			}
+
+			ArrayList<Avis> avisList = new ArrayList<Avis>();
+				for (int i = 0; i < listLinks.size(); i++) {
+					avisList.add(new Avis(listDate.get(i), listTitre.get(i), listLinks.get(i),listLocation.get(i)));
+				}
+
+			return avisList;
+
 		}
-	public static void main(String[] args) {
-		ArrayList<String> urls = new ArrayList<String>();
-		Crawlers crawler = new Crawlers();
-//		urls = crawler.getLinksBOAMP();
-//		
-//		for(String url : urls) {
-//			System.out.println(url);
-//		}
-
-		/** for test **/
-//		ArrayList<Avis> avisList = crawler.franceMarcheCrawler("auvergne-rhone-alpes","2019-05-01","2019-06-01",2);
-		ArrayList<Avis> avisList = crawler.proxiLegalesCrawler("info", 2);	
-//		ArrayList<Avis> avisList = crawler.marchepublicsInfoCrawler("75","< 8");	
-
-//		ArrayList<Avis> avisList = crawler.auvergnerCrawler("","",2);
-		
-		//crawler.tedEuropaCrawler();
-		//crawler.EmarchesCrawler();
-		
-//		ArrayList<Avis> avisList = crawler.getLinksBOAMP("01/06/2019","07/06/2019",1);	
-//		ArrayList<Avis> avisList = crawler.marchesOnlineCrawler("TODAY","76",2);
-//		ArrayList<Avis> avisList = crawler.marchepublicGouvCrawler("01/06/2019","06/06/2019");
-		
-		for(Avis avis:avisList) {
-			avis.print();
-		}
-		
-//		ArrayList<Avis> avisList = crawler.auvergnerCrawler("","it",1);
-//		ArrayList<String> keywords = new ArrayList<String>();
-//		keywords.add("it");
-//		keywords.add("informatique");
-//		
-//		for(Avis avis:avisList) {
-//			//avis.print();
-//			if(avis.checkKeywordHTML(keywords)) {
-//				System.out.println("#*#*");
-//			}
-//		}
-
-	}
 
 	/*****************************************************/
 	/**

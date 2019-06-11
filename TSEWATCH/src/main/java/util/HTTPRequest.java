@@ -151,6 +151,7 @@ public class HTTPRequest {
 		return result;
 	}
 
+	
 	public static String sendPostTed(String url, Map<String, String> params ) throws Exception {
 
 		//disableCertificateValidation();
@@ -237,6 +238,11 @@ public class HTTPRequest {
 		for (Map.Entry<String, String> entry : params.entrySet()) {
 			formparams.add(new BasicNameValuePair(entry.getKey(), entry.getValue()));
 		}
+		
+		for(String location :Const.listDescripteur) {
+			formparams.add(new BasicNameValuePair("descripteur[]", location));
+		}
+		
 		UrlEncodedFormEntity entity = new UrlEncodedFormEntity(formparams, Consts.UTF_8);
 
 		
