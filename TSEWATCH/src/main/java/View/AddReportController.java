@@ -82,27 +82,39 @@ public class AddReportController {
 	public boolean generateAndShowReportHtmlPage(){
 		String nameOfFolder = (String) comboBox_AR.getValue();
 		String nameOfReport = nameReport.getText().trim();
-		if(nameOfReport.length()!=0 && comboBox_AR.getValue()!=null) {
+		try {
+			if(nameOfReport.length()!=0 && comboBox_AR.getValue()!=null) {
+				if(this.listAvis.size() == 0) {
+					AxeDeVeille axe = displayCtrl.getFileManager().readAxe(nameOfFolder);
+					ArrayList<Avis> avis = axe.getListAvis();
+	
+					HTMLGenerator htmlGenerator = new HTMLGenerator(avis);
+					htmlGenerator.generateReport(nameOfReport);
+					String pathReport = Const.FOLDER_RAPPORT + nameOfReport + ".html" ;
+				}else {
+					HTMLGenerator htmlGenerator = new HTMLGenerator(listAvis);
+					htmlGenerator.generateReport(nameOfReport);
+					String pathReport = Const.FOLDER_RAPPORT + nameOfReport + ".html" ;
+				}
+				
+				Alert alert = new Alert(AlertType.INFORMATION);
+    			alert.setTitle("Success");
+    			alert.setHeaderText("Report added");
+    			alert.setContentText("Le rapport a été créé et ajouté à la liste avec succès.");
+    			alert.showAndWait();
+    			App.getListReport().add(nameOfReport);
+    			displayCtrl.getFileManager().saveLine(nameOfReport, Const.FILE_REPORTLIST);
+    			return true;
+			}else {
+				Alert alert = new Alert(AlertType.ERROR);
+    			alert.setTitle("ERROR");
+    			alert.setHeaderText("ERROR");
+    			alert.setContentText("Vous ne pouvez pas créer un axe de veille vide, merci de spécifier un nom et des mots clés.");
+    			alert.showAndWait();
+			}
 			
-			HTMLGenerator htmlGenerator = new HTMLGenerator(listAvis);
-			htmlGenerator.generateReport(nameOfReport);
-			String pathReport = Const.FOLDER_RAPPORT + nameOfReport + ".html" ;
-			
-			
-			Alert alert = new Alert(AlertType.INFORMATION);
-			alert.setTitle("Success");
-			alert.setHeaderText("Report added");
-			alert.setContentText("Le rapport a été créé et ajouté à la liste avec succès.");
-			alert.showAndWait();
-			App.getListReport().add(nameOfReport);
-			displayCtrl.getFileManager().saveLine(nameOfReport, Const.FILE_REPORTLIST);
-			return true;
-		}else {
-			Alert alert = new Alert(AlertType.ERROR);
-			alert.setTitle("ERROR");
-			alert.setHeaderText("ERROR");
-			alert.setContentText("Vous ne pouvez pas créer un axe de veille vide, merci de spécifier un nom et des mots clés.");
-			alert.showAndWait();
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 		
 		return false;
@@ -125,7 +137,5 @@ public class AddReportController {
 		AddReportController.listAvis = listAvis;
 	}
 		
-	
-	
 	
 }

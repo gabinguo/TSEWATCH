@@ -46,6 +46,7 @@ public class App {
 				for(String report : all_report) {
 					FileUtils.deleteQuietly(new File(Const.FOLDER_RAPPORT + report + ".html"));
 				}
+				
 			}
 		});
 		
