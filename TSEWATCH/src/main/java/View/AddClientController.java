@@ -51,9 +51,11 @@ public class AddClientController {
 	 }
 	
 	public void addClient2DiffusionTable() {
-		Client client = new Client(nameClient.getText(),addrMail.getText());
-		displayCtrl.getHomecontroller().addClient2TableView(client);
-		displayCtrl.getHomecontroller().saveOneClient(client);
+		if(nameClient.getText().length() != 0) {
+			Client client = new Client(nameClient.getText(),addrMail.getText());
+			displayCtrl.getHomecontroller().addClient2TableView(client);
+			displayCtrl.getHomecontroller().saveOneClient(client);
+		}
 	}
 	
 	

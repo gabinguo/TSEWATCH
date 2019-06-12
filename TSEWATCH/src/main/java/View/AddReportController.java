@@ -93,7 +93,7 @@ public class AddReportController {
 				Alert alert = new Alert(AlertType.INFORMATION);
     			alert.setTitle("Success");
     			alert.setHeaderText("Report added");
-    			alert.setContentText("Un nouveau rapport est fait pour envoyer!");
+    			alert.setContentText("Le rapport a été créé et ajouté à la liste avec succès.");
     			alert.showAndWait();
     			App.getListReport().add(nameOfReport);
     			displayCtrl.getFileManager().saveLine(nameOfReport, Const.FILE_REPORTLIST);
@@ -102,7 +102,7 @@ public class AddReportController {
 				Alert alert = new Alert(AlertType.ERROR);
     			alert.setTitle("ERROR");
     			alert.setHeaderText("ERROR");
-    			alert.setContentText("Il faut ajouter un nom et choisir un axe de veille");
+    			alert.setContentText("Vous ne pouvez pas créer un axe de veille vide, merci de spécifier un nom et des mots clés.");
     			alert.showAndWait();
 			}
 			
