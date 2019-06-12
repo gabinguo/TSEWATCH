@@ -28,15 +28,16 @@ en particulier avec vos differents collaborateurs pour une éfficacité maximale
 
 ## *Support*
 Si malgré vos différentes tentatives des problèmes subsiste, vous pouvez à tout moment contacter l'équipe en charge du projet :....
-ou regarder la documentation descriptive du code sur github.
+ou regarder la documentation descriptive du code sur github [TSEWATCH.pdf]().
 
 ## *Documentation/ tutoriel d'utilisation de l'application*
 
-......
+Voir la documentation PDF qui ce trouve sur la branche master de ce github [TSEWATCH.pdf]().
+Dans cette documentation vous trouverez toutes les configurations neccesaire pour le bon fonctionnnement de l'application. Vous y trouverez également des tutoriels afin de prendre en main le logiciel et vous y familiariser.
 
 
 ## *Auteurs*
-Kamga Ngako Joël, Guo Kuempeng, Zhi Zhou, Adrien Lebron 
+Kamga Ngako Joël, Guo Kunpeng, Zhi Zhou, Adrien Lebron 
 
 ## *Etat du projet*
 En cours ......
