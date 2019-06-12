@@ -124,17 +124,18 @@ public class Crawlers {
 		/** for test **/
 //		ArrayList<Avis> avisList = crawler.franceMarcheCrawler("auvergne-rhone-alpes","2019-06-01","2019-06-01",2);
 //		ArrayList<Avis> avisList = crawler.proxiLegalesCrawler("info", 2);	
-//		ArrayList<Avis> avisList = crawler.marchepublicsInfoCrawler("3","< 30");	
-
-//		ArrayList<Avis> avisList = crawler.auvergnerCrawler("69","informatique",1);
+//		ArrayList<Avis> avisList = crawler.marchepublicsInfoCrawler("75","");	
+		ArrayList<String> location = new ArrayList<String>();
+		location.add("07");
+		location.add("26");
+		ArrayList<Avis> avisList = crawler.auvergnerCrawler(location,"informatique",1);
 		
 		//crawler.tedEuropaCrawler();
 		//crawler.EmarchesCrawler();
 		
-//		ArrayList<String> location = new ArrayList<String>();
-//		location.add("75");
+
 //		ArrayList<Avis> avisList = crawler.getLinksBOAMP("05/06/2019","11/06/2019",location,2);	
-		ArrayList<Avis> avisList = crawler.marchesOnlineCrawler("3_WEEK","76",2);
+//		ArrayList<Avis> avisList = crawler.marchesOnlineCrawler("3_WEEK","76",2);
 		//ArrayList<Avis> avisList = crawler.marchepublicGouvCrawler(2);
 		
 		for(Avis avis:avisList) {
@@ -486,6 +487,7 @@ public class Crawlers {
 	 *   ArrayList<Avis> avisList = crawler.marchepublicsInfoCrawler("3","< 30");
 	 */
 	public ArrayList<Avis> marchepublicsInfoCrawler(String IDR, String dateParution) {
+		ArrayList<Avis> avisList = new ArrayList<Avis>();
 		// define the url of the site
 		String urlMPI = "http://www.marches-publics.info/mpiaws/index.cfm?fuseaction=pub.affResultats&IDs=25";
 
@@ -521,6 +523,14 @@ public class Crawlers {
 		}
 		// System.out.println(result);
 
+		//check if the number of results is too big for the site
+		if(result.contains("Veuillez préciser votre recherche à l'aide des critères suivants")) {
+			String string = "too much results";
+			avisList.add(new Avis(string, string, string));
+		};
+		
+
+		
 		// parse the HTML data
 		Document doc = Jsoup.parse(result);
 		
@@ -633,7 +643,7 @@ public class Crawlers {
 //		System.out.println(listTitre);
 //		System.out.println(listDate);
 
-		ArrayList<Avis> avisList = new ArrayList<Avis>();
+		
 		for (int i = 0; i < listLinks.size(); i++) {
 			avisList.add(new Avis(listDate.get(i), listTitre.get(i), listLinks.get(i)));
 		}
@@ -1161,7 +1171,7 @@ public class Crawlers {
 	 * Attention : 
 	 * There are some avis who doesn't have the link(null)
 	 */
-	public ArrayList<Avis> auvergnerCrawler(String departement,String intitule, int pageNum) {
+	public ArrayList<Avis> auvergnerCrawler(ArrayList<String> departement,String intitule, int pageNum) {
 //		// define the url of the site
 //		String urlAuvergner = "https://auvergnerhonealpes.achatpublic.com/sdm/ent/gen/ent_recherche.do";
 //
@@ -1275,20 +1285,27 @@ public class Crawlers {
 		/** for the service **/
 		// define the url of the site
 		String urlMPI_service = null;
-		if(intitule.isEmpty()) {
-			urlMPI_service = "https://auvergnerhonealpes.achatpublic.com/accueil/?page_id=143%2F&departement%5B0%5D="
-					+departement
-					+"&typeMarche=2"
-					+"&paged=" 
-					+pageNum;
-		}else {
-			urlMPI_service = "https://auvergnerhonealpes.achatpublic.com/accueil/?page_id=143%2F&departement%5B0%5D="
-			+departement
-			+"&typeMarche=2&intitule="
-			+intitule
-			+"&paged=" 
-			+pageNum;
-		}
+		
+		
+			if(intitule.isEmpty()) {
+				urlMPI_service = "https://auvergnerhonealpes.achatpublic.com/accueil/?page_id=143%2F";
+				for(int i = 0;i<departement.size();i++) {			
+					urlMPI_service += "&departement%5B0%5D=" + departement.get(i);
+				}
+				urlMPI_service += "&typeMarche=2"
+							+"&paged=" 
+							+pageNum;
+			}else {
+				urlMPI_service = "https://auvergnerhonealpes.achatpublic.com/accueil/?page_id=143%2F";
+				for(int i = 0;i<departement.size();i++) {
+					urlMPI_service += "&departement%5B0%5D=" + departement.get(i);
+				}
+				urlMPI_service += "&typeMarche=2&intitule="
+							+intitule
+							+"&paged=" 
+							+pageNum;
+			}
+		
 
 		//System.out.println(urlMPI_service);
 		String result = null;
@@ -1331,18 +1348,22 @@ public class Crawlers {
 		// define the url of the site
 		String urlMPI_fourniture = null;
 		if(intitule.isEmpty()) {
-			urlMPI_fourniture = "https://auvergnerhonealpes.achatpublic.com/accueil/?page_id=143%2F&departement%5B0%5D="
-					+departement
-					+"&typeMarche=1"
-					+"&paged=" 
-					+pageNum;
+			urlMPI_fourniture = "https://auvergnerhonealpes.achatpublic.com/accueil/?page_id=143%2F";
+			for(int i = 0;i<departement.size();i++) {			
+				urlMPI_fourniture += "&departement%5B0%5D=" + departement.get(i);
+			}
+			urlMPI_fourniture += "&typeMarche=1"
+						+"&paged=" 
+						+pageNum;
 		}else {
-			urlMPI_fourniture = "https://auvergnerhonealpes.achatpublic.com/accueil/?page_id=143%2F&departement%5B0%5D="
-			+departement
-			+"&typeMarche=1&intitule="
-			+intitule
-			+"&paged=" 
-			+pageNum;
+			urlMPI_fourniture = "https://auvergnerhonealpes.achatpublic.com/accueil/?page_id=143%2F";
+			for(int i = 0;i<departement.size();i++) {
+				urlMPI_fourniture += "&departement%5B0%5D=" + departement.get(i);
+			}
+			urlMPI_fourniture += "&typeMarche=1&intitule="
+						+intitule
+						+"&paged=" 
+						+pageNum;
 		}
 
 		//System.out.println(urlMPI_fourniture);
