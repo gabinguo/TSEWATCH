@@ -126,14 +126,14 @@ public class Crawlers {
 //		ArrayList<Avis> avisList = crawler.proxiLegalesCrawler("info", 2);	
 //		ArrayList<Avis> avisList = crawler.marchepublicsInfoCrawler("3","< 30");	
 
-//		ArrayList<Avis> avisList = crawler.auvergnerCrawler("","",2);
+		ArrayList<Avis> avisList = crawler.auvergnerCrawler("63","",1);
 		
 		//crawler.tedEuropaCrawler();
 		//crawler.EmarchesCrawler();
 		
-		ArrayList<String> location = new ArrayList<String>();
-		location.add("75");
-		ArrayList<Avis> avisList = crawler.getLinksBOAMP("01/06/2019","10/06/2019",location,2);	
+//		ArrayList<String> location = new ArrayList<String>();
+//		location.add("75");
+//		ArrayList<Avis> avisList = crawler.getLinksBOAMP("05/06/2019","11/06/2019",location,2);	
 //		ArrayList<Avis> avisList = crawler.marchesOnlineCrawler("TODAY","76",2);
 		//ArrayList<Avis> avisList = crawler.marchepublicGouvCrawler(2);
 		
@@ -1139,14 +1139,27 @@ public class Crawlers {
 	 * @param location(departemant), key word(intitule), the number of the pages(pageNum)
 	 * @return list of the avis
 	 * 
-	 * 
-	 * 
 	 * the list of the location:
-	 * example:
-	 * 02!;!59!;!60!;!62!;!80
 	 * 
-	 * there are the "!;!" between the numbers, the numbers are the same with  Marche-publics(info)
+		 * 07 - Ardèche
+		 * 26 - Drôme
+		 * 43 - Haute-Loire
+		 * 63 - Puy-de-Dôme
+		 * 01 - Ain
+		 * 42 - Loire
+		 * 74 - Haute-Savoie
+		 * 03 - Allier
+		 * 73 - Savoie
+		 * 38 - Isère
+		 * 69 - Rhône
+		 * 15 - Cantal
+		 *
+	 * example :
+	 * ArrayList<Avis> avisList = crawler.auvergnerCrawler("63","",1);
+	 * ArrayList<Avis> avisList = crawler.auvergnerCrawler("15","infomatique",2);
 	 * 
+	 * Attention : 
+	 * There are some avis who doesn't have the link(null)
 	 */
 	public ArrayList<Avis> auvergnerCrawler(String departement,String intitule, int pageNum) {
 //		// define the url of the site
@@ -1254,14 +1267,30 @@ public class Crawlers {
 //		return avisList;
 
 		/** for the website  decocher "Consultations du conseil régional uniquement"  **/
+		intitule.replace(" ", "%20");
 		ArrayList<String> listLinks = new ArrayList<String>();
 		ArrayList<String> listTitre = new ArrayList<String>();
 		ArrayList<String> listDate = new ArrayList<String>();
 		
 		/** for the service **/
 		// define the url of the site
-		String urlMPI_service = "https://auvergnerhonealpes.achatpublic.com/accueil/?page_id=143%2F&departement%5B0%5D="+""+"%2F&typeMarche=2&intitule="+"informatique";
-		
+		String urlMPI_service = null;
+		if(intitule.isEmpty()) {
+			urlMPI_service = "https://auvergnerhonealpes.achatpublic.com/accueil/?page_id=143%2F&departement%5B0%5D="
+					+departement
+					+"&typeMarche=2"
+					+"&paged=" 
+					+pageNum;
+		}else {
+			urlMPI_service = "https://auvergnerhonealpes.achatpublic.com/accueil/?page_id=143%2F&departement%5B0%5D="
+			+departement
+			+"&typeMarche=2&intitule="
+			+intitule
+			+"&paged=" 
+			+pageNum;
+		}
+
+		//System.out.println(urlMPI_service);
 		String result = null;
 		// send POST request to the site to get the HTML data
 		try {
@@ -1270,14 +1299,106 @@ public class Crawlers {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		 //System.out.println(result);
+		// System.out.println(result);
 		
 		// parse the HTML data
 		Document doc = Jsoup.parse(result);
 		
 		// get the links from the HTML data
-		//Elements eles_link = doc.getElementsByAttributeValueContaining("href", "/avis/detail/");
+		Elements eles_link = doc.getElementsByClass("link_group");
+		for(Element ele : eles_link) {
+			if(ele.hasText()) {
+				listLinks.add((ele.toString().split("\"")[3]));
+			}else {
+				listLinks.add(null);
+			}
+		}
+		
+		//get the titres from the HTML data
+		Elements eles_titre = doc.getElementsByClass("item");
+		for(Element ele : eles_titre) {
+			listTitre.add(ele.text());
+		}
+		
+		//get the dates from the HTML data
+		Elements eles_date = doc.getElementsByClass("date_heure");
+		for(Element ele : eles_date) {
+			listDate.add("Remise limite:"+ele.text());
+		}
+		
+		
+		/** for the fourniture**/
+		// define the url of the site
+		String urlMPI_fourniture = null;
+		if(intitule.isEmpty()) {
+			urlMPI_fourniture = "https://auvergnerhonealpes.achatpublic.com/accueil/?page_id=143%2F&departement%5B0%5D="
+					+departement
+					+"&typeMarche=1"
+					+"&paged=" 
+					+pageNum;
+		}else {
+			urlMPI_fourniture = "https://auvergnerhonealpes.achatpublic.com/accueil/?page_id=143%2F&departement%5B0%5D="
+			+departement
+			+"&typeMarche=1&intitule="
+			+intitule
+			+"&paged=" 
+			+pageNum;
+		}
+
+		//System.out.println(urlMPI_fourniture);
+		result = null;
+		// send POST request to the site to get the HTML data
+		try {
+			result = HTTPRequest.sendGET(urlMPI_fourniture);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		// System.out.println(result);
+		
+		// parse the HTML data
+		doc = Jsoup.parse(result);
+		
+		// get the links from the HTML data
+		eles_link = doc.getElementsByClass("link_group");
+		for(Element ele : eles_link) {
+			if(ele.hasText()) {
+				listLinks.add((ele.toString().split("\"")[3]));
+			}else {
+				listLinks.add(null);
+			}
+		}
+		
+		//get the titres from the HTML data
+		eles_titre = doc.getElementsByClass("item");
+		for(Element ele : eles_titre) {
+			listTitre.add(ele.text());
+		}
+		
+		//get the dates from the HTML data
+		eles_date = doc.getElementsByClass("date_heure");
+		for(Element ele : eles_date) {
+			listDate.add("Remise limite:"+ele.text());
+		}
+		
+//		
+//		System.out.println(listLinks.size());
+//		System.out.println(listTitre.size());
+//		System.out.println(listDate.size());
+//		
+//
+//		System.out.println(listLinks);
+//		System.out.println(listTitre);
+//		System.out.println(listDate);
+		
+		ArrayList<Avis> avisList = new ArrayList<Avis>();
+		for (int i = 0; i < listLinks.size(); i++) {
+			avisList.add(new Avis(listDate.get(i), listTitre.get(i), listLinks.get(i)));
+		}
+		return avisList;
+		
 		//System.out.println(eles_link.size());
+
 		
 		/**
 		 * 07 - Ardèche

@@ -485,6 +485,7 @@ public class HTTPRequest {
        // httpclient.getParams().setParameter(ClientPNames.ALLOW_CIRCULAR_REDIRECTS, false);
         //org.apache.http.client.Params.
         //org.apache.http.client.
+		httpclient = (CloseableHttpClient) wrapClient(httpclient);
         try {
             HttpGet httpget = new HttpGet(url);
             httpget.addHeader("Accept", "text/html");
