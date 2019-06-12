@@ -46,7 +46,7 @@ public class App {
 				for(String report : all_report) {
 					FileUtils.deleteQuietly(new File(Const.FOLDER_RAPPORT + report + ".html"));
 				}
-				
+				FileUtils.deleteQuietly(new File(Const.FILE_REPORTLIST));
 			}
 		});
 		
@@ -57,7 +57,6 @@ public class App {
 			e.printStackTrace();
 		}
 		th.start();
-		
 	}
 	
 	public static void main(String[] args) throws Exception {

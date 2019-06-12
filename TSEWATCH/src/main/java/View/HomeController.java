@@ -540,13 +540,14 @@ public class HomeController {
         
         if(event.getSource() == btn_annuler_axe) {
         	add_axe_pane.setVisible(false);
+        	modify_axe_pane.setVisible(false);
         	nameVeilleTextField.clear();
         	keywordsTextField.clear();
         }
         
         
         if(event.getSource() == btn_add_axe) {
-        	modifyModeFlag = false;
+        	modify_axe_pane.setVisible(false);
         	add_axe_pane.setVisible(true);
         }
         
@@ -555,6 +556,7 @@ public class HomeController {
         }
         
         if(event.getSource() == btn_save_axe) {
+        	modify_axe_pane.setVisible(false);
         	btn_save_axe_Action();
         }
         
