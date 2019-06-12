@@ -30,6 +30,11 @@ en particulier avec vos differents collaborateurs pour une éfficacité maximale
 Si malgré vos différentes tentatives des problèmes subsiste, vous pouvez à tout moment contacter l'équipe en charge du projet :....
 ou regarder la documentation descriptive du code sur github.
 
+## *Documentation/ tutoriel d'utilisation de l'application*
+
+......
+
+
 ## *Auteurs*
 Kamga Ngako Joël, Guo Kuempeng, Zhi Zhou, Adrien Lebron 
 
