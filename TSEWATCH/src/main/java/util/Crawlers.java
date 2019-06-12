@@ -1859,17 +1859,21 @@ public class Crawlers {
 	 * the location :the number of the area + 1, for example : Ville de Paris : "75" +1 = "76"
 	 * 
 	 *   example :
-	 *   ArrayList<Avis> avisList = crawler.marchesOnlineCrawler("TODAY","76",1);
+	 *  ArrayList<String> location = new ArrayList<String>();
+		location.add("76");
+		location.add("42");
+	 *   ArrayList<Avis> avisList = crawler.marchesOnlineCrawler("TODAY",location,1);
 	 */
-	public ArrayList<Avis> marchesOnlineCrawler(String date,String location,int pageNum) {
+	public ArrayList<Avis> marchesOnlineCrawler(String date,ArrayList<String> location,int pageNum) {
 		// define the url of the site
 		String urlEMarcheOnline = "https://www.marchesonline.com/appels-offres/en-cours";
-		
+
 		ArrayList<String> listLinks = new ArrayList<String>();
 		ArrayList<String> listTitre = new ArrayList<String>();
 		ArrayList<String> listDate = new ArrayList<String>();
 		ArrayList<String> listLocation = new ArrayList<String>();
 		
+		for(int k = 0;k<location.size();k++) {
 		/** for the fourniture **/
 		// define the map of the settings
 		Map<String, String> params = new HashMap<String, String>();
@@ -1893,7 +1897,7 @@ public class Crawlers {
 		params.put("__posted", "1");
 		params.put("id_ref_type_recherche", "1");
 		params.put("type_map", "2");
-		params.put("id_ref_departement[]", location);
+		params.put("id_ref_departement[]", location.get(k));
 		params.put("id_ref_type_avis", "1");
 		params.put("date_mel_type", "1");
 		params.put("date_mise_en_ligne", date);
@@ -1962,7 +1966,7 @@ public class Crawlers {
 			params2.put("__posted", "1");
 			params2.put("id_ref_type_recherche", "1");
 			params2.put("type_map", "2");
-			params2.put("id_ref_departement[]", location);
+			params2.put("id_ref_departement[]", location.get(k));
 			params2.put("id_ref_type_avis", "1");
 			params2.put("date_mel_type", "1");
 			params2.put("date_mise_en_ligne", date);
@@ -2020,7 +2024,7 @@ public class Crawlers {
 		params.put("__posted", "1");
 		params.put("id_ref_type_recherche", "1");
 		params.put("type_map", "2");
-		params.put("id_ref_departement[]", location);
+		params.put("id_ref_departement[]", location.get(k));
 		params.put("id_ref_type_avis", "1");
 		params.put("date_mel_type", "1");
 		params.put("date_mise_en_ligne", date);
@@ -2089,7 +2093,7 @@ public class Crawlers {
 			params2.put("__posted", "1");
 			params2.put("id_ref_type_recherche", "1");
 			params2.put("type_map", "2");
-			params2.put("id_ref_departement[]", location);
+			params2.put("id_ref_departement[]", location.get(k));
 			params2.put("id_ref_type_avis", "1");
 			params2.put("date_mel_type", "1");
 			params2.put("date_mise_en_ligne", date);
@@ -2140,6 +2144,7 @@ public class Crawlers {
 			}
 		}
 		}
+		}
 //		System.out.println(listLinks.size());
 //		System.out.println(listTitre.size());
 //		System.out.println(listDate.size());
@@ -2157,4 +2162,8 @@ public class Crawlers {
 		
 		return avisList;
 	}
+	
+	/*****************************************************/
+	
+
 }
