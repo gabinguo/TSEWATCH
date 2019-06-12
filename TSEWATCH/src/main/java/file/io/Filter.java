@@ -20,7 +20,13 @@ public class Filter {
 	public void classifyAvis( ArrayList<Avis> listAvis) {
 		
 		ArrayList<AxeDeVeille> listAxes = App.getListVeille();
+		
 		for(Avis avis : listAvis){ 
+			// Check if this Avis already exist
+			if(App.getAllNames().contains(avis.getTitre())) continue;
+			else  App.getAllNames().add(avis.getTitre());
+			
+			
 			for(AxeDeVeille axe : listAxes) {
 				new Thread(new Runnable() {
 

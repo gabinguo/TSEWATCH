@@ -14,6 +14,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.commons.io.Charsets;
 import org.apache.commons.io.FileUtils;
@@ -57,6 +58,17 @@ public class FileManager {
 		}
 	}
 		
+	
+	public ArrayList<String> getAllAvisLink() throws IOException{
+		List<String> allAxeFolders = FileUtils.readLines(new File(Const.FILE_AXELIST));
+		ArrayList<String> allAvisLinks = new ArrayList<String>();
+		for( String folderName : allAxeFolders) {
+			allAvisLinks.addAll(FileUtils.readLines(new File(Const.FOLDER_AXE + folderName + "/avis.txt")));
+		}
+		return allAvisLinks;		
+	}
+	
+	
 	/**
 	 * Userd to save one line of .txt file 
 	 * @param lineStr

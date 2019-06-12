@@ -16,6 +16,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.ResourceBundle;
 import java.util.concurrent.SynchronousQueue;
 
@@ -40,6 +41,7 @@ import Model.ListDiffusion;
 import file.io.FileManager;
 import file.io.Filter;
 import javafx.application.Platform;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.WorkerStateEvent;
@@ -59,12 +61,15 @@ import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Box;
+import javafx.util.Callback;
 import util.Const;
 import util.Crawlers;
 
@@ -83,7 +88,7 @@ public class HomeController {
 	
     
     @FXML
-    private JFXButton btn_add,btn_back,btn_options,btn_axe,btn_recherche,btn_diffusion,btn_rapport
+    private JFXButton btn_add,btn_back,btn_github,btn_axe,btn_recherche,btn_diffusion,btn_rapport
     						,btn_rapport_nouveau,btn_add_client, btn_envoyer, btn_add_axe,btn_delete_axe,
     						btn_modify_axe, btn_annuler_axe,btn_save_axe,btn_recherche_ok,btn_delete_diffusion,
     						btn_add_diffusion, btn_modify_listd,btn_not_create,btn_delete_client,btn_annuler_axe_modify,
@@ -128,8 +133,8 @@ public class HomeController {
     private TableColumn<Client,String> colClient,colEmail;
     @FXML
     private TableColumn<Avis,String> colDate,colTitre;
-    @FXML
-    private TableColumn<Avis,CheckBox> colSelect;
+    
+    
     
     @FXML
     private Label label_mot,label_region,label_de,label_a,label_parution;
@@ -141,6 +146,11 @@ public class HomeController {
     	/**
 		 *  get DisplayController for displaying or some new Tab
 		 */
+    	
+    	btn_recherche.setOpacity(0.5);
+    	
+        resultTableView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+
 		displayCtrl = DisplayController.getInstance();
 		clientTableView.setPlaceholder(new Label("vide"));
 		veilleTableView.setPlaceholder(new Label("vide"));
@@ -169,15 +179,16 @@ public class HomeController {
     			try {
 					java.awt.Desktop.getDesktop().browse(new URI(avis.getLink()));
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				} catch (URISyntaxException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				
     		}
     	});
+    	
+    	
+    	
     	
     	ArrayList<String> arrDate = new ArrayList<String>();
     	for(String str : Const.dateList) {
@@ -208,8 +219,9 @@ public class HomeController {
     	colDate.setCellValueFactory(new PropertyValueFactory<>("date"));
     	colTitre.setCellValueFactory(new PropertyValueFactory<>("titre"));
     	
-    		
+    	
 	}
+    
     private void en_disable(int option) {
     	switch (option) {
 		case 1:
@@ -382,7 +394,6 @@ public class HomeController {
     	}
 	}
 
-    
     private void updateAvisTableView(String value) {
     	if(value != null) {
     		if(value.length()!=0) {
@@ -448,6 +459,16 @@ public class HomeController {
              add_pane.setVisible(false);     
         }
         
+        if(event.getSource() == btn_github) {
+        	//https://github.com/gabinguo/TSEWATCH
+        	try {
+				java.awt.Desktop.getDesktop().browse(new URI("https://github.com/gabinguo/TSEWATCH"));
+			} catch (IOException e) {
+				e.printStackTrace();
+			} catch (URISyntaxException e) {
+				e.printStackTrace();
+			}
+        }
         if(event.getSource() == btn_option) {
         	option_pane.setVisible(!option_pane.isVisible());
         	if(option_pane.isVisible() == false) {
@@ -461,7 +482,14 @@ public class HomeController {
          */
         
         if(event.getSource() == btn_rapport_nouveau) {
-       	 displayCtrl.showAddReport();
+        	ObservableList<ObservableList<String>> selectedItems = resultTableView.getSelectionModel().getSelectedItems();
+        	ArrayList<Avis> listAvis = new ArrayList<Avis>();
+        	for (Iterator iterator = selectedItems.iterator(); iterator.hasNext();) {
+				Avis avis =  (Avis) iterator.next();
+				listAvis.add(avis);
+			}
+        	AddReportController.setListAvis(listAvis);
+        	displayCtrl.showAddReport();
        }
         
         
@@ -538,7 +566,10 @@ public class HomeController {
         if(event.getSource() == btn_recherche_ok) {    	
         	rapport_pane.toFront();
         	page_report_veilleList.getSelectionModel().select(0);  
-        	
+        	btn_axe.setOpacity(1.0);
+            btn_recherche.setOpacity(1.0);
+            btn_diffusion.setOpacity(1.0);
+            btn_rapport.setOpacity(0.5);
         	/**
         	 *  0,1,2 -> year , month ,  day
         	 */
@@ -961,7 +992,6 @@ public class HomeController {
 	public void saveOneClient(Client c) {
     	displayCtrl.getFileManager().saveOneClient( (String) list_diffusion.getValue() ,  c);
     }
-	
 	
 	public void reWriteAllAxeListTXT() {
 		displayCtrl.getFileManager().emptyTXT(Const.FILE_AXELIST);

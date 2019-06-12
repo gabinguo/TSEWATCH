@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import org.apache.commons.io.Charsets;
 import org.apache.commons.io.FileUtils;
 
+import Model.Avis;
 import Model.AxeDeVeille;
 import Model.ListDiffusion;
 import file.io.FileManager;
@@ -18,17 +19,44 @@ public class App {
 	private static ArrayList<AxeDeVeille> listVeille = new ArrayList<AxeDeVeille>();
 	private static ArrayList<ListDiffusion> listDiffusion = new ArrayList<ListDiffusion>();
 	private static ArrayList<String> listReport = new ArrayList<String>();
-	
+	private static ArrayList<String> allNames = new ArrayList<String>();
 
 	public static void deleteAllFileStored() throws IOException {
-		ArrayList<String> all_folder_axe = (ArrayList<String>) FileUtils.readLines(new File(Const.FILE_AXELIST));
-		for(String str : all_folder_axe) {
-			FileManager.emptyTXT(Const.FOLDER_AXE + str + "/avis.txt");
+		Thread th = new Thread(new Runnable() {
+			
+			@Override
+			public void run() {
+				ArrayList<String> all_folder_axe = null;
+				try {
+					all_folder_axe = (ArrayList<String>) FileUtils.readLines(new File(Const.FILE_AXELIST));
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				for(String str : all_folder_axe) {
+					FileManager.emptyTXT(Const.FOLDER_AXE + str + "/avis.txt");
+				}
+				ArrayList<String> all_report = null;
+				try {
+					all_report = (ArrayList<String>) FileUtils.readLines(new File(Const.FILE_REPORTLIST));
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				for(String report : all_report) {
+					FileUtils.deleteQuietly(new File(Const.FOLDER_RAPPORT + report + ".html"));
+				}
+			}
+		});
+		
+		try {
+			th.join();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-		ArrayList<String> all_report = (ArrayList<String>) FileUtils.readLines(new File(Const.FILE_REPORTLIST));
-		for(String report : all_report) {
-			FileUtils.deleteQuietly(new File(Const.FOLDER_RAPPORT + report + ".html"));
-		}
+		th.start();
+		
 	}
 	
 	public static void main(String[] args) throws Exception {
@@ -40,6 +68,14 @@ public class App {
 	
 	
 	
+	public static ArrayList<String> getAllNames() {
+		return allNames;
+	}
+
+	public static void setAllNames(ArrayList<String> allLinks) {
+		App.allNames = allLinks;
+	}
+
 	public static void init() {
 		FileManager.createFolder(null, 1);
 		FileManager.createFolder(null, 2);
