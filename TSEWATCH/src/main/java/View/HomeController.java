@@ -16,13 +16,16 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+import java.util.concurrent.SynchronousQueue;
 
 import org.apache.commons.io.Charsets;
 import org.apache.commons.io.FileUtils;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
+import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXTextField;
+import com.jfoenix.controls.JFXTimePicker;
 import com.webfirmframework.wffweb.tag.html.attribute.For;
 import com.webfirmframework.wffweb.tag.html.identifier.TBodyAttributable;
 
@@ -75,7 +78,7 @@ public class HomeController {
     						,btn_rapport_nouveau,btn_add_client, btn_envoyer, btn_add_axe,btn_delete_axe,
     						btn_modify_axe, btn_annuler_axe,btn_save_axe,btn_recherche_ok,btn_delete_diffusion,
     						btn_add_diffusion, btn_modify_listd,btn_not_create,btn_delete_client,btn_annuler_axe_modify,
-    						btn_save_axe_modify, btn_refresh;
+    						btn_save_axe_modify, btn_refresh,btn_option;
     
     
     @SuppressWarnings("rawtypes")
@@ -88,10 +91,13 @@ public class HomeController {
     			recherche_pane,axe_pane,addLd_pane;
     
      @FXML
-    private Pane add_axe_pane,modify_axe_pane;
+    private Pane add_axe_pane,modify_axe_pane,option_pane;
      
     @FXML
-    private JFXTextField nameVeilleTextField,nameVeilleTextField_modify,nameLd;
+    private JFXTextField nameVeilleTextField,nameVeilleTextField_modify,nameLd,option_mot,option_region;
+    
+    @FXML
+    private JFXDatePicker option_de,option_a;
     
     // Did not change!!! still TextArea
     @FXML
@@ -125,6 +131,7 @@ public class HomeController {
 		resultTableView.setPlaceholder(new Label("vide"));
 		modify_axe_pane.setVisible(false);
 		add_axe_pane.setVisible(false);
+		option_pane.setVisible(false);
     	recherche_pane.toFront();
     	keywordsTextField.setWrapText(true);
     	
@@ -133,6 +140,11 @@ public class HomeController {
     	
     	page_report_veilleList.getSelectionModel().selectedItemProperty().addListener(
     			(v,oldValue,newValue) -> updateAvisTableView((String) newValue));
+    	
+    	
+    	siteList.getSelectionModel().selectedItemProperty().addListener(
+    			(v,oldValue,newValue)->setOption((String)newValue));
+	
     	
     	resultTableView.setOnMouseClicked(event -> {
     		if(event.getClickCount() == 2) {
@@ -174,7 +186,22 @@ public class HomeController {
     		
 	}
     
-    private void updateClientTableView(String value) {
+    private void setOption(String newValue) {
+    	switch (newValue) {
+		case "Boamp":
+			option_region.setPromptText("   ---Not used---");
+    		option_mot.setPromptText("   ---Not used---");
+			break;
+
+		default:
+			option_region.setPromptText("   ---Enter your choice---");
+    		option_mot.setPromptText("   ---Enter your choice---");
+			break;
+		}
+
+	}
+
+	private void updateClientTableView(String value) {
     	if(value!=null) {
 	    	try {
 				ArrayList<String> listStr =  (ArrayList<String>) FileUtils.readLines(new File(Const.FOLDER_DIFFUSION + value + ".txt"),Charsets.ISO_8859_1);
@@ -233,7 +260,14 @@ public class HomeController {
              add_pane.setVisible(false);     
         }
         
-        
+        if(event.getSource() == btn_option) {
+        	option_pane.setVisible(!option_pane.isVisible());
+        	if(option_pane.isVisible() == false) {
+        		option_mot.setText("");
+        		option_region.setText("");
+        	}
+        }
+ 
         /**
          * 	Report Page's buttons
          */
@@ -317,7 +351,21 @@ public class HomeController {
         	rapport_pane.toFront();
         	page_report_veilleList.getSelectionModel().select(0);  
         	
-        	searchEngine((String) siteList.getValue());
+        	/**
+        	 *  0,1,2 -> year , month ,  day
+        	 */
+        	String[] timeStart=null, timeEnd=null,keywords=null,regions=null;
+        	
+        	if(option_de.getValue() != null)
+        	timeStart = option_de.getValue().toString().trim().split("-");
+        	if(option_a.getValue() != null)
+        	timeEnd = option_a.getValue().toString().trim().split("-");
+        	if(option_mot.getText() != null)
+        	keywords = option_mot.getText().trim().split(",");
+        	if(option_region.getText() != null)
+        	regions = option_region.getText().trim().split(",");
+        	
+        	searchEngine((String) siteList.getValue(),timeStart,timeEnd,keywords,regions);
         }
         
         /**
@@ -353,9 +401,11 @@ public class HomeController {
         }
     }
 	
-	private void searchEngine(String option) {
+	private void searchEngine(String option,String[] timeStart,String[] timeEnd,String[] keywords,String[] regions) {
 		Filter f = new Filter();
 		Crawlers c = new Crawlers();
+		String ts = timeStart[2]+"/"+timeStart[1]+"/"+timeStart[0];
+		String te = timeEnd[2]+"/"+timeEnd[1]+"/"+timeEnd[0];
 		switch (option) {
 		case "Auvergnerhonealpes":
 			new Thread(new Runnable() {
@@ -368,10 +418,9 @@ public class HomeController {
 			break;
 		case "Boamp":
 			new Thread( new Runnable() {
-
 				@Override
 				public void run() {
-					f.classifyAvis(c.getLinksBOAMP("01/05/2019","10/05/2019",2));
+					f.classifyAvis(c.getLinksBOAMP(ts,te,2));
 				}
 				
 			}).start();

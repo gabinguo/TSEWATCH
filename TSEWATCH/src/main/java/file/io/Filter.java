@@ -17,14 +17,21 @@ public class Filter {
 	}
 	
 	public void classifyAvis( ArrayList<Avis> listAvis) {
-		String path = "";
+		
 		ArrayList<AxeDeVeille> listAxes = App.getListVeille();
 		for(Avis avis : listAvis){ 
 			for(AxeDeVeille axe : listAxes) {
-				if(avis.checkKeywordHTML(axe.getKeywords())){
-					path = Const.FOLDER_AXE + axe.getName() + "/avis.txt";
-					displayCtrl.getFileManager().saveAvis(avis, path);
-				}
+				new Thread(new Runnable() {
+					public void run() {
+						String path = "";
+						if(avis.checkKeywordHTML(axe.getKeywords())){
+							path = Const.FOLDER_AXE + axe.getName() + "/avis.txt";
+							displayCtrl.getFileManager().saveAvis(avis, path);
+						}
+					}
+					
+				}).start();;
+				
 			}
 		}
 	}
