@@ -22,6 +22,7 @@ import Model.Avis;
 import Model.AxeDeVeille;
 import Model.Client;
 import Model.ListDiffusion;
+import javafx.scene.control.CheckBox;
 import util.Const;
 
 public class FileManager {
@@ -282,7 +283,8 @@ public static void saveAxe(AxeDeVeille axe,boolean flag) {
 				listAvis = new ArrayList<Avis>();
 				for(String str : listStr) {
 					String[] strAvis = str.trim().split("\\|");
-					listAvis.add(new Avis(strAvis[2].trim(), strAvis[0].trim(), strAvis[1].trim()));
+					Avis avis = new Avis(strAvis[2].trim(), strAvis[0].trim(), strAvis[1].trim());					
+					listAvis.add(avis);
 				}
 			}
 			

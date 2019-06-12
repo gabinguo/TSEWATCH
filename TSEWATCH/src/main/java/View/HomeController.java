@@ -128,15 +128,14 @@ public class HomeController {
     private TableColumn<Client,String> colClient,colEmail;
     @FXML
     private TableColumn<Avis,String> colDate,colTitre;
-    
     @FXML
-    private TableColumn<Avis,RadioButton> colSelect;
+    private TableColumn<Avis,CheckBox> colSelect;
     
     @FXML
     private Label label_mot,label_region,label_de,label_a,label_parution;
     
     
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({ "unchecked", "rawtypes" })
 	@FXML
 	public void initialize() {
     	/**
@@ -208,7 +207,7 @@ public class HomeController {
 
     	colDate.setCellValueFactory(new PropertyValueFactory<>("date"));
     	colTitre.setCellValueFactory(new PropertyValueFactory<>("titre"));
-    	colSelect.setCellValueFactory(new PropertyValueFactory<>("select"));
+    	
     		
 	}
     private void en_disable(int option) {
@@ -328,16 +327,7 @@ public class HomeController {
     	
     		
     }
-    //TODO
-    /**
-     * final static public String[] namesOfSites = {
-			"Proxilegales", "Boamp" , "Marche-publics(info)",
-			"Marche-publics(gouv)", "Auvergnerhonealpes",
-			"Ted.europa","FranceMarche","E-marchespublics",
-			"Centraledesmarches","Marchesonline"
-	};
-     * @param newValue
-     */
+    
     private void setOption(String newValue) {
     	switch (newValue) {
 		case "Boamp":
@@ -575,21 +565,35 @@ public class HomeController {
         
         if(event.getSource()== btn_axe)
         {
-             
+             btn_axe.setOpacity(0.5);
+             btn_recherche.setOpacity(1.0);
+             btn_diffusion.setOpacity(1.0);
+             btn_rapport.setOpacity(1.0);
              axe_pane.toFront();
         }
         if(event.getSource()==btn_recherche)
         {
-            
+        	btn_axe.setOpacity(1.0);
+            btn_recherche.setOpacity(0.5);
+            btn_diffusion.setOpacity(1.0);
+            btn_rapport.setOpacity(1.0);
         	 recherche_pane.toFront();
         }
         if(event.getSource()==btn_diffusion)
         {
+        	btn_axe.setOpacity(1.0);
+            btn_recherche.setOpacity(1.0);
+            btn_diffusion.setOpacity(0.5);
+            btn_rapport.setOpacity(1.0);
         	 diffusion_pane.toFront();
         	 
         }
         if(event.getSource()==btn_rapport)
         {
+        	btn_axe.setOpacity(1.0);
+            btn_recherche.setOpacity(1.0);
+            btn_diffusion.setOpacity(1.0);
+            btn_rapport.setOpacity(0.5);
         	page_report_veilleList.getSelectionModel().select(0);
              rapport_pane.toFront();  
         }
@@ -600,8 +604,6 @@ public class HomeController {
         	btn_save_axe_modify_Action();
         }
     }
-	
-	
 	
 	@SuppressWarnings("unchecked")
 	private void searchEngine(String option,String[] timeStart,String[] timeEnd,String keyword,String[] regions) {

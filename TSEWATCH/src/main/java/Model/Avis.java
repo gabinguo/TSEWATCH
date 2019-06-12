@@ -1,29 +1,20 @@
 package Model;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
-
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-
 import javafx.scene.control.CheckBox;
-import javafx.scene.control.RadioButton;
 import util.HTTPRequest;
 
-public class Avis {
+public class Avis{
 	String date;
 	String titre;
 	String link;
-	String location = null; // not every site has the information of the location
+	String location = null;
 
-	
-	
-	
 	public String getLocation() {
 		return location;
 	}
@@ -43,7 +34,6 @@ public class Avis {
 		this.titre = titre;
 		this.link = link;
 		this.location = location;
-		
 	}
 
 	public String getDate() {

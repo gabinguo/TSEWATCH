@@ -20,10 +20,21 @@ public class App {
 	private static ArrayList<String> listReport = new ArrayList<String>();
 	
 
+	public static void deleteAllFileStored() throws IOException {
+		ArrayList<String> all_folder_axe = (ArrayList<String>) FileUtils.readLines(new File(Const.FILE_AXELIST));
+		for(String str : all_folder_axe) {
+			FileManager.emptyTXT(Const.FOLDER_AXE + str + "/avis.txt");
+		}
+		ArrayList<String> all_report = (ArrayList<String>) FileUtils.readLines(new File(Const.FILE_REPORTLIST));
+		for(String report : all_report) {
+			FileUtils.deleteQuietly(new File(Const.FOLDER_RAPPORT + report + ".html"));
+		}
+	}
+	
 	public static void main(String[] args) throws Exception {
 		init();
 		DisplayController.display(args);
-	
+		deleteAllFileStored();
 	}
 
 	
