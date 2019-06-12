@@ -8,8 +8,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
+import java.net.InetSocketAddress;
 import java.net.MalformedURLException;
+import java.net.Proxy;
+import java.net.Socket;
 import java.net.URL;
+import java.security.KeyStore;
 import java.security.SecureRandom;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
@@ -41,13 +45,26 @@ import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.*;
 import org.apache.http.client.params.*;
+import org.apache.http.client.protocol.HttpClientContext;
+import org.apache.http.config.Registry;
+import org.apache.http.config.RegistryBuilder;
+import org.apache.http.conn.socket.ConnectionSocketFactory;
 import org.apache.http.conn.ssl.NoopHostnameVerifier;
 import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.impl.client.LaxRedirectStrategy;
+import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
 import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.conn.socket.PlainConnectionSocketFactory;
+import org.apache.http.conn.socket.ConnectionSocketFactory;
+import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
+import org.apache.http.ssl.TrustStrategy;
+
+
 import org.apache.http.params.HttpParams;
+import org.apache.http.protocol.HttpContext;
+import org.apache.http.ssl.SSLContexts;
 import org.apache.http.util.EntityUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -94,6 +111,8 @@ public class HTTPRequest {
 	public static String sendPost(String url, Map<String, String> params ) throws Exception {
 
 		disableCertificateValidation();
+		
+
 		// Get a httpClient object
 		CloseableHttpClient httpclient = HttpClients.createDefault();
 		httpclient = (CloseableHttpClient) wrapClient(httpclient);
@@ -150,7 +169,37 @@ public class HTTPRequest {
 //		//result302[1] = location;
 		return result;
 	}
+	
+	//socket代理配置
+	static class SocketProxyPlainConnectionSocketFactory extends PlainConnectionSocketFactory{
+	    @Override
+	    public Socket createSocket(final HttpContext context) {
+	        InetSocketAddress socksAddr = (InetSocketAddress) context.getAttribute("socks.address");
+	        if (socksAddr != null){
+	            Proxy proxy = new Proxy(Proxy.Type.SOCKS, socksAddr);
+	            return new Socket(proxy);
+	        } else {
+	            return new Socket();
+	        }
+	    }
+	}
+	static class SocketProxySSLConnectionSocketFactory extends SSLConnectionSocketFactory {
+	    public SocketProxySSLConnectionSocketFactory(final SSLContext sslContext) {
+	        super(sslContext, NoopHostnameVerifier.INSTANCE);
+	    }
 
+	    @Override
+	    public Socket createSocket(final HttpContext context) {
+	        InetSocketAddress socksAddr = (InetSocketAddress) context.getAttribute("socks.address");
+	        if (socksAddr != null){
+	            Proxy proxy = new Proxy(Proxy.Type.SOCKS, socksAddr);
+	            return new Socket(proxy);
+	        } else {
+	            return new Socket();
+	        }
+	    }
+
+	}
 	
 	public static String sendPostTed(String url, Map<String, String> params ) throws Exception {
 
@@ -227,11 +276,33 @@ public class HTTPRequest {
 	}
 	
 	
-	public static String sendPostBoamp(String url, Map<String, String> params ) throws Exception {
+	public static String sendPostBoamp(String url, Map<String, String> params, ArrayList<String> locationList ) throws Exception {
 
-		disableCertificateValidation();
+		
+		SSLContext sslContext = SSLContexts.custom()
+		        .loadTrustMaterial(KeyStore.getInstance(KeyStore.getDefaultType())
+		                , (chain, authType) -> true).build();
+		
+		Registry<ConnectionSocketFactory> socketFactoryRegistry =
+		        RegistryBuilder.<ConnectionSocketFactory>create()
+		                .register("http", new SocketProxyPlainConnectionSocketFactory())
+		                .register("https", new SocketProxySSLConnectionSocketFactory(sslContext))
+		                .build();
+		
+		CloseableHttpClient httpclient = HttpClients.custom()
+		        .setConnectionManager(new PoolingHttpClientConnectionManager(socketFactoryRegistry))
+		        .build();
+		HttpClientContext httpClientContext = HttpClientContext.create();
+		httpClientContext.setAttribute("socks.address", new InetSocketAddress("127.0.0.1", 4864));
+
+		
+		
+		
+		
+		
+		//disableCertificateValidation();
 		// Get a httpClient object
-		CloseableHttpClient httpclient = HttpClients.createDefault();
+		//CloseableHttpClient httpclient = HttpClients.createDefault();
 		httpclient = (CloseableHttpClient) wrapClient(httpclient);
 		// Creat a list to store params
 		List<NameValuePair> formparams = new ArrayList<NameValuePair>();
@@ -239,8 +310,12 @@ public class HTTPRequest {
 			formparams.add(new BasicNameValuePair(entry.getKey(), entry.getValue()));
 		}
 		
-		for(String location :Const.listDescripteur) {
-			formparams.add(new BasicNameValuePair("descripteur[]", location));
+		for(String descripteur :Const.listDescripteur) {
+			formparams.add(new BasicNameValuePair("descripteur[]", descripteur));
+		}
+		
+		for(String location :locationList) {
+			formparams.add(new BasicNameValuePair("numerodepartement[]", location));
 		}
 		
 		UrlEncodedFormEntity entity = new UrlEncodedFormEntity(formparams, Consts.UTF_8);
@@ -274,7 +349,7 @@ public class HTTPRequest {
 		CloseableHttpResponse response = null;
 
 		try {
-			response = httpclient.execute(httpPost);
+			response = httpclient.execute(httpPost,httpClientContext);
 		} catch (ClientProtocolException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -351,6 +426,8 @@ public class HTTPRequest {
 	 */
 	public final static String sendGET(String url) throws Exception {
         CloseableHttpClient httpclient = HttpClients.createDefault();
+        httpclient = (CloseableHttpClient) wrapClient(httpclient);
+        
         //httpclient.getParams().setParameter(ClientPNames.ALLOW_CIRCULAR_REDIRECTS, false);
        // httpclient.getParams().setParameter(ClientPNames.ALLOW_CIRCULAR_REDIRECTS, false);
         //org.apache.http.client.Params.
@@ -410,6 +487,7 @@ public class HTTPRequest {
        // httpclient.getParams().setParameter(ClientPNames.ALLOW_CIRCULAR_REDIRECTS, false);
         //org.apache.http.client.Params.
         //org.apache.http.client.
+		httpclient = (CloseableHttpClient) wrapClient(httpclient);
         try {
             HttpGet httpget = new HttpGet(url);
             httpget.addHeader("Accept", "text/html");

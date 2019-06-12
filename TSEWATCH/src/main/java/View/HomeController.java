@@ -60,6 +60,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import util.Const;
 import util.Crawlers;
@@ -88,7 +89,7 @@ public class HomeController {
     
     @SuppressWarnings("rawtypes")
 	@FXML
-    private JFXComboBox siteList,page_report_veilleList,list_diffusion;
+    private JFXComboBox siteList,date_parution_list,page_report_veilleList,list_diffusion;
     
      @FXML
     private AnchorPane add_pane, options_pane,diffusion_pane,rapport_pane,
@@ -136,6 +137,7 @@ public class HomeController {
 		modify_axe_pane.setVisible(false);
 		add_axe_pane.setVisible(false);
 		option_pane.setVisible(false);
+		
     	recherche_pane.toFront();
     	keywordsTextField.setWrapText(true);
     	
@@ -144,6 +146,7 @@ public class HomeController {
     	
     	page_report_veilleList.getSelectionModel().selectedItemProperty().addListener(
     			(v,oldValue,newValue) -> updateAvisTableView((String) newValue));
+    	
     	
     	
     	siteList.getSelectionModel().selectedItemProperty().addListener(
@@ -166,6 +169,9 @@ public class HomeController {
     		}
     	});
     	
+    	for(String str : Const.dateList) {
+    		date_parution_list.getItems().add(str);
+    	}
     	
     	//Search page's table
     	for(String name : Const.namesOfSites) {
@@ -189,17 +195,119 @@ public class HomeController {
     	colTitre.setCellValueFactory(new PropertyValueFactory<>("titre"));
     		
 	}
-    
+    private void en_disable(int option) {
+    	switch (option) {
+		case 1:
+			option_mot.setDisable(true);
+			option_region.setDisable(false);
+			option_de.setDisable(false);
+			option_a.setDisable(false);
+			date_parution_list.setDisable(true);
+			break;
+		case 2:
+			option_mot.setDisable(true);
+			option_region.setDisable(false);
+			option_de.setDisable(true);
+			option_a.setDisable(true);
+			date_parution_list.setDisable(false);
+			break;
+		case 3:
+			option_mot.setDisable(false);
+			option_region.setDisable(true);
+			option_de.setDisable(true);
+			option_a.setDisable(true);
+			date_parution_list.setDisable(true);
+			break;
+		case 4:
+			option_mot.setDisable(true);
+			option_region.setDisable(true);
+			option_de.setDisable(false);
+			option_a.setDisable(false);
+			date_parution_list.setDisable(true);
+			break;
+		case 5:
+			option_mot.setDisable(false);
+			option_region.setDisable(false);
+			option_de.setDisable(true);
+			option_a.setDisable(true);
+			date_parution_list.setDisable(true);
+			break;
+		case 6:
+			option_mot.setDisable(true);
+			option_region.setDisable(false);
+			option_de.setDisable(false);
+			option_a.setDisable(false);
+			date_parution_list.setDisable(true);
+			break;
+		case 7:
+			option_mot.setDisable(true);
+			option_region.setDisable(false);
+			option_de.setDisable(false);
+			option_a.setDisable(false);
+			date_parution_list.setDisable(true);
+			break;
+		case 8:
+			option_mot.setDisable(false);
+			option_region.setDisable(false);
+			option_de.setDisable(true);
+			option_a.setDisable(true);
+			date_parution_list.setDisable(true);
+			break;
+		case 9:
+			break;
+		case 10:
+			option_mot.setDisable(false);
+			option_region.setDisable(true);
+			option_de.setDisable(false);
+			option_a.setDisable(false);
+			date_parution_list.setDisable(true);
+			break;
+    	}
+    	
+    		
+    }
+    //TODO
+    /**
+     * final static public String[] namesOfSites = {
+			"Proxilegales", "Boamp" , "Marche-publics(info)",
+			"Marche-publics(gouv)", "Auvergnerhonealpes",
+			"Ted.europa","FranceMarche","E-marchespublics",
+			"Centraledesmarches","Marchesonline"
+	};
+     * @param newValue
+     */
     private void setOption(String newValue) {
     	switch (newValue) {
 		case "Boamp":
-			option_region.setPromptText("   --- Not used ---");
-    		option_mot.setPromptText("   --- Not used ---");
+			en_disable(1);
+    		option_mot.setPromptText("  -----------");
 			break;
-
-		default:
-			option_region.setPromptText("   --- Enter your choice ---");
-    		option_mot.setPromptText("   --- Enter your choice ---");
+		case "Marche-publics(info)":
+			en_disable(2);
+			break;
+		case "Proxilegales":
+			en_disable(3);
+			break;
+		case "Marche-publics(gouv)":
+			en_disable(4);
+			break;
+		case "Auvergnerhonealpes":
+			en_disable(5);
+			break;
+		case "Ted.europa":
+			en_disable(6);
+			break;
+		case "FranceMarche":
+			en_disable(7);
+			break;
+		case "E-marchespublics":
+			en_disable(8);
+			break;
+		case "Centraledesmarches":
+			en_disable(9);
+			break;
+		case "Marchesonline":
+			en_disable(10);
 			break;
 		}
 
@@ -437,6 +545,8 @@ public class HomeController {
 		Crawlers c = new Crawlers();
 		if(timeStart != null)  ts = timeStart[2]+"/"+timeStart[1]+"/"+timeStart[0]; else ts = null ;
 		if(timeEnd != null) te = timeEnd[2]+"/"+timeEnd[1]+"/"+timeEnd[0]; else te = null;
+		ArrayList<String> regionList = new ArrayList<String>();
+		for(String str : regions ) regionList.add(str);
 		switch (option) {
 		case "Auvergnerhonealpes":
 			Thread auverger = new Thread(new Runnable() {
@@ -454,7 +564,7 @@ public class HomeController {
 				@Override
 				public void run() {
 					if(ts!=null&&te!=null) {
-						f.classifyAvis(c.getLinksBOAMP(ts, te, 2));
+						f.classifyAvis(c.getLinksBOAMP(ts, te, regionList,5));
 					}
 				}				
 			});

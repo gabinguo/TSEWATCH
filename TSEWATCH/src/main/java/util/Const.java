@@ -15,6 +15,11 @@ public class Const {
 			"Centraledesmarches","Marchesonline"
 	};
 	
+	
+	final static public String[] dateList = {
+			"Anjourd'hui, Hier, 2 dernieres jours, 8 dernieres jours, 30 dernieres jours"
+	};
+	
 	/**
 	 *  Configurations for Boamp.fr
 	 */
