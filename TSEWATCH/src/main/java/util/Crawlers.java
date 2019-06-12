@@ -122,11 +122,11 @@ public class Crawlers {
 //		}
 
 		/** for test **/
-//		ArrayList<Avis> avisList = crawler.franceMarcheCrawler("auvergne-rhone-alpes","2019-05-01","2019-06-01",2);
+//		ArrayList<Avis> avisList = crawler.franceMarcheCrawler("auvergne-rhone-alpes","2019-06-01","2019-06-01",2);
 //		ArrayList<Avis> avisList = crawler.proxiLegalesCrawler("info", 2);	
 //		ArrayList<Avis> avisList = crawler.marchepublicsInfoCrawler("3","< 30");	
 
-		ArrayList<Avis> avisList = crawler.auvergnerCrawler("63","",1);
+//		ArrayList<Avis> avisList = crawler.auvergnerCrawler("69","informatique",1);
 		
 		//crawler.tedEuropaCrawler();
 		//crawler.EmarchesCrawler();
@@ -134,7 +134,7 @@ public class Crawlers {
 //		ArrayList<String> location = new ArrayList<String>();
 //		location.add("75");
 //		ArrayList<Avis> avisList = crawler.getLinksBOAMP("05/06/2019","11/06/2019",location,2);	
-//		ArrayList<Avis> avisList = crawler.marchesOnlineCrawler("TODAY","76",2);
+		ArrayList<Avis> avisList = crawler.marchesOnlineCrawler("3_WEEK","76",2);
 		//ArrayList<Avis> avisList = crawler.marchepublicGouvCrawler(2);
 		
 		for(Avis avis:avisList) {
@@ -1156,7 +1156,7 @@ public class Crawlers {
 		 *
 	 * example :
 	 * ArrayList<Avis> avisList = crawler.auvergnerCrawler("63","",1);
-	 * ArrayList<Avis> avisList = crawler.auvergnerCrawler("15","infomatique",2);
+	 * ArrayList<Avis> avisList = crawler.auvergnerCrawler("15","informatique",2);
 	 * 
 	 * Attention : 
 	 * There are some avis who doesn't have the link(null)
@@ -1562,6 +1562,9 @@ public class Crawlers {
 	 * 
 	 *         auvergne-rhone-alpes bourgogne-franche-comte bretagne
 	 *         centre+-+val+de+loire ...
+	 *         
+	 * example:
+	 * ArrayList<Avis> avisList = crawler.franceMarcheCrawler("auvergne-rhone-alpes","2019-05-01","2019-06-01",2);
 	 */
 	public ArrayList<Avis> franceMarcheCrawler(String localisation, String date_parution_debut,
 			String date_parution_fin, int pageNum) {
@@ -1832,9 +1835,10 @@ public class Crawlers {
 	 * 			Depuis 3 mois : "3_MONTH";
 	 * 
 	 *  
-	 * the location :the number of the area, for example : Ville de Paris : "75"
+	 * the location :the number of the area + 1, for example : Ville de Paris : "75" +1 = "76"
 	 * 
-	 *   
+	 *   example :
+	 *   ArrayList<Avis> avisList = crawler.marchesOnlineCrawler("TODAY","76",1);
 	 */
 	public ArrayList<Avis> marchesOnlineCrawler(String date,String location,int pageNum) {
 		// define the url of the site
@@ -1844,149 +1848,36 @@ public class Crawlers {
 		ArrayList<String> listTitre = new ArrayList<String>();
 		ArrayList<String> listDate = new ArrayList<String>();
 		ArrayList<String> listLocation = new ArrayList<String>();
+		
+		/** for the fourniture **/
 		// define the map of the settings
 		Map<String, String> params = new HashMap<String, String>();
-		/*
-		 * *
+
+		/**
 		 * __posted: 1
 			mots_cle: 
 			mots_cle_exclure: 
 			id_ref_type_recherche: 1
 			type_map: 1
-			id_ref_departement[]: 8
-			id_ref_departement[]: 10
-			id_ref_departement[]: 52
-			id_ref_departement[]: 53
-			id_ref_departement[]: 55
-			id_ref_departement[]: 56
-			id_ref_departement[]: 58
-			id_ref_departement[]: 68
-			id_ref_departement[]: 69
-			id_ref_departement[]: 89
-			id_ref_region[]: 21
+			id_ref_departement[]: 76
 			id_ref_type_avis: 1
-			id_ref_domaine_activite: 4
-			nature_prestation_checkAll: 
-			id_ref_nature_travaux[]: 4
-			id_ref_nature_travaux[]: 10
-			id_ref_nature_travaux[]: 11
-			id_ref_nature_travaux[]: 12
-			id_ref_nature_travaux[]: 21
-			id_ref_nature_travaux[]: 22
-			id_ref_nature_travaux[]: 37
-			id_ref_nature_travaux[]: 65
-			id_ref_nature_travaux[]: 68
-			id_ref_nature_travaux[]: 69
-			id_ref_nature_travaux[]: 70
-			id_ref_nature_travaux[]: 71
-			id_ref_nature_travaux[]: 72
-			id_ref_nature_travaux[]: 73
-			id_ref_nature_travaux[]: 74
-			id_ref_nature_travaux[]: 75
-			id_ref_nature_travaux[]: 76
-			id_ref_nature_travaux[]: 77
-			id_ref_nature_travaux[]: 78
-			id_ref_nature_travaux[]: 79
-			id_ref_nature_travaux[]: 80
-			id_ref_nature_travaux[]: 81
-			id_ref_nature_travaux[]: 82
-			id_ref_nature_travaux[]: 83
-			id_ref_nature_travaux[]: 84
-			id_ref_nature_travaux[]: 85
-			id_ref_nature_travaux[]: 86
-			id_ref_nature_travaux[]: 87
-			id_ref_nature_travaux[]: 93
-			id_ref_nature_travaux[]: 94
-			id_ref_nature_travaux[]: 95
-			id_ref_nature_travaux[]: 104
-			date_mel_type: 
-			date_mise_en_ligne: 3_DAYS
+			date_mel_type: 1
+			date_mise_en_ligne: TODAY
 			date_mise_en_ligne_from: 
 			date_mise_en_ligne_to: 
 			date_limite_from: 
 			date_limite_to: 
 			Rechercher: Lancer la recherche
 		 */
-//		params.put("__posted", "1");
-//		
-//		params.put("id_ref_type_recherche", "1");
-//		params.put("type_map", "1");
-//		
-//		params.put("date_mise_en_ligne", "3_DAYS");
-//		params.put("id_ref_region[]", "21");
-//		params.put("id_ref_departement[]", "8"); 
-//		params.put("id_ref_departement[]", "10");
-//		params.put("id_ref_departement[]", "52");
-//		params.put("id_ref_departement[]", "53");
-//		params.put("id_ref_departement[]", "55");
-//		params.put("id_ref_departement[]", "56");
-//		params.put("id_ref_departement[]", "58");
-//		params.put("id_ref_departement[]", "68");
-//		params.put("id_ref_departement[]", "69");
-//		params.put("id_ref_departement[]", "89");
-//		
-//
-//		params.put("id_ref_type_avis", "1");
-//		params.put("id_ref_domaine_activite", "4");
-//		
-//		params.put("id_ref_nature_travaux[]", "4");
-//		params.put("id_ref_nature_travaux[]", "10");
-//		params.put("id_ref_nature_travaux[]", "11");
-//		params.put("id_ref_nature_travaux[]", "12");
-//		params.put("id_ref_nature_travaux[]", "21");
-//		params.put("id_ref_nature_travaux[]", "22");
-//		params.put("id_ref_nature_travaux[]", "37");
-//		params.put("id_ref_nature_travaux[]", "65");
-//		params.put("id_ref_nature_travaux[]", "68");
-//		params.put("id_ref_nature_travaux[]", "69");
-//		params.put("id_ref_nature_travaux[]", "70");
-//		params.put("id_ref_nature_travaux[]", "71");
-//		params.put("id_ref_nature_travaux[]", "72");
-//		params.put("id_ref_nature_travaux[]", "73");
-//		params.put("id_ref_nature_travaux[]", "74");
-//		params.put("id_ref_nature_travaux[]", "75");
-//		params.put("id_ref_nature_travaux[]", "76");
-//		params.put("id_ref_nature_travaux[]", "77");
-//		params.put("id_ref_nature_travaux[]", "78");
-//		params.put("id_ref_nature_travaux[]", "79");
-//		params.put("id_ref_nature_travaux[]", "80");
-//		params.put("id_ref_nature_travaux[]", "81");
-//		params.put("id_ref_nature_travaux[]", "82");
-//		params.put("id_ref_nature_travaux[]", "83");
-//		params.put("id_ref_nature_travaux[]", "84");
-//		params.put("id_ref_nature_travaux[]", "85");
-//		params.put("id_ref_nature_travaux[]", "86");
-//		params.put("id_ref_nature_travaux[]", "87");
-//		params.put("id_ref_nature_travaux[]", "93");
-//		params.put("id_ref_nature_travaux[]", "94");
-//		params.put("id_ref_nature_travaux[]", "95");
-//		params.put("id_ref_nature_travaux[]", "104");
-//		
-//		params.put("Rechercher", "Lancer la recherche");
-		/**
-		 * __posted: 1
-mots_cle: 
-mots_cle_exclure: 
-id_ref_type_recherche: 1
-type_map: 1
-id_ref_departement[]: 76
-id_ref_type_avis: 1
-date_mel_type: 1
-date_mise_en_ligne: TODAY
-date_mise_en_ligne_from: 
-date_mise_en_ligne_to: 
-date_limite_from: 
-date_limite_to: 
-Rechercher: Lancer la recherche
-		 */
 		params.put("__posted", "1");
 		params.put("id_ref_type_recherche", "1");
-		params.put("type_map", "1");
+		params.put("type_map", "2");
 		params.put("id_ref_departement[]", location);
 		params.put("id_ref_type_avis", "1");
 		params.put("date_mel_type", "1");
 		params.put("date_mise_en_ligne", date);
 		params.put("Rechercher", "Lancer la recherche");
+		params.put("id_ref_domaine_activite","3");
 		
 		String result = null;
 		// send POST request to the site to get the HTML data
@@ -2034,8 +1925,9 @@ Rechercher: Lancer la recherche
 		/** for the others pages **/
 		
 		//int pageNum = 2;
-		
+		if(pageNum > 1) {
 		for(int i = 2;i<pageNum+1;i++) {
+			//System.out.println("page:"+i);
 			// define the url of the site
 			String urlEMarcheOnline2 = "https://www.marchesonline.com/appels-offres/en-cours?page="+i;
 					
@@ -2048,12 +1940,13 @@ Rechercher: Lancer la recherche
 		
 			params2.put("__posted", "1");
 			params2.put("id_ref_type_recherche", "1");
-			params2.put("type_map", "1");
+			params2.put("type_map", "2");
 			params2.put("id_ref_departement[]", location);
 			params2.put("id_ref_type_avis", "1");
 			params2.put("date_mel_type", "1");
 			params2.put("date_mise_en_ligne", date);
 			params2.put("Rechercher", "Lancer la recherche");
+			params2.put("id_ref_domaine_activite","3");
 			
 			String result2 = null;
 			// send POST request to the site to get the HTML data
@@ -2098,13 +1991,139 @@ Rechercher: Lancer la recherche
 				listLocation.add(ele.text());
 			}
 		}
+		}
+		/** for the service **/
+		// define the map of the settings
+		params = new HashMap<String, String>();
+
+		params.put("__posted", "1");
+		params.put("id_ref_type_recherche", "1");
+		params.put("type_map", "2");
+		params.put("id_ref_departement[]", location);
+		params.put("id_ref_type_avis", "1");
+		params.put("date_mel_type", "1");
+		params.put("date_mise_en_ligne", date);
+		params.put("Rechercher", "Lancer la recherche");
+		params.put("id_ref_domaine_activite","4");
 		
+		result = null;
+		// send POST request to the site to get the HTML data
+		try {
+			result = HTTPRequest.sendPost(urlEMarcheOnline, params);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		//System.out.println(result);
+		
+		// parse the HTML data
+		doc = Jsoup.parse(result);
+		
+		// get the links from the HTML data
+		eles_link = doc.getElementsByAttributeValueContaining("href", "/appels-offres/avis/");
+		//System.out.println(eles_link.size());
+		
+		for (Element ele : eles_link) {
+			//System.out.println(ele.attr("href"));
+			listLinks.add("https://www.marchesonline.com" + ele.attr("href"));
+		}
+		
+		//get the titre from the HTML data
+		eles_Titre = doc.getElementsByClass("identityNotice");
+		for (Element ele : eles_Titre) {
+			//System.out.println(ele.text());
+			listTitre.add(ele.text());
+		}
+		
+		//get the date from the HTML data
+		eles_date = doc.getElementsByClass("onlineDate");
+		for(Element ele : eles_date) {
+			//System.out.println(ele.text());
+			listDate.add(ele.text());
+		}
+		
+		//get the location from the HTML data
+		eles_location = doc.getElementsByClass("location");
+		for(Element ele :eles_location) {
+			//System.out.println(ele.text());
+			listLocation.add(ele.text());
+		}
+		
+		/** for the others pages **/
+		
+		//int pageNum = 2;
+		if(pageNum > 1) {
+		for(int i = 2;i<pageNum+1;i++) {
+			//System.out.println("page:"+i);
+			// define the url of the site
+			String urlEMarcheOnline2 = "https://www.marchesonline.com/appels-offres/en-cours?page="+i;
+					
+//			ArrayList<String> listLinks2 = new ArrayList<String>();
+//			ArrayList<String> listTitre2 = new ArrayList<String>();
+//			ArrayList<String> listDate2 = new ArrayList<String>();
+//			ArrayList<String> listLocation2 = new ArrayList<String>();
+			// define the map of the settings
+			Map<String, String> params2 = new HashMap<String, String>();
+		
+			params2.put("__posted", "1");
+			params2.put("id_ref_type_recherche", "1");
+			params2.put("type_map", "2");
+			params2.put("id_ref_departement[]", location);
+			params2.put("id_ref_type_avis", "1");
+			params2.put("date_mel_type", "1");
+			params2.put("date_mise_en_ligne", date);
+			params2.put("Rechercher", "Lancer la recherche");
+			params2.put("id_ref_domaine_activite","4");
+			
+			String result2 = null;
+			// send POST request to the site to get the HTML data
+			try {
+				result2 = HTTPRequest.sendPost(urlEMarcheOnline2, params2);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			//System.out.println(result);
+			
+			// parse the HTML data
+			Document doc2 = Jsoup.parse(result2);
+			
+			// get the links from the HTML data
+			Elements eles_link2 = doc2.getElementsByAttributeValueContaining("href", "/appels-offres/avis/");
+			//System.out.println(eles_link.size());
+			
+			for (Element ele : eles_link2) {
+				//System.out.println(ele.attr("href"));
+				listLinks.add("https://www.marchesonline.com" + ele.attr("href"));
+			}
+			
+			//get the titre from the HTML data
+			Elements eles_Titre2 = doc2.getElementsByClass("identityNotice");
+			for (Element ele : eles_Titre2) {
+				//System.out.println(ele.text());
+				listTitre.add(ele.text());
+			}
+			
+			//get the date from the HTML data
+			Elements eles_date2 = doc2.getElementsByClass("onlineDate");
+			for(Element ele : eles_date2) {
+				//System.out.println(ele.text());
+				listDate.add(ele.text());
+			}
+			
+			//get the location from the HTML data
+			Elements eles_location2 = doc2.getElementsByClass("location");
+			for(Element ele :eles_location2) {
+				//System.out.println(ele.text());
+				listLocation.add(ele.text());
+			}
+		}
+		}
 //		System.out.println(listLinks.size());
 //		System.out.println(listTitre.size());
 //		System.out.println(listDate.size());
 //		System.out.println(listLocation.size());
-//		
-//		
+//				
 //		System.out.println(listDate);
 //		System.out.println(listLocation);
 //		System.out.println(listLinks);

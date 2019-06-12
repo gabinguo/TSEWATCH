@@ -50,7 +50,9 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
@@ -62,6 +64,7 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import util.Const;
 import util.Crawlers;
 
@@ -87,7 +90,7 @@ public class HomeController {
     						btn_save_axe_modify, btn_refresh,btn_option;
     
     
-    @SuppressWarnings("rawtypes")
+    
 	@FXML
     private JFXComboBox siteList,date_parution_list,page_report_veilleList,list_diffusion;
     
@@ -100,6 +103,9 @@ public class HomeController {
      
     @FXML
     private JFXTextField nameVeilleTextField,nameVeilleTextField_modify,nameLd,option_mot,option_region;
+    
+    @FXML
+    private HBox hbox_parution;
     
     @FXML
     private JFXDatePicker option_de,option_a;
@@ -123,6 +129,12 @@ public class HomeController {
     @FXML
     private TableColumn<Avis,String> colDate,colTitre;
     
+    @FXML
+    private TableColumn<Avis,RadioButton> colSelect;
+    
+    @FXML
+    private Label label_mot,label_region,label_de,label_a,label_parution;
+    
     
     @SuppressWarnings("unchecked")
 	@FXML
@@ -137,6 +149,7 @@ public class HomeController {
 		modify_axe_pane.setVisible(false);
 		add_axe_pane.setVisible(false);
 		option_pane.setVisible(false);
+		hbox_parution.setVisible(false);
 		
     	recherche_pane.toFront();
     	keywordsTextField.setWrapText(true);
@@ -146,8 +159,6 @@ public class HomeController {
     	
     	page_report_veilleList.getSelectionModel().selectedItemProperty().addListener(
     			(v,oldValue,newValue) -> updateAvisTableView((String) newValue));
-    	
-    	
     	
     	siteList.getSelectionModel().selectedItemProperty().addListener(
     			(v,oldValue,newValue)->setOption((String)newValue));
@@ -169,9 +180,13 @@ public class HomeController {
     		}
     	});
     	
+    	ArrayList<String> arrDate = new ArrayList<String>();
     	for(String str : Const.dateList) {
-    		date_parution_list.getItems().add(str);
+    		arrDate.add(str);
     	}
+    	ObservableList<String> listDate = FXCollections.observableArrayList(arrDate);
+    	date_parution_list.setItems(listDate);
+    	date_parution_list.getSelectionModel().select(date_parution_list.getItems().size()-1);
     	
     	//Search page's table
     	for(String name : Const.namesOfSites) {
@@ -193,6 +208,7 @@ public class HomeController {
 
     	colDate.setCellValueFactory(new PropertyValueFactory<>("date"));
     	colTitre.setCellValueFactory(new PropertyValueFactory<>("titre"));
+    	colSelect.setCellValueFactory(new PropertyValueFactory<>("select"));
     		
 	}
     private void en_disable(int option) {
@@ -203,6 +219,11 @@ public class HomeController {
 			option_de.setDisable(false);
 			option_a.setDisable(false);
 			date_parution_list.setDisable(true);
+			hbox_parution.setVisible(false);
+			label_mot.setTextFill(Color.web("#e9c9cd"));
+			label_region.setTextFill(Color.web("#000000"));
+			label_de.setTextFill(Color.web("#000000"));
+			label_a.setTextFill(Color.web("#000000"));
 			break;
 		case 2:
 			option_mot.setDisable(true);
@@ -210,6 +231,12 @@ public class HomeController {
 			option_de.setDisable(true);
 			option_a.setDisable(true);
 			date_parution_list.setDisable(false);
+			hbox_parution.setVisible(true);
+			label_mot.setTextFill(Color.web("#e9c9cd"));
+			label_region.setTextFill(Color.web("#000000"));
+			label_de.setTextFill(Color.web("#e9c9cd"));
+			label_a.setTextFill(Color.web("#e9c9cd"));
+			
 			break;
 		case 3:
 			option_mot.setDisable(false);
@@ -217,13 +244,23 @@ public class HomeController {
 			option_de.setDisable(true);
 			option_a.setDisable(true);
 			date_parution_list.setDisable(true);
+			hbox_parution.setVisible(false);
+			label_mot.setTextFill(Color.web("#000000"));
+			label_region.setTextFill(Color.web("#e9c9cd"));
+			label_de.setTextFill(Color.web("#e9c9cd"));
+			label_a.setTextFill(Color.web("#e9c9cd"));
 			break;
 		case 4:
 			option_mot.setDisable(true);
 			option_region.setDisable(true);
-			option_de.setDisable(false);
-			option_a.setDisable(false);
+			option_de.setDisable(true);
+			option_a.setDisable(true);
 			date_parution_list.setDisable(true);
+			hbox_parution.setVisible(false);
+			label_mot.setTextFill(Color.web("#e9c9cd"));
+			label_region.setTextFill(Color.web("#e9c9cd"));
+			label_de.setTextFill(Color.web("#e9c9cd"));
+			label_a.setTextFill(Color.web("#e9c9cd"));
 			break;
 		case 5:
 			option_mot.setDisable(false);
@@ -231,6 +268,11 @@ public class HomeController {
 			option_de.setDisable(true);
 			option_a.setDisable(true);
 			date_parution_list.setDisable(true);
+			hbox_parution.setVisible(false);
+			label_mot.setTextFill(Color.web("#000000"));
+			label_region.setTextFill(Color.web("#000000"));
+			label_de.setTextFill(Color.web("#e9c9cd"));
+			label_a.setTextFill(Color.web("#e9c9cd"));
 			break;
 		case 6:
 			option_mot.setDisable(true);
@@ -238,6 +280,11 @@ public class HomeController {
 			option_de.setDisable(false);
 			option_a.setDisable(false);
 			date_parution_list.setDisable(true);
+			hbox_parution.setVisible(false);
+			label_mot.setTextFill(Color.web("#e9c9cd"));
+			label_region.setTextFill(Color.web("#000000"));
+			label_de.setTextFill(Color.web("#000000"));
+			label_a.setTextFill(Color.web("#000000"));
 			break;
 		case 7:
 			option_mot.setDisable(true);
@@ -245,6 +292,11 @@ public class HomeController {
 			option_de.setDisable(false);
 			option_a.setDisable(false);
 			date_parution_list.setDisable(true);
+			hbox_parution.setVisible(false);
+			label_mot.setTextFill(Color.web("#e9c9cd"));
+			label_region.setTextFill(Color.web("#000000"));
+			label_de.setTextFill(Color.web("#000000"));
+			label_a.setTextFill(Color.web("#000000"));
 			break;
 		case 8:
 			option_mot.setDisable(false);
@@ -252,6 +304,11 @@ public class HomeController {
 			option_de.setDisable(true);
 			option_a.setDisable(true);
 			date_parution_list.setDisable(true);
+			hbox_parution.setVisible(false);
+			label_mot.setTextFill(Color.web("#000000"));
+			label_region.setTextFill(Color.web("#000000"));
+			label_de.setTextFill(Color.web("#e9c9cd"));
+			label_a.setTextFill(Color.web("#e9c9cd"));
 			break;
 		case 9:
 			break;
@@ -261,6 +318,11 @@ public class HomeController {
 			option_de.setDisable(false);
 			option_a.setDisable(false);
 			date_parution_list.setDisable(true);
+			hbox_parution.setVisible(false);
+			label_mot.setTextFill(Color.web("#000000"));
+			label_region.setTextFill(Color.web("#e9c9cd"));
+			label_de.setTextFill(Color.web("#000000"));
+			label_a.setTextFill(Color.web("#000000"));
 			break;
     	}
     	
@@ -280,7 +342,6 @@ public class HomeController {
     	switch (newValue) {
 		case "Boamp":
 			en_disable(1);
-    		option_mot.setPromptText("  -----------");
 			break;
 		case "Marche-publics(info)":
 			en_disable(2);
@@ -491,18 +552,20 @@ public class HomeController {
         	/**
         	 *  0,1,2 -> year , month ,  day
         	 */
-        	String[] timeStart=null, timeEnd=null,keywords=null,regions=null;
+        	String[] timeStart=null, timeEnd=null,regions=null;
+        	
+        	String keyword = null;
         	
         	if(option_de.getValue() != null)
         	timeStart = option_de.getValue().toString().trim().split("-");
         	if(option_a.getValue() != null)
         	timeEnd = option_a.getValue().toString().trim().split("-");
         	if(option_mot.getText() != null)
-        	keywords = option_mot.getText().trim().split(",");
+        	keyword = option_mot.getText().trim();
         	if(option_region.getText() != null)
         	regions = option_region.getText().trim().split(",");
         	
-        	searchEngine((String) siteList.getValue(),timeStart,timeEnd,keywords,regions);
+        	searchEngine((String) siteList.getValue(),timeStart,timeEnd,keyword,regions);
         }
         
         /**
@@ -538,8 +601,10 @@ public class HomeController {
         }
     }
 	
+	
+	
 	@SuppressWarnings("unchecked")
-	private void searchEngine(String option,String[] timeStart,String[] timeEnd,String[] keywords,String[] regions) {
+	private void searchEngine(String option,String[] timeStart,String[] timeEnd,String keyword,String[] regions) {
 		final String ts,te,kw,rg;
 		Filter f = new Filter();
 		Crawlers c = new Crawlers();
@@ -548,16 +613,6 @@ public class HomeController {
 		ArrayList<String> regionList = new ArrayList<String>();
 		for(String str : regions ) regionList.add(str);
 		switch (option) {
-		case "Auvergnerhonealpes":
-			Thread auverger = new Thread(new Runnable() {
-				
-				@Override
-				public void run() {
-					f.classifyAvis(c.auvergnerCrawler("", "it", 1));
-				}
-			});
-			
-			break;
 		case "Boamp":
 
 			Thread boamp = new Thread(new Runnable() {
@@ -576,7 +631,7 @@ public class HomeController {
 				
 				@Override
 				public void run() {
-					f.classifyAvis(c.proxiLegalesCrawler("logiciel", 5));
+					f.classifyAvis(c.proxiLegalesCrawler(keyword, 5));
 					
 				}
 			}).start();
@@ -590,6 +645,43 @@ public class HomeController {
 				
 			}).start();
 		break;
+		
+		case "Marche-publics(gouv)":
+			new Thread(new Runnable() {
+				@Override
+				public void run() {
+					f.classifyAvis(c.marchepublicGouvCrawler(5));
+				}
+				
+			}).start();
+		break;
+		case "Auvergnerhonealpes":
+			new Thread(new Runnable() {
+				@Override
+				public void run() {
+					f.classifyAvis(c.auvergnerCrawler("", keyword, 5));
+				}
+				
+			}).start();
+		break;
+		case "FranceMarche":
+			new Thread(new Runnable() {
+				@Override
+				public void run() {
+					f.classifyAvis(c.franceMarcheCrawler("", ts, te, 5));
+				}
+				
+			}).start();
+			break;
+		case "Marchesonline":
+			new Thread(new Runnable() {
+				@Override
+				public void run() {
+					f.classifyAvis(c.marchesOnlineCrawler("", "", 5));
+				}
+				
+			}).start();
+			break;
 		default:
 			break;
 		}

@@ -11,6 +11,8 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.RadioButton;
 import util.HTTPRequest;
 
 public class Avis {
@@ -19,6 +21,9 @@ public class Avis {
 	String link;
 	String location = null; // not every site has the information of the location
 
+	
+	
+	
 	public String getLocation() {
 		return location;
 	}
@@ -38,6 +43,7 @@ public class Avis {
 		this.titre = titre;
 		this.link = link;
 		this.location = location;
+		
 	}
 
 	public String getDate() {
