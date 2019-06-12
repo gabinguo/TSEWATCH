@@ -16,22 +16,26 @@ public class Filter {
 		displayCtrl = DisplayController.getInstance();
 	}
 	
+	@SuppressWarnings("static-access")
 	public void classifyAvis( ArrayList<Avis> listAvis) {
 		
 		ArrayList<AxeDeVeille> listAxes = App.getListVeille();
 		for(Avis avis : listAvis){ 
 			for(AxeDeVeille axe : listAxes) {
 				new Thread(new Runnable() {
+
+					@Override
 					public void run() {
 						String path = "";
 						if(avis.checkKeywordHTML(axe.getKeywords())){
 							path = Const.FOLDER_AXE + axe.getName() + "/avis.txt";
 							displayCtrl.getFileManager().saveAvis(avis, path);
-						}
+							displayCtrl.getHomecontroller().updateAvisTableView();
+						}	
 					}
 					
-				}).start();;
-				
+				}).start();
+							
 			}
 		}
 	}

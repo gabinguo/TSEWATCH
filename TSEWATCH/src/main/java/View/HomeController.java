@@ -11,6 +11,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.lang.Thread.State;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -24,6 +25,7 @@ import org.apache.commons.io.FileUtils;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXDatePicker;
+import com.jfoenix.controls.JFXProgressBar;
 import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.controls.JFXTimePicker;
 import com.webfirmframework.wffweb.tag.html.attribute.For;
@@ -37,9 +39,12 @@ import Model.Client;
 import Model.ListDiffusion;
 import file.io.FileManager;
 import file.io.Filter;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.concurrent.WorkerStateEvent;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
@@ -85,7 +90,6 @@ public class HomeController {
 	@FXML
     private JFXComboBox siteList,page_report_veilleList,list_diffusion;
     
-
      @FXML
     private AnchorPane add_pane, options_pane,diffusion_pane,rapport_pane,
     			recherche_pane,axe_pane,addLd_pane;
@@ -189,13 +193,13 @@ public class HomeController {
     private void setOption(String newValue) {
     	switch (newValue) {
 		case "Boamp":
-			option_region.setPromptText("   ---Not used---");
-    		option_mot.setPromptText("   ---Not used---");
+			option_region.setPromptText("   --- Not used ---");
+    		option_mot.setPromptText("   --- Not used ---");
 			break;
 
 		default:
-			option_region.setPromptText("   ---Enter your choice---");
-    		option_mot.setPromptText("   ---Enter your choice---");
+			option_region.setPromptText("   --- Enter your choice ---");
+    		option_mot.setPromptText("   --- Enter your choice ---");
 			break;
 		}
 
@@ -244,6 +248,31 @@ public class HomeController {
     	
     }
 	
+    public void updateAvisTableView() {
+    	String value = (String) page_report_veilleList.getValue();
+    	if(value != null) {
+    		if(value.length()!=0) {
+		    	String filepath = Const.FOLDER_AXE + value
+		    					+ "/avis.txt";
+		    	
+		    	try {
+					ArrayList<String> listStr = (ArrayList<String>) FileUtils.readLines(new File(filepath),Charsets.ISO_8859_1);
+					ObservableList<Avis> listAvis = FXCollections.observableArrayList();
+					for(int i =0; i< listStr.size();i++) {
+						String[] arr = listStr.get(i).split("\\|");
+						listAvis.add(new Avis(arr[2], arr[0], arr[1]));
+					}
+					resultTableView.setItems(listAvis);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+    		}
+    	}else {
+    		resultTableView.getItems().clear();
+    	}
+    	
+    }
+    
 	@FXML
     private void handleButtonAction(ActionEvent event) {
 		/*
@@ -401,30 +430,37 @@ public class HomeController {
         }
     }
 	
+	@SuppressWarnings("unchecked")
 	private void searchEngine(String option,String[] timeStart,String[] timeEnd,String[] keywords,String[] regions) {
+		final String ts,te,kw,rg;
 		Filter f = new Filter();
 		Crawlers c = new Crawlers();
-		String ts = timeStart[2]+"/"+timeStart[1]+"/"+timeStart[0];
-		String te = timeEnd[2]+"/"+timeEnd[1]+"/"+timeEnd[0];
+		if(timeStart != null)  ts = timeStart[2]+"/"+timeStart[1]+"/"+timeStart[0]; else ts = null ;
+		if(timeEnd != null) te = timeEnd[2]+"/"+timeEnd[1]+"/"+timeEnd[0]; else te = null;
 		switch (option) {
 		case "Auvergnerhonealpes":
-			new Thread(new Runnable() {
+			Thread auverger = new Thread(new Runnable() {
 				
 				@Override
 				public void run() {
 					f.classifyAvis(c.auvergnerCrawler("", "it", 1));
 				}
-			}).start();;
+			});
+			
 			break;
 		case "Boamp":
-			new Thread( new Runnable() {
+
+			Thread boamp = new Thread(new Runnable() {
 				@Override
 				public void run() {
-					f.classifyAvis(c.getLinksBOAMP(ts,te,2));
-				}
-				
-			}).start();
+					if(ts!=null&&te!=null) {
+						f.classifyAvis(c.getLinksBOAMP(ts, te, 2));
+					}
+				}				
+			});
+			boamp.start();
 			break;
+			
 		case "Proxilegales":
 			new Thread(new Runnable() {
 				
