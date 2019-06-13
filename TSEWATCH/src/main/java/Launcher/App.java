@@ -31,7 +31,6 @@ public class App {
 				try {
 					all_folder_axe = (ArrayList<String>) FileUtils.readLines(new File(Const.FILE_AXELIST),Charsets.ISO_8859_1);
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				for(String str : all_folder_axe) {
@@ -60,9 +59,10 @@ public class App {
 	}
 	
 	public static void main(String[] args) throws Exception {
+		deleteAllFileStored();
 		init();
 		DisplayController.display(args);
-		deleteAllFileStored();
+		
 	}
 
 	

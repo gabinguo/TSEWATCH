@@ -98,7 +98,7 @@ public class Avis{
 			}
 			
 			if(text.toLowerCase().contains(key.toLowerCase())) {
-				result = true;
+				return true;
 			}
 			
 		}

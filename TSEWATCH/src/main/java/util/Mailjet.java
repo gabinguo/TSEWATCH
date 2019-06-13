@@ -13,13 +13,16 @@ import com.mailjet.client.errors.MailjetException;
 import com.mailjet.client.errors.MailjetSocketTimeoutException;
 import com.mailjet.client.resource.Emailv31;
 
+import Launcher.App;
+
 public class Mailjet {
 	public static boolean SendMail(String Sender, String Receiver, String Content) throws MailjetException, MailjetSocketTimeoutException {
 		
 		MailjetClient client;
 	      MailjetRequest request;
 	      MailjetResponse response;
-	      client = new MailjetClient("e6002ed333b7294e573ff0238a7d04a5", "dc2ef215d33e36ccb09b1c987fb99121", new ClientOptions("v3.1"));
+	      
+	      client = new MailjetClient(App.getConfigStrArr()[0], App.getConfigStrArr()[1], new ClientOptions("v3.1"));
 	      request = new MailjetRequest(Emailv31.resource)
 	            .property(Emailv31.MESSAGES, new JSONArray()
 	                .put(new JSONObject()

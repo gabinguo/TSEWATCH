@@ -79,7 +79,7 @@ public class SendMailController {
 				 listD = displayCtrl.getFileManager().readDiffusionList(listDName);
 				 for(Client client : listD.getListClient())
 					 try {
-						 Mailjet.SendMail("gabin.guo@gmail.com", client.getEmail(), doc.html());
+						 Mailjet.SendMail(App.getConfigStrArr()[2], client.getEmail(), doc.html());
 					 } catch (MailjetException e) {
 						 e.printStackTrace();
 					 } catch (MailjetSocketTimeoutException e) {
