@@ -828,7 +828,11 @@ public class HomeController {
 				@Override
 				public void run() {
 					if(ts!=null&&te!=null) {
-						f.classifyAvis(c.getLinksBOAMP(ts, te, regionList,5));
+						if(regionList.size()!=0) 
+							f.classifyAvis(c.getLinksBOAMP(ts, te, regionList,5));
+						else {
+							f.classifyAvis(c.getLinksBOAMP(ts, te, new ArrayList<String>(),5));
+						}
 					}
 				}				
 			});
@@ -897,7 +901,11 @@ public class HomeController {
 			new Thread(new Runnable() {
 				@Override
 				public void run() {
-					f.classifyAvis(c.marchesOnlineCrawler(getDateMO(),regionList, 5));
+					if(regionList.size() == 0) {
+						f.classifyAvis(c.marchesOnlineCrawler(getDateMO(),new ArrayList<String>(), 5));
+					}else {
+						f.classifyAvis(c.marchesOnlineCrawler(getDateMO(),regionList, 5));
+					}
 				}
 				
 			}).start();
