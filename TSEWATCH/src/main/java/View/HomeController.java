@@ -93,7 +93,7 @@ public class HomeController {
     						,btn_rapport_nouveau,btn_add_client, btn_envoyer, btn_add_axe,btn_delete_axe,
     						btn_modify_axe, btn_annuler_axe,btn_save_axe,btn_recherche_ok,btn_delete_diffusion,
     						btn_add_diffusion, btn_modify_listd,btn_not_create,btn_delete_client,btn_annuler_axe_modify,
-    						btn_save_axe_modify, btn_refresh,btn_option;
+    						btn_save_axe_modify, btn_refresh,btn_option, btn_save_api;
     
     
     
@@ -151,11 +151,16 @@ public class HomeController {
     	/**
 		 *  get DisplayController for displaying or some new Tab
 		 */
+    	if(App.getConfigStrArr().length != 0) {
+    		textField_api.setText(App.getConfigStrArr()[0]);
+    		textField_private_api.setText(App.getConfigStrArr()[1]);
+    		textField_sender.setText(App.getConfigStrArr()[2]);
+    	}
     	
     	btn_recherche.setOpacity(0.5);
     	
         resultTableView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-
+        
 		displayCtrl = DisplayController.getInstance();
 		clientTableView.setPlaceholder(new Label("vide"));
 		veilleTableView.setPlaceholder(new Label("vide"));
@@ -499,6 +504,29 @@ public class HomeController {
         if(event.getSource()==btn_back)
         {
              add_pane.setVisible(false);     
+        }
+        
+        if(event.getSource() == btn_save_api) {
+        	add_pane.setVisible(false);
+        	FileManager.emptyTXT(Const.FILE_CONFIG);
+        	String result = "";
+        	if(textField_api.getText().length()!=0)
+        		result += textField_api.getText() + "|";
+        	if(textField_private_api.getText().length() !=0) {
+        		result += textField_private_api.getText() + "|";
+        	}
+        	if(textField_sender.getText().length() != 0 ) {
+        		result += textField_sender.getText();
+        	}
+        	if(result.split("\\|").length == 3) {
+        		FileManager.saveLine(result, Const.FILE_CONFIG);
+        	}else {
+        		Alert alert = new Alert(AlertType.ERROR);
+    			alert.setTitle("Error");
+    			alert.setHeaderText("Attention");
+    			alert.setContentText("Erreur, vous n'avez pas fait la phase de pré-configuration de l'application (API Key)");
+    			alert.showAndWait();
+        	}
         }
         
         if(event.getSource() == btn_github) {

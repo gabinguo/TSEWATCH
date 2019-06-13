@@ -36,6 +36,7 @@ public class Const {
 	 *  Configurations for Boamp.fr
 	 */
 	
+	
 	final static public String CONF1 = "estrecherchesimple";
 	
 	final static public String CONF2 = "archive";
@@ -55,6 +56,7 @@ public class Const {
 	/**
 	 *  Some file/folder path
 	 */
+	
 	final static public String FOLDER_DIFFUSION = System.getProperty("user.home")+"/AppData/Local/TSEWatch/Diffusion/";
 	
 	final static public String FOLDER_RAPPORT = System.getProperty("user.home")+"/AppData/Local/TSEWatch/Rapport/";
@@ -68,6 +70,8 @@ public class Const {
 	final static public String FILE_AXELIST = FOLDER_AXE + "all_axe_list.txt";
 	
 	final static public String FILE_DIFFUSIONLIST = FOLDER_DIFFUSION + "all_diffusion_list.txt";
+	
+	final static public String FILE_CONFIG = System.getProperty("user.home") + "/AppData/Local/TSEWatch/config.txt";
 	
 	final static public String FILE_REPORTLIST = FOLDER_RAPPORT + "all_report_list.txt";
 }

@@ -35,6 +35,15 @@ public class FileManager {
 		File fa = new File(Const.FILE_AXELIST);
 		File fd = new File(Const.FILE_DIFFUSIONLIST);
 		File fr = new File(Const.FILE_REPORTLIST);
+		File fconfig = new File(Const.FILE_CONFIG);
+		
+		if(!fconfig.exists()) {
+			try {
+				new PrintWriter(Const.FILE_CONFIG);
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			}
+		}
 		if(!fa.exists()) {
 			try {
 				new PrintWriter(Const.FILE_AXELIST);

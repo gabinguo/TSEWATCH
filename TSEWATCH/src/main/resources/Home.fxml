@@ -65,7 +65,7 @@
                         </VBox>
                      </children>
                   </VBox>
-                  <JFXButton buttonType="RAISED" layoutX="187.0" layoutY="307.0" prefHeight="23.0" prefWidth="72.0" text="Save" textFill="RED">
+                  <JFXButton fx:id="btn_save_api" buttonType="RAISED" layoutX="187.0" layoutY="307.0" onAction="#handleButtonAction" prefHeight="23.0" prefWidth="72.0" text="Save" textFill="RED">
                      <effect>
                         <DropShadow color="#5b4444" />
                      </effect>

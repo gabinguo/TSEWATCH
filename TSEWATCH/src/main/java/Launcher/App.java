@@ -20,6 +20,7 @@ public class App {
 	private static ArrayList<ListDiffusion> listDiffusion = new ArrayList<ListDiffusion>();
 	private static ArrayList<String> listReport = new ArrayList<String>();
 	private static ArrayList<String> allNames = new ArrayList<String>();
+	private static String[] configStrArr = new String[3];
 
 	public static void deleteAllFileStored() throws IOException {
 		Thread th = new Thread(new Runnable() {
@@ -124,6 +125,17 @@ public class App {
 				listReport.add(reportName);
 			}
 		}
+		
+		// Load API config
+		try {
+			ArrayList<String> strConfig = (ArrayList<String>) FileUtils.readLines(new File(Const.FILE_CONFIG));
+			if(strConfig.size() != 0) {
+				configStrArr = strConfig.get(0).trim().split("\\|");
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
 	}
 	
 	
@@ -205,6 +217,14 @@ public class App {
 		App.listReport = listReport;
 	}
 
+	public static String[] getConfigStrArr() {
+		return configStrArr;
+	}
 
+	public static void setConfigStrArr(String[] configStrArr) {
+		App.configStrArr = configStrArr;
+	}
+
+	
 
 }
