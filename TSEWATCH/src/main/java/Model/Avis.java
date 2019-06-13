@@ -82,22 +82,9 @@ public class Avis{
 			try {
 				result_ = HTTPRequest.sendGET(this.link);
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			String text = null;
-
-			if(result_ == "") {
-				System.out.println("true");
-			}
-			// parse the HTML data to get the text data
-			Document doc = Jsoup.parse(result_);
-			Elements eles = doc.getAllElements();
-			for (Element ele : eles) {
-				text += ele.text();
-			}
-			
-			if(text.toLowerCase().contains(key.toLowerCase())) {
+			if(result_.toLowerCase().contains(key.toLowerCase())) {
 				return true;
 			}
 			
