@@ -680,6 +680,106 @@ public class HomeController {
         }
     }
 	
+	
+	//TODO
+	
+	/**
+	 * /*datePatution: toutes : "" Aujourd'hui : "= 0" Hier : "= 1" 2 derniers
+	 *         jours : "< 2" 8 derniers jours : "< 8" 30 derniers jours : "< 30"
+			 * *
+	 * @return
+	 */
+//"Anjourd'hui", "Hier", "2 dernieres jours", "8 dernieres jours", "30 dernieres jours"
+	public String getDateINFO(){
+		String result = "";
+		String str = (String) date_parution_list.getValue();
+		switch (str) {
+		case "Anjourd'hui":
+			return "= 0";
+		case "Hier":
+			return "= 1";
+		case "2 dernieres jours":
+			return "< 2";
+			
+		case "8 dernieres jours":
+			return "< 8";
+		case "30 dernieres jours":
+			return "< 30";
+		default:
+			break;
+		}
+		return result;
+	}
+	
+	/**
+	 * "Aujourd'hui", "Depuis 3 jours", "Depuis 1 semaine", "Depuis 2 semaine",
+			"Depuis 3 semaine", "Depuis 1 mois"
+	 * @return
+	 */
+/**
+ *  * date: 	Aujourd'hui : "TODAY";
+	 * 			Depuis 3 jours : "3_DAYS";
+	 * 			Depuis 1 semaine : "1_WEEK";
+	 * 			Depuis 2 semaine : "2_WEEK";
+	 * 			Depuis 3 semaine : "3_WEEK";
+	 * 			Depuis 1 mois : "1_MONTH";
+	 * 			Depuis 3 mois : "3_MONTH";
+ * @return
+ */
+	public String getDateMO() {
+		String result = "";
+		String str = (String) date_parution_list.getValue();
+		
+		switch (str) {
+		case "Aujourd'hui":
+			return "TODAY";
+		case "Depuis 3 jours":
+			return "3_DAYS";
+		case "Depuis 1 semaine":
+			return "1_WEEK";
+		case "Depuis 2 semaine":
+			return "2_WEEK";
+		case "Depuis 3 semaine":
+			return "3_WEEK";
+		case "Depuis 1 mois":
+			return "1_MONTH";
+		default:
+			break;
+		}
+		
+		return result;
+	}
+	
+	/**
+	 * 
+	 "Auvergne-Rhône-Alpes" , "Bourgogne-Franche-Comté" , "Île-de-France","Provence-Alpes-Côte d'Azur"
+			,"Centre - Val de Loire", "Occitanie", "Nouvelle Aquitaine"
+	 * @return
+	 */
+	public String getRegionFM() {
+		String result = "";
+		String str = (String) checkBox_region.getValue();
+		switch (str) {
+		case "Auvergne-Rhône-Alpes":
+			return "auvergne-rhone-aplpes";
+		case "Bourgogne-Franche-Comté":
+			return "bourgogne-franche-comte";
+		case "Île-de-France":
+			return "ile-de-france";
+		case "Provence-Alpes-Côte d'Azur":
+			return "provence-alpes-cote+d%27azur";
+		case "Occitanie":
+			return "occitanie";
+		case "Centre - Val de Loire":
+			return "centre+-+val+de+loire";
+		case "Nouvelle Aquitaine":
+			return "nouvelle+aquitanie";	
+		default:
+			break;
+		}
+		return result;
+	}
+	
 	@SuppressWarnings("unchecked")
 	private void searchEngine(String option,String[] timeStart,String[] timeEnd,String[] keywords,String[] regions) {
 		final String ts,te;
@@ -722,12 +822,13 @@ public class HomeController {
 		case "Marche-publics(info)":
 			//TODO
 			ArrayList<Avis> allAvisMPI = new ArrayList<Avis>();
-//			for(String str : regions) allAvisMPI.addAll(c.marchepublicsInfoCrawler(str, ))
+			
+			for(String str : regions) allAvisMPI.addAll(c.marchepublicsInfoCrawler(str,getDateINFO()));
 			new Thread(new Runnable() {
 				
 				@Override
 				public void run() {
-					f.classifyAvis(c.marchepublicsInfoCrawler("75", "<8"));
+					f.classifyAvis(allAvisMPI);
 				}
 				
 			}).start();
@@ -759,7 +860,7 @@ public class HomeController {
 			new Thread(new Runnable() {
 				@Override
 				public void run() {
-					f.classifyAvis(c.franceMarcheCrawler("", ts, te, 5));
+					f.classifyAvis(c.franceMarcheCrawler(getRegionFM(), ts, te, 5));
 				}
 				
 			}).start();
@@ -768,7 +869,7 @@ public class HomeController {
 			new Thread(new Runnable() {
 				@Override
 				public void run() {
-//					f.classifyAvis(c.marchesOnlineCrawler("", "", 5));
+					f.classifyAvis(c.marchesOnlineCrawler(getDateMO(),regionList, 5));
 				}
 				
 			}).start();
