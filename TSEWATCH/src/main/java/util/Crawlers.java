@@ -1657,6 +1657,7 @@ public class Crawlers {
 				+ "%2526r%253Df%25252FsecteurDActivite%25252Fservices%252Bde%252Btechnologies%252Bde%252Bl%252527information%25252C%252Bconseil%25252C%252Bdeveloppement%252Bde%252Blogiciels%25252C%252Binternet%252Bet%252Bappui%2526r%253Df%25252F"
 				+ "localisation%25252F" + params.get("localisation") + "%2526r%253Df%25252FtypeDePrestation%25252F"
 				+ params.get("typeDePresentation2") + "&search=&date=&alerte_Name=";
+		System.out.println(urlFM);
 		// System.out.println(urlFM);
 		String result = null;
 		try {

@@ -324,7 +324,7 @@ public class HomeController {
 			break;
 		case 7: //FranceMarche
 			option_mot.setDisable(true);
-			option_region.setDisable(false);
+			option_region.setDisable(true);
 			option_de.setDisable(false);
 			option_a.setDisable(false);
 			hbox_region.setVisible(true);
@@ -789,7 +789,7 @@ public class HomeController {
 		String str = (String) checkBox_region.getValue();
 		switch (str) {
 		case "Auvergne-Rhône-Alpes":
-			return "auvergne-rhone-aplpes";
+			return "auvergne-rhone-alpes";
 		case "Bourgogne-Franche-Comté":
 			return "bourgogne-franche-comte";
 		case "Île-de-France":
@@ -810,13 +810,15 @@ public class HomeController {
 	
 	@SuppressWarnings("unchecked")
 	private void searchEngine(String option,String[] timeStart,String[] timeEnd,String[] keywords,String[] regions) {
-		final String ts,te;
+		final String ts,te,tsFM,teFM;
 		
 		Filter f = new Filter();
 		Crawlers c = new Crawlers();
+		
 		if(timeStart != null)  ts = timeStart[2]+"/"+timeStart[1]+"/"+timeStart[0]; else ts = null ;
 		if(timeEnd != null)    te = timeEnd[2]+"/"+timeEnd[1]+"/"+timeEnd[0]; else te = null;
-		
+		System.out.println(ts);
+		System.out.println(te);
 		ArrayList<String> regionList = new ArrayList<String>();
 		
 		for(String str : regions ) regionList.add(str);
@@ -852,7 +854,7 @@ public class HomeController {
 			}).start();
 			
 		case "Marche-publics(info)":
-			//TODO
+			
 			ArrayList<Avis> allAvisMPI = new ArrayList<Avis>();
 			
 			for(String str : regions) allAvisMPI.addAll(c.marchepublicsInfoCrawler(str,getDateINFO()));
@@ -889,10 +891,14 @@ public class HomeController {
 		break;
 		
 		case "FranceMarche":
+			if(timeStart != null)  tsFM = timeStart[0]+"-"+timeStart[1]+"-"+timeStart[2]; else tsFM = null ;
+			if(timeEnd != null)    teFM = timeEnd[0]+"-"+timeEnd[1]+"-"+timeEnd[2]; else teFM = null;
 			new Thread(new Runnable() {
+				
 				@Override
 				public void run() {
-					f.classifyAvis(c.franceMarcheCrawler(getRegionFM(), ts, te, 5));
+					System.out.println(getRegionFM());
+					f.classifyAvis(c.franceMarcheCrawler(getRegionFM(), tsFM, teFM, 5));
 				}
 				
 			}).start();
