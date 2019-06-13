@@ -28,11 +28,11 @@ en particulier avec vos differents collaborateurs pour une efficacité maximale.
 
 ## *Support*
 Si malgré vos différentes tentatives des problèmes subsistent, vous pouvez contacter l'équipe en charge du projet :....
-ou regarder la documentation descriptive du code sur github [TSEWATCH.pdf]().
+ou regarder la documentation descriptive du code sur github [TSEWATCH.pdf](https://github.com/gabinguo/TSEWATCH/blob/master/TSEWATCH.pdf).
 
 ## *Documentation/ tutoriel d'utilisation de l'application*
 
-Voir la documentation PDF qui se trouve sur la branche master de ce github [TSEWATCH.pdf]().
+Voir la documentation PDF qui se trouve sur la branche master de ce github [TSEWATCH.pdf](https://github.com/gabinguo/TSEWATCH/blob/master/TSEWATCH.pdf).
 Dans cette documentation vous trouverez toutes les configurations néccesaires pour le bon fonctionnnement de l'application. Vous y trouverez également des tutoriels afin de prendre en main le logiciel et vous familiariser avec.
 
 
