@@ -426,12 +426,11 @@ public class HTTPRequest {
 	 */
 	public final static String sendGET(String url) throws Exception {
         CloseableHttpClient httpclient = HttpClients.createDefault();
-        httpclient = (CloseableHttpClient) wrapClient(httpclient);
-        
         //httpclient.getParams().setParameter(ClientPNames.ALLOW_CIRCULAR_REDIRECTS, false);
        // httpclient.getParams().setParameter(ClientPNames.ALLOW_CIRCULAR_REDIRECTS, false);
         //org.apache.http.client.Params.
         //org.apache.http.client.
+        httpclient = (CloseableHttpClient) wrapClient(httpclient);
         try {
             HttpGet httpget = new HttpGet(url);
             httpget.addHeader("Accept", "text/html");

@@ -20,6 +20,18 @@ public class Const {
 			"Anjourd'hui, Hier", "2 dernieres jours", "8 dernieres jours", "30 dernieres jours"
 	};
 	
+	final static public String[] dateListMO = {
+			"Aujourd'hui", "Depuis 3 jours", "Depuis 1 semaine", "Depuis 2 semaine",
+			"Depuis 3 semaine", "Depuis 1 mois"
+	};
+	
+	final static public String[] regionList = {
+			"Auvergne-Rhône-Alpes" , "Bourgogne-Franche-Comté" , "Île-de-France","Provence-Alpes-Côte d'Azur"
+			,"Centre - Val de Loire", "Occitanie", "Nouvelle Aquitaine"
+	};
+	
+	
+	
 	/**
 	 *  Configurations for Boamp.fr
 	 */

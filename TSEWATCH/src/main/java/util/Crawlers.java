@@ -124,17 +124,18 @@ public class Crawlers {
 		/** for test **/
 //		ArrayList<Avis> avisList = crawler.franceMarcheCrawler("auvergne-rhone-alpes","2019-06-01","2019-06-01",2);
 //		ArrayList<Avis> avisList = crawler.proxiLegalesCrawler("info", 2);	
-//		ArrayList<Avis> avisList = crawler.marchepublicsInfoCrawler("3","< 30");	
-
-//		ArrayList<Avis> avisList = crawler.auvergnerCrawler("69","informatique",1);
+//		ArrayList<Avis> avisList = crawler.marchepublicsInfoCrawler("75","");	
+		ArrayList<String> location = new ArrayList<String>();
+		location.add("07");
+		location.add("26");
+		ArrayList<Avis> avisList = crawler.auvergnerCrawler(location,"informatique",1);
 		
 		//crawler.tedEuropaCrawler();
 		//crawler.EmarchesCrawler();
 		
-//		ArrayList<String> location = new ArrayList<String>();
-//		location.add("75");
+
 //		ArrayList<Avis> avisList = crawler.getLinksBOAMP("05/06/2019","11/06/2019",location,2);	
-		ArrayList<Avis> avisList = crawler.marchesOnlineCrawler("3_WEEK","76",2);
+//		ArrayList<Avis> avisList = crawler.marchesOnlineCrawler("3_WEEK","76",2);
 		//ArrayList<Avis> avisList = crawler.marchepublicGouvCrawler(2);
 		
 		for(Avis avis:avisList) {
@@ -486,6 +487,7 @@ public class Crawlers {
 	 *   ArrayList<Avis> avisList = crawler.marchepublicsInfoCrawler("3","< 30");
 	 */
 	public ArrayList<Avis> marchepublicsInfoCrawler(String IDR, String dateParution) {
+		ArrayList<Avis> avisList = new ArrayList<Avis>();
 		// define the url of the site
 		String urlMPI = "http://www.marches-publics.info/mpiaws/index.cfm?fuseaction=pub.affResultats&IDs=25";
 
@@ -521,6 +523,14 @@ public class Crawlers {
 		}
 		// System.out.println(result);
 
+		//check if the number of results is too big for the site
+		if(result.contains("Veuillez préciser votre recherche à l'aide des critères suivants")) {
+			String string = "too much results";
+			avisList.add(new Avis(string, string, string));
+		};
+		
+
+		
 		// parse the HTML data
 		Document doc = Jsoup.parse(result);
 		
@@ -633,7 +643,7 @@ public class Crawlers {
 //		System.out.println(listTitre);
 //		System.out.println(listDate);
 
-		ArrayList<Avis> avisList = new ArrayList<Avis>();
+		
 		for (int i = 0; i < listLinks.size(); i++) {
 			avisList.add(new Avis(listDate.get(i), listTitre.get(i), listLinks.get(i)));
 		}
@@ -1161,7 +1171,7 @@ public class Crawlers {
 	 * Attention : 
 	 * There are some avis who doesn't have the link(null)
 	 */
-	public ArrayList<Avis> auvergnerCrawler(String departement,String intitule, int pageNum) {
+	public ArrayList<Avis> auvergnerCrawler(ArrayList<String> departement,String intitule, int pageNum) {
 //		// define the url of the site
 //		String urlAuvergner = "https://auvergnerhonealpes.achatpublic.com/sdm/ent/gen/ent_recherche.do";
 //
@@ -1275,20 +1285,27 @@ public class Crawlers {
 		/** for the service **/
 		// define the url of the site
 		String urlMPI_service = null;
-		if(intitule.isEmpty()) {
-			urlMPI_service = "https://auvergnerhonealpes.achatpublic.com/accueil/?page_id=143%2F&departement%5B0%5D="
-					+departement
-					+"&typeMarche=2"
-					+"&paged=" 
-					+pageNum;
-		}else {
-			urlMPI_service = "https://auvergnerhonealpes.achatpublic.com/accueil/?page_id=143%2F&departement%5B0%5D="
-			+departement
-			+"&typeMarche=2&intitule="
-			+intitule
-			+"&paged=" 
-			+pageNum;
-		}
+		
+		
+			if(intitule.isEmpty()) {
+				urlMPI_service = "https://auvergnerhonealpes.achatpublic.com/accueil/?page_id=143%2F";
+				for(int i = 0;i<departement.size();i++) {			
+					urlMPI_service += "&departement%5B0%5D=" + departement.get(i);
+				}
+				urlMPI_service += "&typeMarche=2"
+							+"&paged=" 
+							+pageNum;
+			}else {
+				urlMPI_service = "https://auvergnerhonealpes.achatpublic.com/accueil/?page_id=143%2F";
+				for(int i = 0;i<departement.size();i++) {
+					urlMPI_service += "&departement%5B0%5D=" + departement.get(i);
+				}
+				urlMPI_service += "&typeMarche=2&intitule="
+							+intitule
+							+"&paged=" 
+							+pageNum;
+			}
+		
 
 		//System.out.println(urlMPI_service);
 		String result = null;
@@ -1331,18 +1348,22 @@ public class Crawlers {
 		// define the url of the site
 		String urlMPI_fourniture = null;
 		if(intitule.isEmpty()) {
-			urlMPI_fourniture = "https://auvergnerhonealpes.achatpublic.com/accueil/?page_id=143%2F&departement%5B0%5D="
-					+departement
-					+"&typeMarche=1"
-					+"&paged=" 
-					+pageNum;
+			urlMPI_fourniture = "https://auvergnerhonealpes.achatpublic.com/accueil/?page_id=143%2F";
+			for(int i = 0;i<departement.size();i++) {			
+				urlMPI_fourniture += "&departement%5B0%5D=" + departement.get(i);
+			}
+			urlMPI_fourniture += "&typeMarche=1"
+						+"&paged=" 
+						+pageNum;
 		}else {
-			urlMPI_fourniture = "https://auvergnerhonealpes.achatpublic.com/accueil/?page_id=143%2F&departement%5B0%5D="
-			+departement
-			+"&typeMarche=1&intitule="
-			+intitule
-			+"&paged=" 
-			+pageNum;
+			urlMPI_fourniture = "https://auvergnerhonealpes.achatpublic.com/accueil/?page_id=143%2F";
+			for(int i = 0;i<departement.size();i++) {
+				urlMPI_fourniture += "&departement%5B0%5D=" + departement.get(i);
+			}
+			urlMPI_fourniture += "&typeMarche=1&intitule="
+						+intitule
+						+"&paged=" 
+						+pageNum;
 		}
 
 		//System.out.println(urlMPI_fourniture);
@@ -1838,17 +1859,21 @@ public class Crawlers {
 	 * the location :the number of the area + 1, for example : Ville de Paris : "75" +1 = "76"
 	 * 
 	 *   example :
-	 *   ArrayList<Avis> avisList = crawler.marchesOnlineCrawler("TODAY","76",1);
+	 *  ArrayList<String> location = new ArrayList<String>();
+		location.add("76");
+		location.add("42");
+	 *   ArrayList<Avis> avisList = crawler.marchesOnlineCrawler("TODAY",location,1);
 	 */
-	public ArrayList<Avis> marchesOnlineCrawler(String date,String location,int pageNum) {
+	public ArrayList<Avis> marchesOnlineCrawler(String date,ArrayList<String> location,int pageNum) {
 		// define the url of the site
 		String urlEMarcheOnline = "https://www.marchesonline.com/appels-offres/en-cours";
-		
+
 		ArrayList<String> listLinks = new ArrayList<String>();
 		ArrayList<String> listTitre = new ArrayList<String>();
 		ArrayList<String> listDate = new ArrayList<String>();
 		ArrayList<String> listLocation = new ArrayList<String>();
 		
+		for(int k = 0;k<location.size();k++) {
 		/** for the fourniture **/
 		// define the map of the settings
 		Map<String, String> params = new HashMap<String, String>();
@@ -1872,7 +1897,7 @@ public class Crawlers {
 		params.put("__posted", "1");
 		params.put("id_ref_type_recherche", "1");
 		params.put("type_map", "2");
-		params.put("id_ref_departement[]", location);
+		params.put("id_ref_departement[]", location.get(k));
 		params.put("id_ref_type_avis", "1");
 		params.put("date_mel_type", "1");
 		params.put("date_mise_en_ligne", date);
@@ -1941,7 +1966,7 @@ public class Crawlers {
 			params2.put("__posted", "1");
 			params2.put("id_ref_type_recherche", "1");
 			params2.put("type_map", "2");
-			params2.put("id_ref_departement[]", location);
+			params2.put("id_ref_departement[]", location.get(k));
 			params2.put("id_ref_type_avis", "1");
 			params2.put("date_mel_type", "1");
 			params2.put("date_mise_en_ligne", date);
@@ -1999,7 +2024,7 @@ public class Crawlers {
 		params.put("__posted", "1");
 		params.put("id_ref_type_recherche", "1");
 		params.put("type_map", "2");
-		params.put("id_ref_departement[]", location);
+		params.put("id_ref_departement[]", location.get(k));
 		params.put("id_ref_type_avis", "1");
 		params.put("date_mel_type", "1");
 		params.put("date_mise_en_ligne", date);
@@ -2068,7 +2093,7 @@ public class Crawlers {
 			params2.put("__posted", "1");
 			params2.put("id_ref_type_recherche", "1");
 			params2.put("type_map", "2");
-			params2.put("id_ref_departement[]", location);
+			params2.put("id_ref_departement[]", location.get(k));
 			params2.put("id_ref_type_avis", "1");
 			params2.put("date_mel_type", "1");
 			params2.put("date_mise_en_ligne", date);
@@ -2119,6 +2144,7 @@ public class Crawlers {
 			}
 		}
 		}
+		}
 //		System.out.println(listLinks.size());
 //		System.out.println(listTitre.size());
 //		System.out.println(listDate.size());
@@ -2136,4 +2162,8 @@ public class Crawlers {
 		
 		return avisList;
 	}
+	
+	/*****************************************************/
+	
+
 }

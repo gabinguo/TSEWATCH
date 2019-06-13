@@ -28,7 +28,7 @@ public class App {
 			public void run() {
 				ArrayList<String> all_folder_axe = null;
 				try {
-					all_folder_axe = (ArrayList<String>) FileUtils.readLines(new File(Const.FILE_AXELIST));
+					all_folder_axe = (ArrayList<String>) FileUtils.readLines(new File(Const.FILE_AXELIST),Charsets.ISO_8859_1);
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -38,15 +38,14 @@ public class App {
 				}
 				ArrayList<String> all_report = null;
 				try {
-					all_report = (ArrayList<String>) FileUtils.readLines(new File(Const.FILE_REPORTLIST));
+					all_report = (ArrayList<String>) FileUtils.readLines(new File(Const.FILE_REPORTLIST),Charsets.ISO_8859_1);
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				for(String report : all_report) {
 					FileUtils.deleteQuietly(new File(Const.FOLDER_RAPPORT + report + ".html"));
 				}
-				FileUtils.deleteQuietly(new File(Const.FILE_REPORTLIST));
+				FileManager.emptyTXT(Const.FILE_REPORTLIST);
 			}
 		});
 		
