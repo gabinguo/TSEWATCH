@@ -374,11 +374,11 @@ public class HomeController {
 			option_de.setDisable(true);
 			option_a.setDisable(true);
 			hbox_region.setVisible(true);
-			date_parution_list.setDisable(true);
+			date_parution_list.setDisable(false);
 			hbox_parution.setVisible(true);
 			label_mot.setTextFill(Color.web("#000000"));
 			label_region.setTextFill(Color.web("#e9c9cd"));
-			label_parution.setTextFill(Color.web("#e9c9cd"));
+			label_parution.setTextFill(Color.web("#000000"));
 			label_de.setTextFill(Color.web("#e9c9cd"));
 			label_a.setTextFill(Color.web("#e9c9cd"));
 			break;
