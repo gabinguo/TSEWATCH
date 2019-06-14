@@ -30,7 +30,7 @@ en particulier avec vos differents collaborateurs pour une efficacité maximale.
 ![alt text](https://www.penser-et-agir.fr/wp-content/uploads/2018/04/efficacit%C3%A9-et-efficience.jpg)
 
 ## *Support*
-Si malgré vos différentes tentatives des problèmes subsistent, vous pouvez contacter l'équipe en charge du projet :....
+Si malgré vos différentes tentatives des problèmes subsistent, vous pouvez contacter l'équipe en charge du projet : gabin.guo@gmail.com 
 ou regarder la documentation descriptive du code sur github [TSEWATCH.pdf](https://github.com/gabinguo/TSEWATCH/blob/master/TSEWATCH.pdf).
 
 ## *Documentation/ tutoriel d'utilisation de l'application*
