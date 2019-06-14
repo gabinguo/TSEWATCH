@@ -331,7 +331,7 @@ public class HomeController {
 			date_parution_list.setDisable(true);
 			hbox_parution.setVisible(false);
 			label_mot.setTextFill(Color.web("#e9c9cd"));
-			label_region.setTextFill(Color.web("#000000"));
+			label_region.setTextFill(Color.web("#e9c9cd"));
 			label_de.setTextFill(Color.web("#000000"));
 			label_a.setTextFill(Color.web("#000000"));
 			

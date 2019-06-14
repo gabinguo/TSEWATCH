@@ -11,8 +11,8 @@ public class Const {
 	final static public String[] namesOfSites = {
 			"Proxilegales", "Boamp" , "Marche-publics(info)",
 			"Marche-publics(gouv)", "Auvergnerhonealpes",
-			"Ted.europa","FranceMarche","E-marchespublics",
-			"Centraledesmarches","Marchesonline"
+			"FranceMarche",
+			"Marchesonline"
 	};
 	
 	
