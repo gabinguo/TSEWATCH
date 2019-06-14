@@ -2,7 +2,7 @@
 ![alt text](http://www.geipi-polytech.org/sites/default/files/styles/logos_page/public/logos/logo_Telecom_StEtienne_web.jpg?itok=JAV2x8lshttp://url/to/img.png)
 
 ## *Télécharger les versions de l'application*
-Vous pouvez télécharger la derniere version de notre application [ici](https://drive.google.com/file/d/1XP_9FER7dnMNuVXhXaCkRbm0fXat9nAr/view?usp=sharing)
+Vous pouvez télécharger la derniere version de notre application [TSEWatch v0.9](https://drive.google.com/file/d/1XP_9FER7dnMNuVXhXaCkRbm0fXat9nAr/view?usp=sharing)
 
 ## *Description*
 Réalisé dans le cadre d'un projet ingénierie, notre application TSEWATCH permet de parcourir des sites internet d'appels d'offres afin
