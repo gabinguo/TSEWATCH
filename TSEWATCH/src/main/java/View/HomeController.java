@@ -479,8 +479,12 @@ public class HomeController {
 						String[] arr = listStr.get(i).split("\\|");
 						listAvis.add(new Avis(arr[2], arr[0], arr[1]));
 					}
+					Thread.sleep(10);
 					resultTableView.setItems(listAvis);
 				} catch (IOException e) {
+					e.printStackTrace();
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
     		}

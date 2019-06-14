@@ -28,26 +28,32 @@ public class App {
 			@Override
 			public void run() {
 				ArrayList<String> all_folder_axe = null;
-				try {
-					all_folder_axe = (ArrayList<String>) FileUtils.readLines(new File(Const.FILE_AXELIST),Charsets.ISO_8859_1);
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-				for(String str : all_folder_axe) {
-					FileManager.emptyTXT(Const.FOLDER_AXE + str + "/avis.txt");
-				}
-				ArrayList<String> all_report = null;
-				try {
-					all_report = (ArrayList<String>) FileUtils.readLines(new File(Const.FILE_REPORTLIST),Charsets.ISO_8859_1);
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-				for(String report : all_report) {
-					FileUtils.deleteQuietly(new File(Const.FOLDER_RAPPORT + report + ".html"));
+				if(new File(Const.FILE_AXELIST).exists()) {
+					try {
+						all_folder_axe = (ArrayList<String>) FileUtils.readLines(new File(Const.FILE_AXELIST),Charsets.ISO_8859_1);
+						for(String str : all_folder_axe) {
+							if(new File(Const.FOLDER_AXE + str + "/avis.txt").exists())
+								FileManager.emptyTXT(Const.FOLDER_AXE + str + "/avis.txt");
+						}
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
 				}
 				
+				ArrayList<String> all_report = null;
+				if(new File(Const.FILE_REPORTLIST).exists()) {
+					try {
+						all_report = (ArrayList<String>) FileUtils.readLines(new File(Const.FILE_REPORTLIST),Charsets.ISO_8859_1);
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+					for(String report : all_report) {
+						FileUtils.deleteQuietly(new File(Const.FOLDER_RAPPORT + report + ".html"));
+					}
+				}
 			}
 		});
+		
 		
 		try {
 			th.join();

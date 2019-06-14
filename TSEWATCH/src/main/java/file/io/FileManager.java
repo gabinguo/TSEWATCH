@@ -68,8 +68,9 @@ public class FileManager {
 	}
 		
 	
+	@SuppressWarnings("deprecation")
 	public ArrayList<String> getAllAvisLink() throws IOException{
-		List<String> allAxeFolders = FileUtils.readLines(new File(Const.FILE_AXELIST));
+		List<String> allAxeFolders = FileUtils.readLines(new File(Const.FILE_AXELIST),Charsets.ISO_8859_1);
 		ArrayList<String> allAvisLinks = new ArrayList<String>();
 		for( String folderName : allAxeFolders) {
 			allAvisLinks.addAll(FileUtils.readLines(new File(Const.FOLDER_AXE + folderName + "/avis.txt")));
