@@ -17,14 +17,17 @@ import com.webfirmframework.wffweb.tag.html.attribute.Charset;
 import com.webfirmframework.wffweb.tag.html.attribute.Href;
 import com.webfirmframework.wffweb.tag.html.attribute.Name;
 import com.webfirmframework.wffweb.tag.html.attribute.Rel;
+import com.webfirmframework.wffweb.tag.html.attribute.Src;
 import com.webfirmframework.wffweb.tag.html.attribute.Type;
 import com.webfirmframework.wffweb.tag.html.attribute.global.ClassAttribute;
 import com.webfirmframework.wffweb.tag.html.attribute.global.Id;
+import com.webfirmframework.wffweb.tag.html.attributewff.CustomAttribute;
 import com.webfirmframework.wffweb.tag.html.formatting.Small;
 import com.webfirmframework.wffweb.tag.html.html5.attribute.Content;
 import com.webfirmframework.wffweb.tag.html.html5.attribute.global.DataAttribute;
 import com.webfirmframework.wffweb.tag.html.html5.stylesandsemantics.Footer;
 import com.webfirmframework.wffweb.tag.html.html5.stylesandsemantics.Header;
+import com.webfirmframework.wffweb.tag.html.images.Img;
 import com.webfirmframework.wffweb.tag.html.links.A;
 import com.webfirmframework.wffweb.tag.html.links.Link;
 import com.webfirmframework.wffweb.tag.html.lists.Li;
@@ -33,6 +36,12 @@ import com.webfirmframework.wffweb.tag.html.metainfo.Head;
 import com.webfirmframework.wffweb.tag.html.metainfo.Meta;
 import com.webfirmframework.wffweb.tag.html.stylesandsemantics.Div;
 import com.webfirmframework.wffweb.tag.html.stylesandsemantics.Span;
+import com.webfirmframework.wffweb.tag.html.stylesandsemantics.StyleTag;
+import com.webfirmframework.wffweb.tag.html.tables.TBody;
+import com.webfirmframework.wffweb.tag.html.tables.Table;
+import com.webfirmframework.wffweb.tag.html.tables.Td;
+import com.webfirmframework.wffweb.tag.html.tables.Th;
+import com.webfirmframework.wffweb.tag.html.tables.Tr;
 import com.webfirmframework.wffweb.tag.htmlwff.NoTag;
 
 import Model.Avis;
@@ -62,19 +71,9 @@ public class HTMLGenerator {
 
 	@SuppressWarnings("serial")
 	public Html getReportHTML() {
-				
-		final Rel rel4 = new Rel("stylesheet");
-		final ClassAttribute classAttribute17 = new ClassAttribute("col col-1");
-		final ClassAttribute classAttribute18 = new ClassAttribute("col col-2");
-		final ClassAttribute classAttribute19 = new ClassAttribute("col col-3");
-		final ClassAttribute classAttribute20 = new ClassAttribute("col col-4");
-		final ClassAttribute classAttribute21 = new ClassAttribute("table-row");
-		final DataAttribute dataAttribute22 = new DataAttribute("label", "ID");
-		final DataAttribute dataAttribute23 = new DataAttribute("label", "Titre d'avis");
-		final DataAttribute dataAttribute24 = new DataAttribute("label", "Lien");
-		final DataAttribute dataAttribute25 = new DataAttribute("label", "Date de publication");
-		final ClassAttribute classAttribute11 = new ClassAttribute("major container 75%");
-		
+		final ClassAttribute classAttribute12 = new ClassAttribute("fifteen");
+		final ClassAttribute classAttribute13 = new ClassAttribute("fifty_five");
+
 		Html html = new Html(null) {{
 		    new Head(this) {{
 		        new TitleTag(this) {{
@@ -85,123 +84,110 @@ public class HTMLGenerator {
 		        new Meta(this,
 		            new Name("viewport"),
 		            new Content("width=device-width, initial-scale=1"));
-		        new Link(this,
-		            rel4,
-		            new Href(Const.URL_MAIN_CSS));
-		        new Link(this,
-		            rel4,
-		            new Type("text/css"),
-		            new Href(Const.URL_STYLE_CSS));
-		    }};
-		    new Body(this) {{
-		        new Div(this,
-		            new Id("header")) {{
-		            new Span(this,
-		                new ClassAttribute("logo icon fa-paper-plane-o"));
-		            new H1(this) {{
-		                new NoTag(this, "Rapport");
-		            }};
+		        new StyleTag(this) {{
+		            new NoTag(this, "* {\n            margin: 0;\n            padding: 0;\n            list-style: none;\n            text-decoration: none;\n        }\n        \n        body {\n            font-family: 'lato', sans-serif;\n        }\n        \n        #guoh1 {\n            text-align: center;\n            font-size: 3em;\n            margin-bottom: 10px;\n            text-transform: uppercase;\n            font-weight: bold;\n            color: #333b20;\n            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);\n        }\n        \n        h2 {\n            font-size: 26px;\n            margin: 20px 0;\n            text-align: center;\n        }\n        \n        .brace {\n            width: 80%;\n            margin: 0 auto;\n        }\n        \n        .header {\n            width: 100%;\n            height: 80px;\n            display: block;\n            background-color: #fff;\n        }\n        \n        .all_in_box_white {\n            width: 80%;\n            height: 100%;\n            position: absolute;\n            top: 0;\n            bottom: 0;\n            left: 0;\n            right: 0;\n            margin: auto;\n            background-color: white;\n        }\n        \n        .logoHeader img {\n            max-width: 100%;\n            min-width: 100%;\n            height: auto;\n            width: auto;\n        }\n        \n        footer {\n            width: 100%;\n            background-color: #fff;\n            padding: 60px 0px;\n            text-align: center;\n        }\n        \n        .logo_footer img {\n            min-width: 100%;\n            max-width: 100%;\n            height: auto;\n            width: auto;\n        }\n        \n        table {\n            font-family: arial, sans-serif;\n            border-collapse: collapse;\n            width: 100%;\n        }\n        \n        .fifteen {\n            width: 20%;\n        }\n        \n        .fifty_five {\n            width: 40%;\n        }\n        \n        td,\n        th {\n            border: 1px solid #dddddd;\n            text-align: left;\n            padding: 8px;\n            white-space: nowrap;\n            overflow: hidden;\n        }\n        \n        tr:nth-child(even) {\n            background-color: #dddddd;\n        }");
 		        }};
-		        
+		    }};
+		    new Body(this,
+		        new CustomAttribute("bgcolor", "#D3D3D3")) {{
 		        new Div(this,
-		            new Id("main")) {{
-		            new Header(this,
-		                classAttribute11) {{
-		                new H2(this) {{
-		                    new NoTag(this, "Powered by TSE students ");
-		                    new Br(this);
+		            new ClassAttribute("all_in_box_white")) {{
+		            new Header(this) {{
+		                new Div(this,
+		                    new ClassAttribute("header")) {{
+		                    new Div(this,
+		                        new ClassAttribute("inner_header")) {{
+		                        new Div(this,
+		                            new ClassAttribute("logoHeader")) {{
+		                            new Img(this,
+		                                new Src("https://drive.google.com/uc?export=download&id=1kup6UAR8rlJBwp164euB-q75sn370kmG"));
+		                        }};
+		                    }};
 		                }};
+		            }};
+		            new Br(this);
+		            new Br(this);
+		            new Br(this);
+		            new H2(this) {{
+		                new NoTag(this, "Présenté par DIGITAL-LEAGUE");
+		                new Br(this);
 		            }};
 		            new H1(this,
 		                new Id("guoh1")) {{
 		                new NoTag(this, "Look, we found this!");
-		            }};
-		            new H2(this) {{
-		                new Small(this) {{   
-		                    new NoTag(this, "Présenter par DIGITAL-LEAGUE");
-		                }};
 		            }};
 		            new Hr(this,
 		                new ClassAttribute("brace"));
 		            new Br(this);
 		            new Br(this);
 		            new Br(this);
-		            new Div(this,
-		                new ClassAttribute("container")) {{
-		                new Ul(this,
-		                    new ClassAttribute("responsive-table")) 
-		                {{
-		                    new Li(this,
-		                        new ClassAttribute("table-header")) {{
-		                        new Div(this,
-		                            classAttribute17) {{
-		                            new NoTag(this, "\nID ");
+		            new Table(this) {{
+		                new TBody(this) {{
+		                    new Tr(this) {{
+		                        new Th(this,
+		                            classAttribute12) {{
+		                            new NoTag(this, "ID");
 		                        }};
-		                        new Div(this,
-		                            classAttribute18) {{
-		                            new NoTag(this, "\nTitre d'avis ");
+		                        new Th(this,
+		                            classAttribute13) {{
+		                            new NoTag(this, "Titre");
 		                        }};
-		                        new Div(this,
-		                            classAttribute19) {{
-		                            new NoTag(this, "\nLien ");
+		                        new Th(this,
+		                            classAttribute12) {{
+		                            new NoTag(this, " Link");
 		                        }};
-		                        new Div(this,
-		                            classAttribute20) {{
-		                            new NoTag(this, "\nDate de publication ");
+		                        new Th(this,
+		                            classAttribute12) {{
+		                            new NoTag(this, "Date");
 		                        }};
 		                    }};
-		                    
 		                    for(int i = 0 ; i < listAvis.size() ; i++) {
 		                    	 final String strIndex = "\n" + String.valueOf(i+1);
-		                    	 final String strTitre = "\n" + listAvis.get(i).getTitre();
+		                    	 final String strTitre;
+		                    	 if(listAvis.get(i).getTitre().length() > 40)
+		                    		 strTitre = "\n" + listAvis.get(i).getTitre().substring(0, 39) + "...";
+		                    	 else {
+		                    		 strTitre = "\n" + listAvis.get(i).getTitre();
+		                    	 }
 		                    	 final String strLink = "" + listAvis.get(i).getLink();
 		                    	 final String strDate = "\n" + listAvis.get(i).getDate();
-		                    	 new Li(this,
-		 		                        classAttribute21) {{
-		 		                        new Div(this,
-		 		                            classAttribute17,
-		 		                            dataAttribute22) {{
-		 		                            new NoTag(this, strIndex);
-		 		                        }};
-		 		                        new Div(this,
-		 		                            classAttribute18,
-		 		                            dataAttribute23) {{
-		 		                            new NoTag(this, strTitre);
-		 		                        }};
-		 		                        new Div(this,
-		 		                            classAttribute19,
-		 		                            dataAttribute24) {{
-		 		                            new A(this,
-		 		                                new Href(strLink)) {{
-		 		                                new NoTag(this,"Lien");
-		 		                            }};
-		 		                        }};
-		 		                        new Div(this,
-		 		                            classAttribute20,
-		 		                            dataAttribute25) {{
-		 		                            new NoTag(this, strDate);
-		 		                        }};
-		 		                    }};
+		                    	 
+		                    	 
+		                    	 new Tr(this) {{
+				                        new Td(this,
+				                            classAttribute12) {{
+				                            new NoTag(this, strIndex);
+				                        }};
+				                        new Td(this,
+				                            classAttribute13) {{
+				                            new NoTag(this, strTitre);
+				                        }};
+				                        new Td(this,
+				                            classAttribute12) {{
+				                            new A(this,
+				                                new Href(strLink)) {{
+				                                new NoTag(this, "Lien");
+				                            }};
+				                        }};
+				                        new Td(this,
+				                            classAttribute12) {{
+				                            new NoTag(this, strDate);
+				                        }};
+				                    }};
 		                    }
 		                    
 		                    
-		                    
 		                }};
 		            }};
-		            new Footer(this,
-		                classAttribute11) {{
-		                new H3(this) {{
-		                    new NoTag(this, "Place to put something we want");
+		            new Footer(this) {{
+		                new Div(this,
+		                    new ClassAttribute("logo_footer")) {{
+		                    new Img(this,
+		                        new Src("https://drive.google.com/uc?export=download&id=172om9at3bPfO7GbSwtl52CBVTTiQCJcr"));
 		                }};
 		                new P(this) {{
-		                    new NoTag(this, "Place to put something we want");
+		                    new NoTag(this, "contact@digital-league.org");
 		                }};
-		            }};
-		        }};
-		        new Div(this,
-		            new Id("footer")) {{
-		            new Div(this,
-		                new ClassAttribute("container 75%")) {{
 		                new Ul(this,
 		                    new ClassAttribute("copyright")) {{
 		                    new Li(this) {{
@@ -222,17 +208,17 @@ public class HTMLGenerator {
 		        }};
 		    }};
 		}};
-		html.setPrependDocType(true);
+		html.setPrependDocType(true);           
 		this.html = html;
 		return html;
+		
 	}
 
-	
+
 	
 	public void generateReport(String fileName) {
 		this.html = getReportHTML();
 		
-//		 ? Generate a file (not necessary?)
 		try {
 			html.toOutputStream(new FileOutputStream(Const.FOLDER_RAPPORT + fileName +".html"),"UTF-8");
 		} catch (FileNotFoundException e) {

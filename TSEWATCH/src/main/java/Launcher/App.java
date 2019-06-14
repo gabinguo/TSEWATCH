@@ -45,7 +45,7 @@ public class App {
 				for(String report : all_report) {
 					FileUtils.deleteQuietly(new File(Const.FOLDER_RAPPORT + report + ".html"));
 				}
-				FileManager.emptyTXT(Const.FILE_REPORTLIST);
+				
 			}
 		});
 		
@@ -59,6 +59,7 @@ public class App {
 	}
 	
 	public static void main(String[] args) throws Exception {
+		FileUtils.deleteQuietly(new File(Const.FILE_REPORTLIST));
 		deleteAllFileStored();
 		init();
 		DisplayController.display(args);
